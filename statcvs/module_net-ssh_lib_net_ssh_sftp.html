@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD>
+<TITLE>StatCvs - Module /net-ssh/lib/net/ssh/sftp/</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<META NAME="Generator" CONTENT="StatCvs v0.1.3">
+<LINK REL="stylesheet" HREF="statcvs.css" TYPE="text/css"></HEAD>
+<BODY>
+<H1><A NAME="top">Module /net-ssh/lib/net/ssh/sftp/</A>
+</H1>
+<P><A HREF="index.html">back to main page</A></P>
+<p class="summaryperiod">Summary Period: 2004-07-04 to 2004-08-17 </p><H2>Modules</H2>
+<P><A HREF="module.html">/</A><A HREF="module_net-ssh.html">net-ssh/</A><A HREF="module_net-ssh_lib.html">lib/</A><A HREF="module_net-ssh_lib_net.html">net/</A><A HREF="module_net-ssh_lib_net_ssh.html">ssh/</A><STRONG>sftp/</STRONG>
+<br></P>
+<H2>Lines Of Code</H2>
+<P><IMG SRC="loc_module_net-ssh_lib_net_ssh_sftp.png" BORDER="1" ALT="">
+<BR><STRONG>Total Lines Of Code: </STRONG>
+1475 (2004-08-17)</P>
+<H2>Changes Per User</H2>
+<TABLE BORDER=1 CELLPADDING=1 CELLSPACING=0><TR><TH>User</TH><TH>Changes</TH><TH>Lines of code</TH><TH>Lines each change</TH></TR> <TR><TD><A HREF="user_minam.html">minam</A></TD> <TD>22 (100.0%)</TD> <TD>1547 (100.0%)</TD> <TD>70</TD> </TR> <TR><TD><B>Sum</B>
+</TD> <TD><B>22 (100%)</B>
+</TD> <TD><B>1547 (100%)</B>
+</TD> <TD><B>70</B>
+</TD> </TR> </TABLE><H2>Most Recent Commits</H2>
+<table border="0">
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+8/17/04 3:01 PM</td>
+<td class="comment" valign="top">SFTP::Simple constructor now returns self if a block is not given.</td></tr>
+<tr><td class="files"><strong>2</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp/simple.rb</strong>&nbsp;<span class="change">(+2)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+8/17/04 3:00 PM</td>
+<td class="comment" valign="top">typo: rb_raise instead of raise</td></tr>
+<tr><td class="files"><strong>1</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp/session.rb</strong>&nbsp;<span class="change">(+1&nbsp;-1)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+8/11/04 12:01 AM</td>
+<td class="comment" valign="top">Added more SFTP protocol coverage, including support for opening and manipulating<BR>
+files. Basic buffered file IO is supported as well.</td></tr>
+<tr><td class="files"><strong>351</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: session.rb&nbsp;<span class="change">(+175&nbsp;-22)</span>, simple.rb&nbsp;<span class="change">(+176)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+8/10/04 3:21 AM</td>
+<td class="comment" valign="top">Changed buffer implementation and refactored it to a new module. Added<BR>
+support for tunneling via HTTP proxy.</td></tr>
+<tr><td class="files"><strong>18</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: attrs.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>, session.rb&nbsp;<span class="change">(+16&nbsp;-16)</span>, simple.rb&nbsp;<span class="change">(-1)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+7/29/04 1:27 PM</td>
+<td class="comment" valign="top">Gabriele Renzi's suggestion of an open-uri interface for SFTP. This<BR>
+required some new methods be added to the SFTP interfaces (attributes,<BR>
+and size). Also modified the SFTP 'get' interfaces to support the specification<BR>
+of a 'chunk size' and a progress callback.</td></tr>
+<tr><td class="files"><strong>106</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: session.rb&nbsp;<span class="change">(+78&nbsp;-4)</span>, simple.rb&nbsp;<span class="change">(+28&nbsp;-4)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+7/25/04 2:30 PM</td>
+<td class="comment" valign="top">SSH exception definitions.</td></tr>
+<tr><td class="files"><strong>31</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp/errors.rb</strong>&nbsp;<span class="new">(new&nbsp;31)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+7/25/04 12:03 AM</td>
+<td class="comment" valign="top">First pass at creating SSH-specific exception classes, as recommended by<BR>
+Daniel Hobe.</td></tr>
+<tr><td class="files"><strong>12</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: attrs.rb&nbsp;<span class="change">(+2&nbsp;-1)</span>, session.rb&nbsp;<span class="change">(+10&nbsp;-10)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+7/13/04 4:26 PM</td>
+<td class="comment" valign="top">Added "remove" and "rename" operations to the SFTP classes.</td></tr>
+<tr><td class="files"><strong>99</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: constants.rb&nbsp;<span class="change">(+4)</span>, session.rb&nbsp;<span class="change">(+67)</span>, simple.rb&nbsp;<span class="change">(+28)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+7/5/04 12:53 PM</td>
+<td class="comment" valign="top">Added comments. Changed SFTP::Simple so that the synchronous operations only<BR>
+return the data that was requested, and the status is made a property of<BR>
+the Simple object itself.</td></tr>
+<tr><td class="files"><strong>176</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: attrs.rb&nbsp;<span class="change">(+10)</span>, session.rb&nbsp;<span class="change">(+80&nbsp;-1)</span>, simple.rb&nbsp;<span class="change">(+86&nbsp;-10)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+<tr><td valign="top" rowspan="2">
+<A HREF="user_minam.html">minam</A><br>
+7/4/04 2:22 PM</td>
+<td class="comment" valign="top">Added rudimentary SFTP support. Still undocumented.</td></tr>
+<tr><td class="files"><strong>751</strong> lines of code changed in:<br><strong>net-ssh/lib/net/ssh/sftp</strong>: attrs.rb&nbsp;<span class="new">(new&nbsp;204)</span>, constants.rb&nbsp;<span class="new">(new&nbsp;107)</span>, session.rb&nbsp;<span class="new">(new&nbsp;365)</span>, simple.rb&nbsp;<span class="new">(new&nbsp;75)</span></td></tr>
+<tr><td colspan="2"><br></td></tr>
+</table>
+<div id="generatedby"><P><A HREF="http://statcvs.sf.net"><img src="http://statcvs.sourceforge.net/statcvslogo.gif" border="0" width="100" height="30" alt=""></A><BR>Generated by <A HREF="http://statcvs.sf.net">StatCvs</A> v0.1.3</P>
+</div>
+</BODY></HTML>

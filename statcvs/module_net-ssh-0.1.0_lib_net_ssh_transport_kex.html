@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Module net-ssh-0.1.0/lib/net/ssh/transport/kex/</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Module net-ssh-0.1.0/lib/net/ssh/transport/kex/</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-06-20</span> to
+  <span class="date">2004-08-10</span></p>
+
+<h2>Modules</h2>
+
+<p><a href="module.html">[root]</a>/<a href="module_net-ssh-0.1.0.html">net-ssh-0.1.0</a>/<a href="module_net-ssh-0.1.0_lib.html">lib</a>/<a href="module_net-ssh-0.1.0_lib_net.html">net</a>/<a href="module_net-ssh-0.1.0_lib_net_ssh.html">ssh</a>/<a href="module_net-ssh-0.1.0_lib_net_ssh_transport.html">transport</a>/<strong>kex</strong>
+<br></p>
+
+<h2>Lines of Code</h2>
+
+<p><img src="loc_module_net-ssh-0.1.0_lib_net_ssh_transport_kex.png" width="640" height="480" alt=""><br>
+<strong>Total Lines Of Code: </strong>
+304 (<span class="date">2005-01-07 15:12</span>)</p>
+
+<h2>Authors</h2>
+
+  <table rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left">
+    <colgroup align="right">
+    <colgroup align="right">
+    <colgroup align="right">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <th><a href="user_minam.html" class="author">minam</a></th>
+        <td>8 (100.0%)</td>
+        <td>327 (100.0%)</td>
+        <td>40.8</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h2>Most Recent Commits</h2>
+
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed buffer implementation and refactored it to a new module. Added<BR>
+support for tunneling via HTTP proxy.
+    </p>
+    <p class="commitdetails"><strong>13</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh-gex.rb&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        dh.rb&nbsp;<span class="change">(+6&nbsp;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 15:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added support for the diffie-hellman-group-exchange-sha1 key exchange<BR>
+algorithm, which is more secure than the diffie-hellman-group1-sha1<BR>
+algorithm. Also fixed various TODOs in the kex stuff.
+    </p>
+    <p class="commitdetails"><strong>169</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh-gex.rb&nbsp;<span class="new">(new&nbsp;162)</span>,
+        dh.rb&nbsp;<span class="change">(+7&nbsp;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 00:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+First pass at creating SSH-specific exception classes, as recommended by<BR>
+Daniel Hobe.
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="change">(+8&nbsp;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-01 18:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Yay! Comments! Documentation!
+    </p>
+    <p class="commitdetails"><strong>13</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="change">(+13)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-01 16:05</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Began the tedious task of commenting the code. Also (finally) support the<BR>
+ssh-dss server key type, although this depends on changes to Ruby's OpenSSL<BR>
+module that have (at the time of this commit) not yet been formally accepted.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-06-20 13:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>123</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="new">(new&nbsp;123)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

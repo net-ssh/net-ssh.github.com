@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Operations::Abstract</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Operations::Abstract</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/sftp/operations/abstract_rb.html">lib/net/sftp/operations/abstract.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+The base class for all <a href="../../SFTP.html">SFTP</a> operations.
+Subclasses must implement a <tt>perform</tt> method, which accepts the
+arguments expected by the corresponding method of the driver. Subclasses
+<em>may</em> also override the default implementations of <tt><a
+href="Abstract.html#M000019">do_status</a></tt>, <tt><a
+href="Abstract.html#M000021">do_data</a></tt>, <tt><a
+href="Abstract.html#M000022">do_name</a></tt>, <tt><a
+href="Abstract.html#M000020">do_handle</a></tt>, and <tt><a
+href="Abstract.html#M000023">do_attrs</a></tt>, as necessary.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000023">do_attrs</a></li>
+  <li><a href="#M000021">do_data</a></li>
+  <li><a href="#M000020">do_handle</a></li>
+  <li><a href="#M000022">do_name</a></li>
+  <li><a href="#M000019">do_status</a></li>
+  <li><a href="#M000018">execute</a></li>
+  <li><a href="#M000017">new</a></li>
+  </ul>
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li><a href="Constants.html">Constants</a></li>
+</ul>
+
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">Status</td>
+    <td>=</td>
+    <td class="attr-value">Struct.new( :code, :message, :language )</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+A structure for reporting status information.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">OK</td>
+    <td>=</td>
+    <td class="attr-value">Status.new( FX_OK, &quot;Success&quot;, &quot;&quot; )</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+A constant for representing the commonly-used FX_OK status.
+
+</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000017"></a><b>new</b>( log, session, driver )
+  </div>
+  <div class="description">
+  <p>
+Create a new operation with the given logger instance, which will operate
+atop the given session, using the given driver to format and send the
+requests to the server.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000017_source')" id="l_M000017_source">show source</a> ]</p>
+  <div id="M000017_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 38</span>
+38:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">log</span>, <span class="ruby-identifier">session</span>, <span class="ruby-identifier">driver</span> )
+39:       <span class="ruby-ivar">@log</span> = <span class="ruby-identifier">log</span>
+40:       <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+41:       <span class="ruby-ivar">@driver</span> = <span class="ruby-identifier">driver</span>
+42:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000023"></a><b>do_attrs</b>( attributes )
+  </div>
+  <div class="description">
+  <p>
+A callback for <a href="../../SFTP.html">SFTP</a> attrs packets. By
+default, invokes the registered callback, passing an OK status and the
+attributes object.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000023_source')" id="l_M000023_source">show source</a> ]</p>
+  <div id="M000023_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 102</span>
+102:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_attrs</span>( <span class="ruby-identifier">attributes</span> )
+103:       <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">OK</span>, <span class="ruby-identifier">attributes</span> ]
+104:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000021"></a><b>do_data</b>( data )
+  </div>
+  <div class="description">
+  <p>
+A callback for <a href="../../SFTP.html">SFTP</a> data packets. By default,
+invokes the registered callback, passing an OK status and the data.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000021_source')" id="l_M000021_source">show source</a> ]</p>
+  <div id="M000021_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 90</span>
+90:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">data</span> )
+91:       <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">OK</span>, <span class="ruby-identifier">data</span> ]
+92:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000020"></a><b>do_handle</b>( handle )
+  </div>
+  <div class="description">
+  <p>
+A callback for <a href="../../SFTP.html">SFTP</a> handle packets. By
+default, invokes the registered callback, passing an OK status and the
+handle.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000020_source')" id="l_M000020_source">show source</a> ]</p>
+  <div id="M000020_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 84</span>
+84:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_handle</span>( <span class="ruby-identifier">handle</span> )
+85:       <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">OK</span>, <span class="ruby-identifier">handle</span> ]
+86:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000022"></a><b>do_name</b>( items )
+  </div>
+  <div class="description">
+  <p>
+A callback for <a href="../../SFTP.html">SFTP</a> name packets. By default,
+invokes the registered callback, passing an OK status and the list of
+items.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000022_source')" id="l_M000022_source">show source</a> ]</p>
+  <div id="M000022_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 96</span>
+96:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_name</span>( <span class="ruby-identifier">items</span> )
+97:       <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">OK</span>, <span class="ruby-identifier">items</span> ]
+98:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000019"></a><b>do_status</b>( code, message, language )
+  </div>
+  <div class="description">
+  <p>
+A callback for <a href="../../SFTP.html">SFTP</a> status packets. By
+default, raises an exception unless the status is FX_OK, in which case the
+registered callback is invoked.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000019_source')" id="l_M000019_source">show source</a> ]</p>
+  <div id="M000019_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 77</span>
+77:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> )
+78:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">StatusException</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> ) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">code</span> <span class="ruby-operator">==</span> <span class="ruby-constant">FX_OK</span>
+79:       <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">Status</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> ) ]
+80:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000018"></a><b>execute</b>( *args, &amp;callback )
+  </div>
+  <div class="description">
+  <p>
+Execute the operation. If a callback is given, the operation will be
+performed asynchronously with the callback being invoked when the operation
+completes. If a callback is not given, the operation will be performed
+synchronously, with the expected value being returned.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000018_source')" id="l_M000018_source">show source</a> ]</p>
+  <div id="M000018_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/abstract.rb, line 48</span>
+48:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span> )
+49:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;executing&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+50: 
+51:       <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">block_given?</span>
+52:         <span class="ruby-identifier">status</span> = <span class="ruby-identifier">result</span> = <span class="ruby-keyword kw">nil</span>
+53:         <span class="ruby-identifier">callback</span> = <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">pargs</span><span class="ruby-operator">|</span>
+54:           <span class="ruby-identifier">status</span> = <span class="ruby-identifier">status</span>
+55:           <span class="ruby-identifier">result</span> = <span class="ruby-keyword kw">case</span>
+56:             <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">pargs</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">then</span> <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">status</span>
+57:             <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">pargs</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">pargs</span>.<span class="ruby-identifier">first</span>
+58:             <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">pargs</span>
+59:           <span class="ruby-keyword kw">end</span>
+60:         <span class="ruby-keyword kw">end</span>
+61:       <span class="ruby-keyword kw">end</span>
+62: 
+63:       <span class="ruby-ivar">@callback</span> = <span class="ruby-identifier">callback</span>
+64:       <span class="ruby-ivar">@id</span> = <span class="ruby-identifier">perform</span> <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>
+65:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;received request id #{@id}&quot;</span>
+66:       <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">register</span>( <span class="ruby-ivar">@id</span>, <span class="ruby-keyword kw">self</span> )
+67: 
+68:       <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">block_given?</span>
+69:         <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">loop</span> { <span class="ruby-identifier">status</span>.<span class="ruby-identifier">nil?</span> }
+70:         <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">status</span>
+71:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
+72:       <span class="ruby-keyword kw">end</span>
+73:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

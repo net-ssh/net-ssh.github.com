@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Protocol::V_03::Impl</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Protocol::V_03::Impl</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../../files/lib/net/sftp/protocol/03/impl_rb.html">lib/net/sftp/protocol/03/impl.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+V_02::Impl
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+The implementation of the operations for version 3 of the <a
+href="../../../SFTP.html">SFTP</a> protocol. This adds support for the
+readlink and symlink operations.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000063">do_status</a></li>
+  </ul>
+
+
+
+
+
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000063"></a><b>do_status</b>( channel, content )
+  </div>
+  <div class="description">
+  <p>
+The status message changed in this version. It adds <tt>message</tt> and
+<tt>language</tt> fields, so the callback now receives <tt>driver</tt>,
+<tt>id</tt>, <tt>code</tt>, <tt>message</tt>, and <tt>language</tt> as
+parameters.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000063_source')" id="l_M000063_source">show source</a> ]</p>
+  <div id="M000063_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/03/impl.rb, line 31</span>
+31:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+32:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">has_on_status?</span>
+33:       <span class="ruby-identifier">id</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+34:       <span class="ruby-identifier">code</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+35:       <span class="ruby-identifier">message</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>
+36:       <span class="ruby-identifier">language</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>
+37:       <span class="ruby-identifier">call_on_status</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> )
+38:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

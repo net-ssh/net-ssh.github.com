@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Protocol::V_01::Impl</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Protocol::V_01::Impl</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../../files/lib/net/sftp/protocol/01/impl_rb.html">lib/net/sftp/protocol/01/impl.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+The implementing class for version 1 of the <a
+href="../../../SFTP.html">SFTP</a> protocol. It implements the various
+operations and callbacks available to this level of the protocol. Other
+protocol versions will typically extend this class, adding (or modifying)
+methods as needed to bring the implementation into sync with the needed
+version.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000041">callback</a></li>
+  <li><a href="#M000046">dispatch</a></li>
+  <li><a href="#M000051">do_attrs</a></li>
+  <li><a href="#M000049">do_data</a></li>
+  <li><a href="#M000048">do_handle</a></li>
+  <li><a href="#M000050">do_name</a></li>
+  <li><a href="#M000047">do_status</a></li>
+  <li><a href="#M000045">fstat</a></li>
+  <li><a href="#M000044">lstat</a></li>
+  <li><a href="#M000039">new</a></li>
+  <li><a href="#M000042">open</a></li>
+  <li><a href="#M000040">operation</a></li>
+  <li><a href="#M000043">stat</a></li>
+  </ul>
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li><a href="../Constants.html">Constants</a></li>
+</ul>
+
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">Name</td>
+    <td>=</td>
+    <td class="attr-value">Struct.new( :filename, :longname, :attributes )</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_READ</td>
+    <td>=</td>
+    <td class="attr-value">0x00000001</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_WRITE</td>
+    <td>=</td>
+    <td class="attr-value">0x00000002</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_APPEND</td>
+    <td>=</td>
+    <td class="attr-value">0x00000004</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_CREAT</td>
+    <td>=</td>
+    <td class="attr-value">0x00000008</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_TRUNC</td>
+    <td>=</td>
+    <td class="attr-value">0x00000010</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_EXCL</td>
+    <td>=</td>
+    <td class="attr-value">0x00000020</td>
+  </tr>
+  </table>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>attr_factory</td>
+    <td class='attr-desc'>
+The attribute-factory used by this dispatcher.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>driver</td>
+    <td class='attr-desc'>
+The protocol driver that drives this dispatcher.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>extensions</td>
+    <td class='attr-desc'>
+The protocol extensions specified when the protocol version was negotiated.
+
+</td>
+  </tr>
+  </table>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000041"></a><b>callback</b>( *names )
+  </div>
+  <div class="description">
+  <p>
+A helper method for registering new callbacks. Each callback will cause
+three new methods to be created, <tt>on_<em>name</em></tt>,
+<tt>has_on_<em>name</em>?</tt>, and <tt>call_on_<em>name</em></tt>. The
+<tt>on_<em>name</em></tt> method may be used to register a block for the
+corresponding callback.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000041_source')" id="l_M000041_source">show source</a> ]</p>
+  <div id="M000041_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 80</span>
+80:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">callback</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">names</span> )
+81:       <span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+82:         <span class="ruby-identifier">class_eval</span> <span class="ruby-value str">&quot;def on_\#{name}( &amp;block )\n@on_\#{name} = block\nend\n\ndef has_on_\#{name}?\nnot @on_\#{name}.nil?\nend\n\ndef call_on_\#{name}( *args )\nreturn unless @on_\#{name}\n@on_\#{name}.call( *args )\nend\n\npublic :on_\#{name}\nprotected :has_on_\#{name}?, :call_on_\#{name}\n&quot;</span>, <span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-keyword kw">__LINE__</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+83:       <span class="ruby-keyword kw">end</span>
+84:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000039"></a><b>new</b>( buffers, driver, assistant, attr_factory )
+  </div>
+  <div class="description">
+  <p>
+Create a new instance using the given protocol driver, packet assistant,
+and attributes factory.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000039_source')" id="l_M000039_source">show source</a> ]</p>
+  <div id="M000039_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 44</span>
+44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">buffers</span>, <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">assistant</span>, <span class="ruby-identifier">attr_factory</span> )
+45:       <span class="ruby-ivar">@buffers</span> = <span class="ruby-identifier">buffers</span>
+46:       <span class="ruby-ivar">@driver</span> = <span class="ruby-identifier">driver</span>
+47:       <span class="ruby-ivar">@assistant</span> = <span class="ruby-identifier">assistant</span>
+48:       <span class="ruby-ivar">@attr_factory</span> = <span class="ruby-identifier">attr_factory</span>
+49:       <span class="ruby-ivar">@on_status</span> = <span class="ruby-keyword kw">nil</span>
+50:       <span class="ruby-ivar">@on_handle</span> = <span class="ruby-keyword kw">nil</span>
+51:       <span class="ruby-ivar">@on_data</span> = <span class="ruby-keyword kw">nil</span>
+52:       <span class="ruby-ivar">@on_name</span> = <span class="ruby-keyword kw">nil</span>
+53:       <span class="ruby-ivar">@on_attrs</span> = <span class="ruby-keyword kw">nil</span>
+54:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000040"></a><b>operation</b>( *names )
+  </div>
+  <div class="description">
+  <p>
+A helper method for defining new operations supported by this
+implementation. This will create one method for each named operation. By
+default, the method simply formats the packet (using the packet assistant),
+and then sends the data via the driver. It will then return the request id
+used for this operation.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000040_source')" id="l_M000040_source">show source</a> ]</p>
+  <div id="M000040_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 61</span>
+61:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">operation</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">names</span> )
+62:       <span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+63:         <span class="ruby-identifier">const</span> = <span class="ruby-node">&quot;FXP_#{name.to_s.upcase}&quot;</span>
+64:         <span class="ruby-identifier">class_eval</span> <span class="ruby-value str">&quot;def \#{name}( id, *args )\nid, packet = @assistant.\#{name}( id, *args )\n@driver.send_data \#{const}, packet\nid\nend\n&quot;</span>, <span class="ruby-keyword kw">__FILE__</span>, <span class="ruby-keyword kw">__LINE__</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+65:       <span class="ruby-keyword kw">end</span>
+66:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000046"></a><b>dispatch</b>( channel, type, content )
+  </div>
+  <div class="description">
+  <p>
+Dispatches the given packet type to the appropriate handler method. If a
+new protocol version adds a new packet type, it should override this
+method, performing its own checking first, followed by calling
+<tt>super</tt>.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000046_source')" id="l_M000046_source">show source</a> ]</p>
+  <div id="M000046_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 189</span>
+189:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dispatch</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">content</span> )
+190:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+191:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">FXP_STATUS</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+192:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">FXP_HANDLE</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">do_handle</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+193:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">FXP_DATA</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+194:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">FXP_NAME</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">do_name</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+195:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">FXP_ATTRS</span>  <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">do_attrs</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+196:         <span class="ruby-keyword kw">else</span>
+197:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SFTP</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>,
+198:             <span class="ruby-node">&quot;unsupported SFTP packet type #{type} (#{content.to_s.inspect})&quot;</span>
+199:       <span class="ruby-keyword kw">end</span>
+200:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000051"></a><b>do_attrs</b>( channel, content )
+  </div>
+  <div class="description">
+  <p>
+Used internally to handle <tt>attrs</tt> packets. The <tt>on_attrs</tt>
+callback is invoked, if registered, with the driver, id, and attribute
+object.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000051_source')" id="l_M000051_source">show source</a> ]</p>
+  <div id="M000051_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 244</span>
+244:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_attrs</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+245:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">has_on_attrs?</span>
+246:       <span class="ruby-identifier">id</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+247:       <span class="ruby-identifier">attrs</span> = <span class="ruby-ivar">@attr_factory</span>.<span class="ruby-identifier">from_buffer</span>( <span class="ruby-identifier">content</span> )
+248:       <span class="ruby-identifier">call_on_attrs</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">attrs</span> )
+249:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000049"></a><b>do_data</b>( channel, content )
+  </div>
+  <div class="description">
+  <p>
+Used internally to handle <tt>data</tt> packets. The <tt>on_data</tt>
+callback is invoked, if registered, with the driver, id, and data (as a
+buffer).
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000049_source')" id="l_M000049_source">show source</a> ]</p>
+  <div id="M000049_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 222</span>
+222:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+223:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">has_on_data?</span>
+224:       <span class="ruby-identifier">id</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+225:       <span class="ruby-identifier">data</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>
+226:       <span class="ruby-identifier">call_on_data</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">data</span> )
+227:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000048"></a><b>do_handle</b>( channel, content )
+  </div>
+  <div class="description">
+  <p>
+Used internally to handle <tt>handle</tt> packets. The <tt>on_handle</tt>
+callback is invoked, if registered, with the driver, id, and handle.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000048_source')" id="l_M000048_source">show source</a> ]</p>
+  <div id="M000048_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 213</span>
+213:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_handle</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+214:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">has_on_handle?</span>
+215:       <span class="ruby-identifier">id</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+216:       <span class="ruby-identifier">handle</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>
+217:       <span class="ruby-identifier">call_on_handle</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">handle</span> )
+218:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000050"></a><b>do_name</b>( channel, content )
+  </div>
+  <div class="description">
+  <p>
+Used internally to handle <tt>name</tt> packets. The <tt>on_name</tt>
+callback is invoked, if registered, with the driver, id, and array of
+items.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000050_source')" id="l_M000050_source">show source</a> ]</p>
+  <div id="M000050_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 231</span>
+231:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_name</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+232:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">has_on_name?</span>
+233:       <span class="ruby-identifier">id</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+234:       <span class="ruby-identifier">items</span> = []
+235:       <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+236:         <span class="ruby-identifier">items</span>.<span class="ruby-identifier">push</span>( <span class="ruby-constant">Name</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>, <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>,
+237:           <span class="ruby-ivar">@attr_factory</span>.<span class="ruby-identifier">from_buffer</span>( <span class="ruby-identifier">content</span> ) ) )
+238:       <span class="ruby-keyword kw">end</span>
+239:       <span class="ruby-identifier">call_on_name</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">items</span> )
+240:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000047"></a><b>do_status</b>( channel, content )
+  </div>
+  <div class="description">
+  <p>
+Used internally to handle <tt>status</tt> packets. The <tt>on_status</tt>
+callback is invoked, if registered, with the driver, id, and code.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000047_source')" id="l_M000047_source">show source</a> ]</p>
+  <div id="M000047_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 204</span>
+204:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">content</span> )
+205:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">has_on_status?</span>
+206:       <span class="ruby-identifier">id</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+207:       <span class="ruby-identifier">code</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+208:       <span class="ruby-identifier">call_on_status</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">code</span>, <span class="ruby-keyword kw">nil</span>, <span class="ruby-keyword kw">nil</span> )
+209:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000045"></a><b>fstat</b>( id, handle, flags=nil )
+  </div>
+  <div class="description">
+  <p>
+The fstat operation is special, since later versions of the protocol add
+support for &#8216;flags&#8217;. These flags are ignored in this version,
+but the parameter exists to allow a program written for one version of the
+protocol to work with later versions.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000045_source')" id="l_M000045_source">show source</a> ]</p>
+  <div id="M000045_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 181</span>
+181:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fstat</span>( <span class="ruby-identifier">id</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span> )
+182:       <span class="ruby-identifier">fstat_raw</span> <span class="ruby-identifier">id</span>, <span class="ruby-identifier">handle</span>
+183:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000044"></a><b>lstat</b>( id, filename, flags=nil )
+  </div>
+  <div class="description">
+  <p>
+The lstat operation is special, since later versions of the protocol add
+support for &#8216;flags&#8217;. These flags are ignored in this version,
+but the parameter exists to allow a program written for one version of the
+protocol to work with later versions.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000044_source')" id="l_M000044_source">show source</a> ]</p>
+  <div id="M000044_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 173</span>
+173:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lstat</span>( <span class="ruby-identifier">id</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span> )
+174:       <span class="ruby-identifier">lstat_raw</span> <span class="ruby-identifier">id</span>, <span class="ruby-identifier">filename</span>
+175:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000042"></a><b>open</b>( id, path, flags, mode=0660 )
+  </div>
+  <div class="description">
+  <p>
+The open operation is special, since it protects the caller from the
+specific flags and options required by <a
+href="../../../SFTP.html">SFTP</a>. Instead, the caller simply specifies a
+combination of IO flags, and an appropriate posix mode, and they are
+translated into the correct <a href="../../../SFTP.html">SFTP</a> flags.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000042_source')" id="l_M000042_source">show source</a> ]</p>
+  <div id="M000042_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 143</span>
+143:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open</span>( <span class="ruby-identifier">id</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-identifier">mode</span>=<span class="ruby-value">0660</span> )
+144:       <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-keyword kw">case</span>
+145:         <span class="ruby-keyword kw">when</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">WRONLY</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">F_WRITE</span>
+146:         <span class="ruby-keyword kw">when</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDWR</span>   ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">F_READ</span> <span class="ruby-operator">|</span> <span class="ruby-constant">F_WRITE</span>
+147:         <span class="ruby-keyword kw">when</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">APPEND</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">F_APPEND</span>
+148:         <span class="ruby-keyword kw">else</span> <span class="ruby-constant">F_READ</span>
+149:       <span class="ruby-keyword kw">end</span>
+150: 
+151:       <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_CREAT</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+152:       <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_TRUNC</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">TRUNC</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+153:       <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_EXCL</span>  <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">EXCL</span>  ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+154: 
+155:       <span class="ruby-identifier">attributes</span> = <span class="ruby-ivar">@attr_factory</span>.<span class="ruby-identifier">empty</span>
+156:       <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">mode</span>
+157: 
+158:       <span class="ruby-identifier">open_raw</span> <span class="ruby-identifier">id</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">sftp_flags</span>, <span class="ruby-identifier">attributes</span>
+159:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000043"></a><b>stat</b>( id, filename, flags=nil )
+  </div>
+  <div class="description">
+  <p>
+The stat operation is special, since later versions of the protocol add
+support for &#8216;flags&#8217;. These flags are ignored in this version,
+but the parameter exists to allow a program written for one version of the
+protocol to work with later versions.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000043_source')" id="l_M000043_source">show source</a> ]</p>
+  <div id="M000043_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/impl.rb, line 165</span>
+165:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stat</span>( <span class="ruby-identifier">id</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span> )
+166:       <span class="ruby-identifier">stat_raw</span> <span class="ruby-identifier">id</span>, <span class="ruby-identifier">filename</span>
+167:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

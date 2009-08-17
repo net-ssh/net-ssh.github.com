@@ -1,0 +1,167 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::SSHOutputPipe</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::SSHOutputPipe</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/process_rb.html">lib/net/ssh/service/process.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+An abstract class representing a writable stream on a channel. This is
+subclassed by <a href="SSHStdoutPipe.html">SSHStdoutPipe</a> and <a
+href="SSHStderrPipe.html">SSHStderrPipe</a>.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000219">bytes_available</a></li>
+  <li><a href="#M000218">new</a></li>
+  <li><a href="#M000220">read</a></li>
+  </ul>
+
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000218"></a><b>new</b>( channel )
+  </div>
+  <div class="description">
+  <p>
+Create a new output pipe on the given channel.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000218-source')" id="l_M000218-source">show source</a> ]</p>
+  <div id="M000218-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/process.rb, line 313</span>
+313:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">channel</span> )
+314:           <span class="ruby-ivar">@channel</span> = <span class="ruby-identifier">channel</span>
+315:           <span class="ruby-ivar">@data</span> = <span class="ruby-value str">&quot;&quot;</span>
+316:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000219"></a><b>bytes_available</b>()
+  </div>
+  <div class="description">
+  <p>
+Query how many bytes of data are available to be read from this pipe. If
+this returns zero, trying to <tt>read</tt> from this pipe will block. If it
+returns non-zero, you are guaranteed that a <tt>read</tt> will return all
+available bytes, immediately.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000219-source')" id="l_M000219-source">show source</a> ]</p>
+  <div id="M000219-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/process.rb, line 321</span>
+321:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bytes_available</span>
+322:           <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">length</span>
+323:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000220"></a><b>read</b>()
+  </div>
+  <div class="description">
+  <p>
+Read all available bytes from the pipe. If there are no available bytes,
+then this will block until data becomes available.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000220-source')" id="l_M000220-source">show source</a> ]</p>
+  <div id="M000220-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/process.rb, line 327</span>
+327:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read</span>
+328:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bytes_available</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span>
+329:             <span class="ruby-ivar">@channel</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">process_connection</span> { <span class="ruby-identifier">bytes_available</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span> }
+330:           <span class="ruby-keyword kw">end</span>
+331: 
+332:           <span class="ruby-identifier">data</span>, <span class="ruby-ivar">@data</span> = <span class="ruby-ivar">@data</span>, <span class="ruby-value str">&quot;&quot;</span>
+333:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">data</span>
+334:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

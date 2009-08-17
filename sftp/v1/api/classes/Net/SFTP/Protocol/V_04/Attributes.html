@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Protocol::V_04::Attributes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Protocol::V_04::Attributes</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../../files/lib/net/sftp/protocol/04/attributes_rb.html">lib/net/sftp/protocol/04/attributes.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+<a href="../../Version.html">Version</a> 4 of the <a
+href="../../../SFTP.html">SFTP</a> protocol made some pretty significant
+alterations to the File <a href="Attributes.html">Attributes</a> data type.
+This encapsulates those changes.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000072">buffers</a></li>
+  <li><a href="#M000071">buffers</a></li>
+  <li><a href="#M000073">empty</a></li>
+  <li><a href="#M000074">from_buffer</a></li>
+  <li><a href="#M000075">from_hash</a></li>
+  <li><a href="#M000070">init</a></li>
+  <li><a href="#M000076">new</a></li>
+  <li><a href="#M000077">to_s</a></li>
+  </ul>
+
+
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">F_SIZE</td>
+    <td>=</td>
+    <td class="attr-value">0x00000001</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_PERMISSIONS</td>
+    <td>=</td>
+    <td class="attr-value">0x00000004</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_ACCESSTIME</td>
+    <td>=</td>
+    <td class="attr-value">0x00000008</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_CREATETIME</td>
+    <td>=</td>
+    <td class="attr-value">0x00000010</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_MODIFYTIME</td>
+    <td>=</td>
+    <td class="attr-value">0x00000020</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_ACL</td>
+    <td>=</td>
+    <td class="attr-value">0x00000040</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_OWNERGROUP</td>
+    <td>=</td>
+    <td class="attr-value">0x00000080</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_SUBSECOND_TIMES</td>
+    <td>=</td>
+    <td class="attr-value">0x00000100</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_EXTENDED</td>
+    <td>=</td>
+    <td class="attr-value">0x80000000</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">ACL</td>
+    <td>=</td>
+    <td class="attr-value">Struct.new( :type, :flag, :mask, :who )</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_REGULAR</td>
+    <td>=</td>
+    <td class="attr-value">1</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_DIRECTORY</td>
+    <td>=</td>
+    <td class="attr-value">2</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_SYMLINK</td>
+    <td>=</td>
+    <td class="attr-value">3</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_SPECIAL</td>
+    <td>=</td>
+    <td class="attr-value">4</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_UNKNOWN</td>
+    <td>=</td>
+    <td class="attr-value">5</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_SOCKET</td>
+    <td>=</td>
+    <td class="attr-value">6</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_CHAR_DEVICE</td>
+    <td>=</td>
+    <td class="attr-value">7</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_BLOCK_DEVICE</td>
+    <td>=</td>
+    <td class="attr-value">8</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">T_FIFO</td>
+    <td>=</td>
+    <td class="attr-value">9</td>
+  </tr>
+  </table>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>acl</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>atime</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>atime_nseconds</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>ctime</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>ctime_nseconds</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>extended</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>group</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>mtime</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>mtime_nseconds</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>owner</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>permissions</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>size</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>type</td>
+    <td class='attr-desc'></td>
+  </tr>
+  </table>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000071"></a><b>buffers</b>()
+  </div>
+  <div class="description">
+  <p>
+Return a reference to the buffer factory in use by this class.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000071_source')" id="l_M000071_source">show source</a> ]</p>
+  <div id="M000071_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 57</span>
+57:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">buffers</span>
+58:       <span class="ruby-ivar">@buffers</span>
+59:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000073"></a><b>empty</b>()
+  </div>
+  <div class="description">
+  <p>
+Return an empty <a href="Attributes.html">Attributes</a> instance.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000073_source')" id="l_M000073_source">show source</a> ]</p>
+  <div id="M000073_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 68</span>
+68:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">empty</span>
+69:       <span class="ruby-identifier">new</span>
+70:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000074"></a><b>from_buffer</b>( buffer )
+  </div>
+  <div class="description">
+  <p>
+Return an <a href="Attributes.html">Attributes</a> instance initialized
+from the given buffer.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000074_source')" id="l_M000074_source">show source</a> ]</p>
+  <div id="M000074_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 73</span>
+ 73:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">from_buffer</span>( <span class="ruby-identifier">buffer</span> )
+ 74:       <span class="ruby-identifier">flags</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_long</span>
+ 75: 
+ 76:       <span class="ruby-identifier">type</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_byte</span>
+ 77:       <span class="ruby-identifier">size</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_int64</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SIZE</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 78:       <span class="ruby-identifier">owner</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_OWNERGROUP</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 79:       <span class="ruby-identifier">group</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_OWNERGROUP</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 80:       <span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_PERMISSIONS</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 81:       <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_ACCESSTIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 82:         <span class="ruby-identifier">atime</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_int64</span>
+ 83:         <span class="ruby-identifier">atime_nseconds</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 84:       <span class="ruby-keyword kw">end</span>
+ 85:       <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_CREATETIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 86:         <span class="ruby-identifier">ctime</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_int64</span>
+ 87:         <span class="ruby-identifier">ctime_nseconds</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 88:       <span class="ruby-keyword kw">end</span>
+ 89:       <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_MODIFYTIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 90:         <span class="ruby-identifier">mtime</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_int64</span>
+ 91:         <span class="ruby-identifier">mtime_nseconds</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 92:       <span class="ruby-keyword kw">end</span>
+ 93:       <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_ACL</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+ 94:         <span class="ruby-identifier">acl_buf</span> = <span class="ruby-identifier">buffers</span>.<span class="ruby-identifier">reader</span>( <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span> )
+ 95:         <span class="ruby-identifier">acl</span> = []
+ 96:         <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">read_long</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+ 97:           <span class="ruby-identifier">acl</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ACL</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">read_long</span>,
+ 98:                           <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">read_long</span>,
+ 99:                           <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">read_long</span>,
+100:                           <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">read_string</span> )
+101:         <span class="ruby-keyword kw">end</span>
+102:       <span class="ruby-keyword kw">end</span>
+103: 
+104:       <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_EXTENDED</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+105:         <span class="ruby-identifier">extended</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+106:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_long</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+107:           <span class="ruby-identifier">extended</span>[ <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span> ] = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span>
+108:         <span class="ruby-keyword kw">end</span>
+109:       <span class="ruby-keyword kw">end</span>
+110: 
+111:       <span class="ruby-identifier">new</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">size</span>, <span class="ruby-identifier">owner</span>, <span class="ruby-identifier">group</span>, <span class="ruby-identifier">permissions</span>, <span class="ruby-identifier">atime</span>, <span class="ruby-identifier">atime_nseconds</span>,
+112:         <span class="ruby-identifier">ctime</span>, <span class="ruby-identifier">ctime_nseconds</span>, <span class="ruby-identifier">mtime</span>, <span class="ruby-identifier">mtime_nseconds</span>, <span class="ruby-identifier">acl</span>, <span class="ruby-identifier">extended</span> )
+113:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000075"></a><b>from_hash</b>( hash )
+  </div>
+  <div class="description">
+  <p>
+Create a new attributes object, initialized from the given hash. The :uid
+and :gid attributes are treated specially; they are not actually supported
+by this version of the protocol, but are instead converted by this method
+to their corresponding names, and assigned (respectively) to :owner and
+:group.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000075_source')" id="l_M000075_source">show source</a> ]</p>
+  <div id="M000075_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 120</span>
+120:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">from_hash</span>( <span class="ruby-identifier">hash</span> )
+121:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:uid</span>)
+122:         <span class="ruby-identifier">require</span> <span class="ruby-value str">'etc'</span>
+123:         <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:owner</span>] = <span class="ruby-constant">Etc</span>.<span class="ruby-identifier">getpwuid</span>( <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:uid</span>] ).<span class="ruby-identifier">name</span>
+124:       <span class="ruby-keyword kw">end</span>
+125: 
+126:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:gid</span>)
+127:         <span class="ruby-identifier">require</span> <span class="ruby-value str">'etc'</span>
+128:         <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:group</span>] = <span class="ruby-constant">Etc</span>.<span class="ruby-identifier">getgrgid</span>( <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:gid</span>] ).<span class="ruby-identifier">name</span>
+129:       <span class="ruby-keyword kw">end</span>
+130: 
+131:       <span class="ruby-identifier">new</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:type</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">T_REGULAR</span>, <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:size</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:owner</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:group</span>],
+132:         <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:permissions</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:atime</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:atime_nseconds</span>],
+133:         <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:ctime</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:ctime_nseconds</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:mtime</span>],
+134:         <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:mtime_nseconds</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:acl</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">:extended</span>]
+135:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000070"></a><b>init</b>( buffers )
+  </div>
+  <div class="description">
+  <p>
+An initializer for specifying the buffer factory that should be used by
+instances of this class.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000070_source')" id="l_M000070_source">show source</a> ]</p>
+  <div id="M000070_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 51</span>
+51:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">init</span>( <span class="ruby-identifier">buffers</span> )
+52:       <span class="ruby-ivar">@buffers</span> = <span class="ruby-identifier">buffers</span>
+53:       <span class="ruby-keyword kw">self</span>
+54:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000076"></a><b>new</b>( type=T_REGULAR, size=nil, owner=nil, group=nil, permissions=nil, atime=nil, atime_nseconds=nil, ctime=nil, ctime_nseconds=nil, mtime=nil, mtime_nseconds=nil, acl=nil, extended=nil )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="Attributes.html">Attributes</a> instance with the
+given values.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000076_source')" id="l_M000076_source">show source</a> ]</p>
+  <div id="M000076_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 150</span>
+150:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">type</span>=<span class="ruby-constant">T_REGULAR</span>, <span class="ruby-identifier">size</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">owner</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">group</span>=<span class="ruby-keyword kw">nil</span>,
+151:       <span class="ruby-identifier">permissions</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">atime</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">atime_nseconds</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">ctime</span>=<span class="ruby-keyword kw">nil</span>,
+152:       <span class="ruby-identifier">ctime_nseconds</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">mtime</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">mtime_nseconds</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">acl</span>=<span class="ruby-keyword kw">nil</span>,
+153:       <span class="ruby-identifier">extended</span>=<span class="ruby-keyword kw">nil</span> )
+154:     <span class="ruby-comment cmt"># begin</span>
+155:       <span class="ruby-ivar">@type</span> = <span class="ruby-identifier">type</span>
+156:       <span class="ruby-ivar">@size</span> = <span class="ruby-identifier">size</span>
+157:       <span class="ruby-ivar">@owner</span> = <span class="ruby-identifier">owner</span>
+158:       <span class="ruby-ivar">@group</span> = <span class="ruby-identifier">group</span>
+159:       <span class="ruby-ivar">@permissions</span> = <span class="ruby-identifier">permissions</span>
+160:       <span class="ruby-ivar">@atime</span> = <span class="ruby-identifier">atime</span>
+161:       <span class="ruby-ivar">@atime_nseconds</span> = <span class="ruby-identifier">atime_nseconds</span>
+162:       <span class="ruby-ivar">@ctime</span> = <span class="ruby-identifier">ctime</span>
+163:       <span class="ruby-ivar">@ctime_nseconds</span> = <span class="ruby-identifier">ctime_nseconds</span>
+164:       <span class="ruby-ivar">@mtime</span> = <span class="ruby-identifier">mtime</span>
+165:       <span class="ruby-ivar">@mtime_nseconds</span> = <span class="ruby-identifier">mtime_nseconds</span>
+166:       <span class="ruby-ivar">@acl</span> = <span class="ruby-identifier">acl</span>
+167:       <span class="ruby-ivar">@extended</span> = <span class="ruby-identifier">extended</span>
+168:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000072"></a><b>buffers</b>()
+  </div>
+  <div class="description">
+  <p>
+A convenience for obtaining a reference to the buffer factory used by this
+instance&#8217;s class.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000072_source')" id="l_M000072_source">show source</a> ]</p>
+  <div id="M000072_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 63</span>
+63:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">buffers</span>
+64:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">buffers</span>
+65:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000077"></a><b>to_s</b>()
+  </div>
+  <div class="description">
+  <p>
+Convert this object to a string, suitable for inclusion in an <a
+href="../../../SFTP.html">SFTP</a> packet (protocol version 4+).
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000077_source')" id="l_M000077_source">show source</a> ]</p>
+  <div id="M000077_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/04/attributes.rb, line 172</span>
+172:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
+173:       <span class="ruby-identifier">flags</span> = <span class="ruby-value">0</span>
+174: 
+175:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_SIZE</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@size</span>
+176:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_OWNERGROUP</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@owner</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@group</span>
+177:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_PERMISSIONS</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@permissions</span>
+178:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_ACCESSTIME</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@atime</span>
+179:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_CREATETIME</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@ctime</span>
+180:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_MODIFYTIME</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@mtime</span>
+181:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@atime_nseconds</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@ctime_nseconds</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@mtime_nseconds</span>
+182:         <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span>
+183:       <span class="ruby-keyword kw">end</span>
+184:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_ACL</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@acl</span>
+185:       <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_EXTENDED</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@extended</span>
+186: 
+187:       <span class="ruby-identifier">buffer</span> = <span class="ruby-identifier">buffers</span>.<span class="ruby-identifier">writer</span>
+188:       <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">flags</span>
+189:       <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-ivar">@type</span>
+190:       <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-ivar">@size</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@size</span>
+191:       <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-ivar">@owner</span>, <span class="ruby-ivar">@group</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@owner</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@group</span>
+192:       <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@permissions</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@permissions</span>
+193: 
+194:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@atime</span>
+195:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-ivar">@atime</span>
+196:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@atime_nseconds</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> )
+197:       <span class="ruby-keyword kw">end</span>
+198:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@ctime</span>
+199:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-ivar">@ctime</span>
+200:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@ctime_nseconds</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> )
+201:       <span class="ruby-keyword kw">end</span>
+202:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@mtime</span>
+203:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-ivar">@mtime</span>
+204:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@mtime_nseconds</span> <span class="ruby-keyword kw">if</span> ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> )
+205:       <span class="ruby-keyword kw">end</span>
+206: 
+207:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@acl</span>
+208:         <span class="ruby-identifier">acl_buf</span> = <span class="ruby-identifier">buffers</span>.<span class="ruby-identifier">writer</span>
+209:         <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@acl</span>.<span class="ruby-identifier">length</span>
+210:         <span class="ruby-ivar">@acl</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
+211:           <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">type</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">flag</span>, <span class="ruby-identifier">item</span>.<span class="ruby-identifier">mask</span>
+212:           <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">who</span>
+213:         <span class="ruby-keyword kw">end</span>
+214:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">acl_buf</span>.<span class="ruby-identifier">to_s</span>
+215:       <span class="ruby-keyword kw">end</span>
+216: 
+217:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@extended</span>
+218:         <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@extended</span>.<span class="ruby-identifier">length</span>
+219:         <span class="ruby-ivar">@extended</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span> }
+220:       <span class="ruby-keyword kw">end</span>
+221: 
+222:       <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">to_s</span>
+223:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

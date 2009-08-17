@@ -1,0 +1,182 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::PortForwardManager::RemoteNetworkHandler</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::PortForwardManager::RemoteNetworkHandler</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../../files/lib/net/ssh/service/forward_rb.html">lib/net/ssh/service/forward.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000164">new</a></li>
+  <li><a href="#M000167">on_close</a></li>
+  <li><a href="#M000166">on_eof</a></li>
+  <li><a href="#M000165">on_open</a></li>
+  <li><a href="#M000168">on_receive</a></li>
+  </ul>
+
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000164"></a><b>new</b>( local_port, local_host='localhost' )
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000164-source')" id="l_M000164-source">show source</a> ]</p>
+  <div id="M000164-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 310</span>
+310:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">local_port</span>, <span class="ruby-identifier">local_host</span>=<span class="ruby-value str">'localhost'</span> )
+311:             <span class="ruby-ivar">@local_port</span> = <span class="ruby-identifier">local_port</span>
+312:             <span class="ruby-ivar">@local_host</span> = <span class="ruby-identifier">local_host</span>
+313:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000167"></a><b>on_close</b>( channel )
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000167-source')" id="l_M000167-source">show source</a> ]</p>
+  <div id="M000167-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 334</span>
+334:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_close</span>( <span class="ruby-identifier">channel</span> )
+335:             <span class="ruby-ivar">@client</span>.<span class="ruby-identifier">shutdown</span>
+336:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000166"></a><b>on_eof</b>( channel )
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000166-source')" id="l_M000166-source">show source</a> ]</p>
+  <div id="M000166-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 330</span>
+330:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_eof</span>( <span class="ruby-identifier">channel</span> )
+331:             <span class="ruby-identifier">channel</span>[<span class="ruby-identifier">:eof</span>] = <span class="ruby-keyword kw">true</span>
+332:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000165"></a><b>on_open</b>( channel, c_addr, c_port, o_addr, o_port )
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000165-source')" id="l_M000165-source">show source</a> ]</p>
+  <div id="M000165-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 315</span>
+315:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_open</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">c_addr</span>, <span class="ruby-identifier">c_port</span>, <span class="ruby-identifier">o_addr</span>, <span class="ruby-identifier">o_port</span> )
+316:             <span class="ruby-ivar">@client</span> = <span class="ruby-constant">TCPSocket</span>.<span class="ruby-identifier">new</span>( <span class="ruby-ivar">@local_host</span>, <span class="ruby-ivar">@local_port</span> )
+317: 
+318:             <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">do</span>
+319:               <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+320:                 <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">channel</span>[<span class="ruby-identifier">:eof</span>]
+321:                 <span class="ruby-identifier">data</span> = <span class="ruby-ivar">@client</span>.<span class="ruby-identifier">recv</span>( <span class="ruby-constant">READ_BLOCK_SIZE</span> )
+322:                 <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span>
+323:                 <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">send_data</span> <span class="ruby-identifier">data</span>
+324:               <span class="ruby-keyword kw">end</span>
+325: 
+326:               <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">close</span>
+327:             <span class="ruby-keyword kw">end</span>
+328:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000168"></a><b>on_receive</b>( channel, data )
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000168-source')" id="l_M000168-source">show source</a> ]</p>
+  <div id="M000168-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 338</span>
+338:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_receive</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">data</span> )
+339:             <span class="ruby-ivar">@client</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">data</span>, <span class="ruby-value">0</span>
+340:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

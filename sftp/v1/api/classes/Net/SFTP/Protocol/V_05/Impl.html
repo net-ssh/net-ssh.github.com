@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Protocol::V_05::Impl</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Protocol::V_05::Impl</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../../files/lib/net/sftp/protocol/05/impl_rb.html">lib/net/sftp/protocol/05/impl.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+V_04::Impl
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+The implementation of the operations available to version 5 of the <a
+href="../../../SFTP.html">SFTP</a> protocol.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000079">open</a></li>
+  </ul>
+
+
+
+  <div class="sectiontitle">Classes and Modules</div>
+  Module <a href="Impl/ACE.html" class="link">Net::SFTP::Protocol::V_05::Impl::ACE</a><br />
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">F_CREATE_NEW</td>
+    <td>=</td>
+    <td class="attr-value">0x00000000</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_CREATE_TRUNCATE</td>
+    <td>=</td>
+    <td class="attr-value">0x00000001</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_OPEN_EXISTING</td>
+    <td>=</td>
+    <td class="attr-value">0x00000002</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_OPEN_OR_CREATE</td>
+    <td>=</td>
+    <td class="attr-value">0x00000003</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_TRUNCATE_EXISTING</td>
+    <td>=</td>
+    <td class="attr-value">0x00000004</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_APPEND_DATA</td>
+    <td>=</td>
+    <td class="attr-value">0x00000008</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_APPEND_DATA_ATOMIC</td>
+    <td>=</td>
+    <td class="attr-value">0x00000010</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_TEXT_MODE</td>
+    <td>=</td>
+    <td class="attr-value">0x00000020</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_READ_LOCK</td>
+    <td>=</td>
+    <td class="attr-value">0x00000040</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_WRITE_LOCK</td>
+    <td>=</td>
+    <td class="attr-value">0x00000080</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">F_DELETE_LOCK</td>
+    <td>=</td>
+    <td class="attr-value">0x00000100</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000079"></a><b>open</b>( id, path, flags, mode=0660 )
+  </div>
+  <div class="description">
+  <p>
+The open operation changed in version 4. This method keeps the same
+interface as previous versions, but changes how the parameters are
+interpreted and converted into a packet.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000079_source')" id="l_M000079_source">show source</a> ]</p>
+  <div id="M000079_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/05/impl.rb, line 61</span>
+61:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open</span>( <span class="ruby-identifier">id</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-identifier">mode</span>=<span class="ruby-value">0660</span> )
+62:       <span class="ruby-identifier">sftp_flags</span>, <span class="ruby-identifier">desired_access</span> = <span class="ruby-keyword kw">case</span>
+63:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">WRONLY</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span>
+64:           [ <span class="ruby-constant">F_CREATE_TRUNCATE</span>,
+65:             <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span> ]
+66:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDWR</span>   <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span>
+67:           [ <span class="ruby-constant">F_OPEN_OR_CREATE</span>,
+68:             <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_ATTRIBUTES</span> <span class="ruby-operator">|</span>
+69:             <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span> ]
+70:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">APPEND</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">then</span>
+71:           [ <span class="ruby-constant">F_OPEN_OR_CREATE</span> <span class="ruby-operator">|</span> <span class="ruby-constant">F_APPEND_DATA</span>,
+72:             <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span> <span class="ruby-operator">|</span>
+73:             <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_APPEND_DATA</span> ]
+74:         <span class="ruby-keyword kw">else</span>
+75:           [ <span class="ruby-constant">F_OPEN_EXISTING</span>,
+76:             <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_ATTRIBUTES</span> ]
+77:       <span class="ruby-keyword kw">end</span>
+78: 
+79:       <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_OPEN_OR_CREATE</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+80:       <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_TRUNCATE_EXISTING</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">TRUNC</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+81: 
+82:       <span class="ruby-identifier">attributes</span> = <span class="ruby-ivar">@attr_factory</span>.<span class="ruby-identifier">empty</span>
+83:       <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">mode</span>
+84: 
+85:       <span class="ruby-identifier">open_raw</span> <span class="ruby-identifier">id</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">desired_access</span>, <span class="ruby-identifier">sftp_flags</span>, <span class="ruby-identifier">attributes</span>
+86:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

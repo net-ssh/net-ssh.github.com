@@ -1,0 +1,540 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::SFTP::FileAttributes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::SFTP::FileAttributes</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/sftp/attrs_rb.html">lib/net/ssh/sftp/attrs.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+A class representing the attributes of a single file. This is used by the
+<a href="../SFTP.html">SFTP</a> subsystem both when retrieving files, and
+when creating files. This encapsulates attributes as returned by all
+versions of the <a href="../SFTP.html">SFTP</a> protocol, and not all
+attributes are available under all protocols. If any attribute is not set,
+the corresponding property will be <tt>nil</tt>.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000069">empty</a></li>
+  <li><a href="#M000080">has_acl?</a></li>
+  <li><a href="#M000075">has_acmodtime?</a></li>
+  <li><a href="#M000076">has_atime?</a></li>
+  <li><a href="#M000081">has_bits?</a></li>
+  <li><a href="#M000078">has_ctime?</a></li>
+  <li><a href="#M000082">has_extended?</a></li>
+  <li><a href="#M000079">has_mtime?</a></li>
+  <li><a href="#M000073">has_ownergroup?</a></li>
+  <li><a href="#M000074">has_permissions?</a></li>
+  <li><a href="#M000071">has_size?</a></li>
+  <li><a href="#M000077">has_subsecond_times?</a></li>
+  <li><a href="#M000072">has_uidgid?</a></li>
+  <li><a href="#M000070">new</a></li>
+  <li><a href="#M000083">to_s</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>acl</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>atime</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>atime_nseconds</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>attrib_bits</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>ctime</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>ctime_nseconds</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>extended</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>gid</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>group</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>mtime</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>mtime_nseconds</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>owner</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>permissions</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>size</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>type</td>
+    <td class='attr-desc'></td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>uid</td>
+    <td class='attr-desc'></td>
+  </tr>
+  </table>
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000069"></a><b>empty</b>()
+  </div>
+  <div class="description">
+  <p>
+Create and return an empty attribute object.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000069-source')" id="l_M000069-source">show source</a> ]</p>
+  <div id="M000069-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 76</span>
+76:         <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">empty</span>
+77:           <span class="ruby-identifier">attrs</span> = <span class="ruby-identifier">allocate</span>
+78:           <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">type</span> = <span class="ruby-constant">T_REGULAR</span>
+79:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">attrs</span>
+80:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000070"></a><b>new</b>( reader, protocol_version )
+  </div>
+  <div class="description">
+  <p>
+Create and populate a new attribute object from the given reader buffer,
+with the given protocol version.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000070-source')" id="l_M000070-source">show source</a> ]</p>
+  <div id="M000070-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 84</span>
+ 84:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">reader</span>, <span class="ruby-identifier">protocol_version</span> )
+ 85:           <span class="ruby-ivar">@protocol</span> = <span class="ruby-identifier">protocol_version</span>
+ 86: 
+ 87:           <span class="ruby-ivar">@flags</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span>
+ 88:           <span class="ruby-ivar">@extended</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+ 89: 
+ 90:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@protocol</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">3</span>
+ 91:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">SFTPError</span>, <span class="ruby-node">&quot;unsupported protocol #{@protocol}&quot;</span>
+ 92: 
+ 93:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@protocol</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">4</span>
+ 94:             <span class="ruby-ivar">@size</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_int64</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_size?</span>
+ 95:             <span class="ruby-ivar">@uid</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_uidgid?</span>
+ 96:             <span class="ruby-ivar">@gid</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_uidgid?</span>
+ 97:             <span class="ruby-ivar">@permissions</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_permissions?</span>
+ 98:             <span class="ruby-ivar">@atime</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_acmodtime?</span>
+ 99:             <span class="ruby-ivar">@mtime</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_acmodtime?</span>
+100: 
+101:             <span class="ruby-keyword kw">if</span> ( <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">0x1000</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+102:               <span class="ruby-ivar">@type</span> = <span class="ruby-constant">T_FIFO</span>
+103:             <span class="ruby-keyword kw">elsif</span> ( <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">0x2000</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+104:               <span class="ruby-ivar">@type</span> = <span class="ruby-constant">T_CHAR_DEVICE</span>
+105:             <span class="ruby-keyword kw">elsif</span> ( <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">0x4000</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+106:               <span class="ruby-ivar">@type</span> = <span class="ruby-constant">T_DIRECTORY</span>
+107:             <span class="ruby-keyword kw">elsif</span> ( <span class="ruby-ivar">@permissions</span> <span class="ruby-operator">&amp;</span> <span class="ruby-value">0x8000</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+108:               <span class="ruby-ivar">@type</span> = <span class="ruby-constant">T_REGULAR</span>
+109:             <span class="ruby-keyword kw">else</span>
+110:               <span class="ruby-ivar">@type</span> = <span class="ruby-constant">T_UNKNOWN</span>
+111:             <span class="ruby-keyword kw">end</span>
+112: 
+113:           <span class="ruby-keyword kw">else</span>
+114:             <span class="ruby-ivar">@type</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_byte</span>
+115:             <span class="ruby-ivar">@size</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_int64</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_size?</span>
+116:             <span class="ruby-ivar">@owner</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_string</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_ownergroup?</span>
+117:             <span class="ruby-ivar">@group</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_string</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_ownergroup?</span>
+118:             <span class="ruby-ivar">@permissions</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_permissions?</span>
+119:             <span class="ruby-ivar">@atime</span> = <span class="ruby-identifier">read_time_field</span>( <span class="ruby-identifier">reader</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_atime?</span>
+120:             <span class="ruby-ivar">@atime_nseconds</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_atime?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">has_subsecond_times?</span>
+121:             <span class="ruby-ivar">@ctime</span> = <span class="ruby-identifier">read_time_field</span>( <span class="ruby-identifier">reader</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_ctime?</span>
+122:             <span class="ruby-ivar">@ctime_nseconds</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_ctime?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">has_subsecond_times?</span>
+123:             <span class="ruby-ivar">@mtime</span> = <span class="ruby-identifier">read_time_field</span>( <span class="ruby-identifier">reader</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_mtime?</span>
+124:             <span class="ruby-ivar">@mtime_nseconds</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_mtime?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">has_subsecond_times?</span>
+125:             <span class="ruby-ivar">@acl</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_string</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_acl?</span>
+126:             <span class="ruby-ivar">@attrib_bits</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_bits?</span>
+127:           <span class="ruby-keyword kw">end</span>
+128: 
+129:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_extended?</span>
+130:             <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+131:               <span class="ruby-identifier">type</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_string</span>
+132:               <span class="ruby-identifier">data</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_string</span>
+133:               <span class="ruby-ivar">@extended</span>[ <span class="ruby-identifier">type</span> ] = <span class="ruby-identifier">data</span>
+134:             <span class="ruby-keyword kw">end</span>
+135:           <span class="ruby-keyword kw">end</span>
+136:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000080"></a><b>has_acl?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000080-source')" id="l_M000080-source">show source</a> ]</p>
+  <div id="M000080-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 183</span>
+183:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_acl?</span>
+184:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_ACL</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+185:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000075"></a><b>has_acmodtime?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000075-source')" id="l_M000075-source">show source</a> ]</p>
+  <div id="M000075-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 163</span>
+163:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_acmodtime?</span>
+164:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_ACMODTIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+165:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000076"></a><b>has_atime?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000076-source')" id="l_M000076-source">show source</a> ]</p>
+  <div id="M000076-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 167</span>
+167:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_atime?</span>
+168:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_ACCESSTIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+169:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000081"></a><b>has_bits?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000081-source')" id="l_M000081-source">show source</a> ]</p>
+  <div id="M000081-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 187</span>
+187:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_bits?</span>
+188:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_BITS</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+189:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000078"></a><b>has_ctime?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000078-source')" id="l_M000078-source">show source</a> ]</p>
+  <div id="M000078-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 175</span>
+175:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_ctime?</span>
+176:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_CREATETIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+177:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000082"></a><b>has_extended?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000082-source')" id="l_M000082-source">show source</a> ]</p>
+  <div id="M000082-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 191</span>
+191:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_extended?</span>
+192:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_EXTENDED</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+193:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000079"></a><b>has_mtime?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000079-source')" id="l_M000079-source">show source</a> ]</p>
+  <div id="M000079-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 179</span>
+179:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_mtime?</span>
+180:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_MODIFYTIME</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+181:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000073"></a><b>has_ownergroup?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000073-source')" id="l_M000073-source">show source</a> ]</p>
+  <div id="M000073-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 155</span>
+155:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_ownergroup?</span>
+156:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_OWNERGROUP</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+157:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000074"></a><b>has_permissions?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000074-source')" id="l_M000074-source">show source</a> ]</p>
+  <div id="M000074-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 159</span>
+159:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_permissions?</span>
+160:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_PERMISSIONS</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+161:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000071"></a><b>has_size?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000071-source')" id="l_M000071-source">show source</a> ]</p>
+  <div id="M000071-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 147</span>
+147:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_size?</span>
+148:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SIZE</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+149:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000077"></a><b>has_subsecond_times?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000077-source')" id="l_M000077-source">show source</a> ]</p>
+  <div id="M000077-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 171</span>
+171:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_subsecond_times?</span>
+172:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_SUBSECOND_TIMES</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+173:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000072"></a><b>has_uidgid?</b>()
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000072-source')" id="l_M000072-source">show source</a> ]</p>
+  <div id="M000072-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 151</span>
+151:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">has_uidgid?</span>
+152:           ( <span class="ruby-ivar">@flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">F_UIDGID</span> ) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+153:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000083"></a><b>to_s</b>( protocol )
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000083-source')" id="l_M000083-source">show source</a> ]</p>
+  <div id="M000083-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/attrs.rb, line 195</span>
+195:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>( <span class="ruby-identifier">protocol</span> )
+196:           <span class="ruby-identifier">flags</span> = <span class="ruby-value">0</span>
+197:           ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_SIZE</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@size</span>
+198:           ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_UIDGID</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@uid</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@gid</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">protocol</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">4</span>
+199:           ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_OWNERGROUP</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@owner</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@group</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">protocol</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>
+200:           ( <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">F_PERMISSIONS</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@permissions</span>
+201:           
+202:           <span class="ruby-identifier">buffer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+203:           <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">flags</span>
+204:           <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-ivar">@size</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@size</span>
+205:           <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@uid</span>, <span class="ruby-ivar">@gid</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@uid</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@gid</span>
+206:           <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-ivar">@owner</span>, <span class="ruby-ivar">@group</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@owner</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@group</span>
+207:           <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@permissions</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@permissions</span>
+208: 
+209:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">to_s</span>
+210:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

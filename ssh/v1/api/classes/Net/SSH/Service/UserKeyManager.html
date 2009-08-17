@@ -1,0 +1,493 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::UserKeyManager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::UserKeyManager</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/userkeys_rb.html">lib/net/ssh/service/userkeys.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+This class encapsulates all operations done by clients on a user&#8217;s
+private keys. In practice, the client should never need a reference to a
+private key; instead, they grab a list of &quot;identities&quot; (public
+keys) that are available from the <a
+href="UserKeyManager.html">UserKeyManager</a>, and then use the <a
+href="UserKeyManager.html">UserKeyManager</a> to do various private key
+operations using those identities.
+</p>
+<p>
+The <a href="UserKeyManager.html">UserKeyManager</a> also uses the <a
+href="Agent.html">Agent</a> class to encapsulate the ssh-agent. Thus, from
+a client&#8217;s perspective it is completely hidden whether an identity
+comes from the ssh-agent or from a file on disk.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000231">&lt;&lt;</a></li>
+  <li><a href="#M000230">add</a></li>
+  <li><a href="#M000232">add_host_key</a></li>
+  <li><a href="#M000228">clear!</a></li>
+  <li><a href="#M000229">clear_host!</a></li>
+  <li><a href="#M000233">finish</a></li>
+  <li><a href="#M000235">host_identities</a></li>
+  <li><a href="#M000234">identities</a></li>
+  <li><a href="#M000227">new</a></li>
+  <li><a href="#M000236">sign</a></li>
+  <li><a href="#M000238">use_agent=</a></li>
+  <li><a href="#M000237">use_agent?</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>agent_socket</td>
+    <td class='attr-desc'>
+The socket to use when connecting to the ssh-agent.
+
+</td>
+  </tr>
+  </table>
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000227"></a><b>new</b>()
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="UserKeyManager.html">UserKeyManager</a>. By default,
+the manager will use the ssh-agent (if it is running), and will also load
+identities from the following locations:
+</p>
+<ul>
+<li><tt>$HOME/.ssh/id_dsa</tt>
+
+</li>
+<li><tt>$HOME/.ssh2/id_dsa</tt>
+
+</li>
+<li><tt>$HOME/.ssh/id_rsa</tt>
+
+</li>
+<li><tt>$HOME/.ssh2/id_rsa</tt>
+
+</li>
+</ul>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000227-source')" id="l_M000227-source">show source</a> ]</p>
+  <div id="M000227-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 56</span>
+56:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
+57:           <span class="ruby-ivar">@key_files</span> = [ <span class="ruby-node">&quot;#{ENV['HOME']}/.ssh/id_dsa&quot;</span>,
+58:                          <span class="ruby-node">&quot;#{ENV['HOME']}/.ssh2/id_dsa&quot;</span>,
+59:                          <span class="ruby-node">&quot;#{ENV['HOME']}/.ssh/id_rsa&quot;</span>,
+60:                          <span class="ruby-node">&quot;#{ENV['HOME']}/.ssh2/id_rsa&quot;</span> ]
+61:           <span class="ruby-ivar">@host_key_files</span> = [ <span class="ruby-value str">&quot;/etc/ssh/ssh_host_dsa_key&quot;</span>,
+62:                               <span class="ruby-value str">&quot;/etc/ssh/ssh_host_rsa_key&quot;</span> ]
+63:           <span class="ruby-ivar">@agent_socket</span> = <span class="ruby-constant">ENV</span>[ <span class="ruby-constant">Agent</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH_AUTH_SOCK</span> ]
+64:           <span class="ruby-ivar">@use_agent</span> = <span class="ruby-keyword kw">true</span>
+65:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000231"></a><b>&lt;&lt;</b>( key_file )
+  </div>
+  <div class="description">
+  <p>
+Alias for <a href="UserKeyManager.html#M000230">add</a>
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000230"></a><b>add</b>( key_file )
+  </div>
+  <div class="description">
+  <p>
+Add the given key_file to the list of key files that will be used.
+</p>
+  </div>
+<div class="aka">
+  This method is also aliased as
+  <a href="UserKeyManager.html#M000231"><<</a>
+</div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000230-source')" id="l_M000230-source">show source</a> ]</p>
+  <div id="M000230-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 88</span>
+88:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add</span>( <span class="ruby-identifier">key_file</span> )
+89:           <span class="ruby-ivar">@key_files</span>.<span class="ruby-identifier">push</span>( <span class="ruby-identifier">key_file</span> ).<span class="ruby-identifier">uniq!</span>
+90:           <span class="ruby-keyword kw">self</span>
+91:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000232"></a><b>add_host_key</b>( key_file )
+  </div>
+  <div class="description">
+  <p>
+Add the given key_file to the list of host key files that will be used.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000232-source')" id="l_M000232-source">show source</a> ]</p>
+  <div id="M000232-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 96</span>
+96:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_host_key</span>( <span class="ruby-identifier">key_file</span> )
+97:           <span class="ruby-ivar">@host_key_files</span>.<span class="ruby-identifier">push</span>( <span class="ruby-identifier">key_file</span> ).<span class="ruby-identifier">uniq!</span>
+98:           <span class="ruby-keyword kw">self</span>
+99:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000228"></a><b>clear!</b>()
+  </div>
+  <div class="description">
+  <p>
+Clear all knowledge of any loaded user keys. This also clears the list of
+default identity files that are to be loaded, thus making it appropriate to
+use if a client wishes to NOT use the default identity files.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000228-source')" id="l_M000228-source">show source</a> ]</p>
+  <div id="M000228-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 71</span>
+71:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear!</span>
+72:           <span class="ruby-ivar">@key_files</span> = []
+73:           <span class="ruby-ivar">@known_identities</span> = <span class="ruby-keyword kw">nil</span>
+74:           <span class="ruby-keyword kw">self</span>
+75:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000229"></a><b>clear_host!</b>()
+  </div>
+  <div class="description">
+  <p>
+Clear all knowledge of any loaded host keys. This also clears the list of
+default identity files that are to be loaded, thus making it appropriate to
+use if a client wishes to NOT use the default identity files.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000229-source')" id="l_M000229-source">show source</a> ]</p>
+  <div id="M000229-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 81</span>
+81:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_host!</span>
+82:           <span class="ruby-ivar">@host_key_files</span> = []
+83:           <span class="ruby-ivar">@known_host_identities</span> = <span class="ruby-keyword kw">nil</span>
+84:           <span class="ruby-keyword kw">self</span>
+85:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000233"></a><b>finish</b>()
+  </div>
+  <div class="description">
+  <p>
+This is used as a hint to the <a
+href="UserKeyManager.html">UserKeyManager</a> indicating that the agent
+connection is no longer needed. Any other open resources may be closed at
+this time.
+</p>
+<p>
+Calling this does NOT indicate that the <a
+href="UserKeyManager.html">UserKeyManager</a> will no longer be used.
+Identities may still be requested and operations done on loaded identities,
+in which case, the agent will be automatically reconnected. This method
+simply allows the client connection to be closed when it will not be used
+in the immediate future.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000233-source')" id="l_M000233-source">show source</a> ]</p>
+  <div id="M000233-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 110</span>
+110:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">finish</span>
+111:           <span class="ruby-identifier">close_agent</span>
+112:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000235"></a><b>host_identities</b>()
+  </div>
+  <div class="description">
+  <p>
+Returns an array of host identities (public keys) known to this manager.
+Host identities are those that identify the current host, and are used
+(typically) for hostbased authentication.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000235-source')" id="l_M000235-source">show source</a> ]</p>
+  <div id="M000235-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 148</span>
+148:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">host_identities</span>
+149:           <span class="ruby-identifier">identities</span> = []
+150:           <span class="ruby-ivar">@known_host_identities</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+151: 
+152:           <span class="ruby-ivar">@host_key_files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+153:             <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">readable?</span>( <span class="ruby-identifier">file</span> )
+154:               <span class="ruby-keyword kw">begin</span>
+155:                 <span class="ruby-identifier">key</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span>.<span class="ruby-identifier">load_public_key</span>( <span class="ruby-identifier">file</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;.pub&quot;</span> )
+156:                 <span class="ruby-identifier">identities</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">key</span>
+157:                 <span class="ruby-ivar">@known_host_identities</span>[ <span class="ruby-identifier">key</span> ] = { <span class="ruby-identifier">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:file</span>, <span class="ruby-identifier">:file</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">file</span> }
+158:               <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+159:                 <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;could not load public host key file '#{file}.pub' (#{e.message} [#{e.class}])&quot;</span>
+160:               <span class="ruby-keyword kw">end</span>
+161:             <span class="ruby-keyword kw">end</span>
+162:           <span class="ruby-keyword kw">end</span>
+163: 
+164:           <span class="ruby-identifier">identities</span>
+165:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000234"></a><b>identities</b>()
+  </div>
+  <div class="description">
+  <p>
+Returns an array of identities (public keys) known to this manager. The
+origin of the identities may be from files on disk or from an ssh-agent.
+Note that identities from an ssh-agent are always listed first in the
+array, with other identities coming after.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000234-source')" id="l_M000234-source">show source</a> ]</p>
+  <div id="M000234-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 118</span>
+118:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">identities</span>
+119:           <span class="ruby-identifier">identities</span> = []
+120:           <span class="ruby-ivar">@known_identities</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+121: 
+122:           <span class="ruby-identifier">ensure_agent</span>
+123:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@agent</span>
+124:             <span class="ruby-ivar">@agent</span>.<span class="ruby-identifier">identities</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+125:               <span class="ruby-identifier">identities</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">key</span>
+126:               <span class="ruby-ivar">@known_identities</span>[ <span class="ruby-identifier">key</span> ] = { <span class="ruby-identifier">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:agent</span> }
+127:             <span class="ruby-keyword kw">end</span>
+128:           <span class="ruby-keyword kw">end</span>
+129: 
+130:           <span class="ruby-ivar">@key_files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+131:             <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>( <span class="ruby-identifier">file</span> )
+132:               <span class="ruby-keyword kw">begin</span>
+133:                 <span class="ruby-identifier">key</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span>.<span class="ruby-identifier">load_public_key</span>( <span class="ruby-identifier">file</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;.pub&quot;</span> )
+134:                 <span class="ruby-identifier">identities</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">key</span>
+135:                 <span class="ruby-ivar">@known_identities</span>[ <span class="ruby-identifier">key</span> ] = { <span class="ruby-identifier">:from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:file</span>, <span class="ruby-identifier">:file</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">file</span> }
+136:               <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+137:                 <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;could not load public key file '#{file}.pub' (#{e.message} [#{e.class}])&quot;</span>
+138:               <span class="ruby-keyword kw">end</span>
+139:             <span class="ruby-keyword kw">end</span>
+140:           <span class="ruby-keyword kw">end</span>
+141: 
+142:           <span class="ruby-identifier">identities</span>
+143:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000236"></a><b>sign</b>( identity, data )
+  </div>
+  <div class="description">
+  <p>
+Sign the given data, using the corresponding private key of the given
+identity. If the identity was originally obtained from an ssh-agent, then
+the ssh-agent will be used to sign the data, otherwise the private key for
+the identity will be loaded from disk (if it hasn&#8217;t been loaded
+already) and will then be used to sign the data.
+</p>
+<p>
+Regardless of the identity&#8217;s origin or who does the signing, this
+will always return the signature in an SSH2-specified &quot;signature
+blob&quot; format.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000236-source')" id="l_M000236-source">show source</a> ]</p>
+  <div id="M000236-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 175</span>
+175:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sign</span>( <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">data</span> )
+176:           <span class="ruby-identifier">info</span> = <span class="ruby-identifier">find_identity</span>( <span class="ruby-identifier">identity</span> )
+177: 
+178:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:key</span>].<span class="ruby-identifier">ssh_do_sign</span>( <span class="ruby-identifier">data</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:key</span>]
+179: 
+180:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:from</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">:file</span>
+181:             <span class="ruby-keyword kw">begin</span>
+182:               <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:key</span>] = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span>.<span class="ruby-identifier">load_private_key</span>( <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:file</span>] )
+183:               <span class="ruby-identifier">sig_blob</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+184:               <span class="ruby-identifier">sig_blob</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">identity</span>.<span class="ruby-identifier">ssh_type</span>
+185:               <span class="ruby-identifier">sig_blob</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:key</span>].<span class="ruby-identifier">ssh_do_sign</span>( <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span> )
+186:               <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">sig_blob</span>.<span class="ruby-identifier">to_s</span>
+187:             <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span> 
+188:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">UserKeyManagerError</span>,
+189:                     <span class="ruby-value str">&quot;the given identity is known, &quot;</span> <span class="ruby-operator">+</span>
+190:                     <span class="ruby-node">&quot;but the private key could not be loaded (#{e.message} [#{e.class}])&quot;</span>
+191:             <span class="ruby-keyword kw">end</span>
+192:           <span class="ruby-keyword kw">end</span>
+193: 
+194:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">info</span>[<span class="ruby-identifier">:from</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">:agent</span>
+195:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">UserKeyManagerError</span>, <span class="ruby-value str">&quot;the agent is no longer available&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@agent</span>
+196:             <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@agent</span>.<span class="ruby-identifier">sign</span>( <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span> )
+197:           <span class="ruby-keyword kw">end</span>
+198: 
+199:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">UserKeyManagerError</span>, <span class="ruby-node">&quot;[BUG] can't determine identity origin (#{info.inspect})&quot;</span>
+200:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000238"></a><b>use_agent=</b>( use_agent )
+  </div>
+  <div class="description">
+  <p>
+Toggles whether the ssh-agent will be used or not. If true, an attempt will
+be made to use the ssh-agent. If false, any existing connection to an agent
+is closed and the agent will not be used.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000238-source')" id="l_M000238-source">show source</a> ]</p>
+  <div id="M000238-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 210</span>
+210:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">use_agent=</span>( <span class="ruby-identifier">use_agent</span> )
+211:           <span class="ruby-identifier">close_agent</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">use_agent</span>
+212:           <span class="ruby-ivar">@use_agent</span> = <span class="ruby-identifier">use_agent</span>
+213:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000237"></a><b>use_agent?</b>()
+  </div>
+  <div class="description">
+  <p>
+Identifies whether the ssh-agent will be used or not.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000237-source')" id="l_M000237-source">show source</a> ]</p>
+  <div id="M000237-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userkeys.rb, line 203</span>
+203:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">use_agent?</span>
+204:           <span class="ruby-ivar">@use_agent</span>
+205:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

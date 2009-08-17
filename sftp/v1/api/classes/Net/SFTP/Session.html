@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Session</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Session</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../files/lib/net/sftp/session_rb.html">lib/net/sftp/session.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+Represents a single <a href="../SFTP.html">SFTP</a> session, running atop
+an SSH session.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000095">channel</a></li>
+  <li><a href="#M000097">close</a></li>
+  <li><a href="#M000096">close_channel</a></li>
+  <li><a href="#M000100">connect</a></li>
+  <li><a href="#M000108">do_attrs</a></li>
+  <li><a href="#M000104">do_data</a></li>
+  <li><a href="#M000106">do_handle</a></li>
+  <li><a href="#M000107">do_name</a></li>
+  <li><a href="#M000105">do_status</a></li>
+  <li><a href="#M000102">get_file</a></li>
+  <li><a href="#M000099">loop</a></li>
+  <li><a href="#M000109">method_missing</a></li>
+  <li><a href="#M000093">new</a></li>
+  <li><a href="#M000101">open_handle</a></li>
+  <li><a href="#M000103">put_file</a></li>
+  <li><a href="#M000098">register</a></li>
+  <li><a href="#M000110">respond_to?</a></li>
+  <li><a href="#M000094">state</a></li>
+  <li><a href="#M000111">support?</a></li>
+  </ul>
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li><a href="Protocol/Constants.html">Protocol::Constants</a></li>
+</ul>
+
+
+
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[RW]
+    </td>
+    <td class='attr-name'>status</td>
+    <td class='attr-desc'>
+The status of the last synchronously executed operation. This is either
+<tt>nil</tt>, or an object that responds to <tt>:code</tt>,
+<tt>:message</tt>, and <tt>:language</tt>.
+
+</td>
+  </tr>
+  </table>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000093"></a><b>new</b>( session ) {|self| ...}
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="../SFTP.html">SFTP</a> session on top of the given
+SSH session.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000093_source')" id="l_M000093_source">show source</a> ]</p>
+  <div id="M000093_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 36</span>
+36:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">session</span> )
+37:       <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+38:       <span class="ruby-ivar">@log</span> = <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">registry</span>.<span class="ruby-identifier">log_for</span>( <span class="ruby-value str">&quot;sftp.session&quot;</span> )
+39: 
+40:       <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">registry</span>.<span class="ruby-identifier">namespace_define</span> <span class="ruby-identifier">:sftp</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ns</span><span class="ruby-operator">|</span>
+41:         <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">require</span> <span class="ruby-value str">&quot;net/sftp/protocol/services&quot;</span>, <span class="ruby-value str">&quot;Net::SFTP::Protocol&quot;</span>
+42:         <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">require</span> <span class="ruby-value str">&quot;net/sftp/operations/services&quot;</span>, <span class="ruby-value str">&quot;Net::SFTP::Operations&quot;</span>
+43: 
+44:         <span class="ruby-comment cmt"># register a reference to myself for other services to be able to</span>
+45:         <span class="ruby-comment cmt"># access me.</span>
+46:         <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">session</span>( <span class="ruby-identifier">:pipeline</span> =<span class="ruby-operator">&gt;</span> [] ) { <span class="ruby-keyword kw">self</span> }
+47: 
+48:         <span class="ruby-ivar">@driver</span> = <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">protocol</span>.<span class="ruby-identifier">driver</span>
+49:         <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">on_open</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+50:           <span class="ruby-identifier">d</span>.<span class="ruby-identifier">on_attrs</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_attrs</span>  ))
+51:           <span class="ruby-identifier">d</span>.<span class="ruby-identifier">on_data</span>(  <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_data</span>   ))
+52:           <span class="ruby-identifier">d</span>.<span class="ruby-identifier">on_handle</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_handle</span> ))
+53:           <span class="ruby-identifier">d</span>.<span class="ruby-identifier">on_name</span>(  <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_name</span>   ))
+54:           <span class="ruby-identifier">d</span>.<span class="ruby-identifier">on_status</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_status</span> ))
+55: 
+56:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+57:             <span class="ruby-keyword kw">begin</span>
+58:               <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>
+59:             <span class="ruby-keyword kw">ensure</span>
+60:               <span class="ruby-identifier">d</span>.<span class="ruby-identifier">close</span>
+61:             <span class="ruby-keyword kw">end</span>
+62:           <span class="ruby-keyword kw">end</span>
+63:         <span class="ruby-keyword kw">end</span>
+64: 
+65:         <span class="ruby-ivar">@operations</span> = <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">operations</span>
+66:       <span class="ruby-keyword kw">end</span>
+67: 
+68:       <span class="ruby-ivar">@requests</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+69: 
+70:       <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+71:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000095"></a><b>channel</b>()
+  </div>
+  <div class="description">
+  <p>
+Return the underlying SSH channel that supports this <a
+href="../SFTP.html">SFTP</a> connection. Useful for adding custom callbacks
+for some events, or for accessing the underlying connection beneath the
+channel.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000095_source')" id="l_M000095_source">show source</a> ]</p>
+  <div id="M000095_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 88</span>
+88:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">channel</span>
+89:       <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">channel</span>
+90:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000097"></a><b>close</b>()
+  </div>
+  <div class="description">
+  <p>
+Closes the underlying SSH connection.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000097_source')" id="l_M000097_source">show source</a> ]</p>
+  <div id="M000097_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 98</span>
+ 98:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
+ 99:       <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">close</span>
+100:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000096"></a><b>close_channel</b>()
+  </div>
+  <div class="description">
+  <p>
+Closes the <a href="../SFTP.html">SFTP</a> connection, but leaves the SSH
+connection open.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000096_source')" id="l_M000096_source">show source</a> ]</p>
+  <div id="M000096_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 93</span>
+93:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close_channel</span>
+94:       <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">close</span>
+95:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000100"></a><b>connect</b>() {|self| ...}
+  </div>
+  <div class="description">
+  <p>
+Waits for the underlying driver to reach a state of :open (or :closed).
+This makes it easier to use the <a href="../SFTP.html">SFTP</a> routines
+synchronously without using the block form:
+</p>
+<pre>
+  sftp = Net::SFTP::Session.new( ssh_session )
+  sftp.connect
+  puts sftp.realpath( &quot;.&quot; )
+</pre>
+<p>
+Without the call to <a href="Session.html#M000100">connect</a>, the call to
+realpath would fail because the <a href="../SFTP.html">SFTP</a> protocol
+has not yet been negotiated and no underlying driver has been selected.
+</p>
+<p>
+If no block is given, it returns <tt>self</tt>, so it can be chained easily
+to other method calls. If a block <em>is</em> given, the session is yielded
+to the block as soon as the driver successfully reports it&#8217;s state as
+<tt>open</tt>, with the session&#8217;s channel being closed automatically
+when the block finishes.
+</p>
+<pre>
+  require 'net/ssh'
+  require 'net/sftp'
+
+  Net::SSH.start( 'localhost' ) do |session|
+    session.sftp.connect do |sftp|
+      puts sftp.realpath( &quot;.&quot; )
+    end
+  end
+</pre>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000100_source')" id="l_M000100_source">show source</a> ]</p>
+  <div id="M000100_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 142</span>
+142:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">connect</span>
+143:       <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+144:         <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">state</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">:open</span> <span class="ruby-operator">&amp;&amp;</span>
+145:         <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">state</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">:closed</span>
+146:       <span class="ruby-keyword kw">end</span>
+147:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:open</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">block_given?</span>
+148:         <span class="ruby-keyword kw">begin</span>
+149:           <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>
+150:         <span class="ruby-keyword kw">ensure</span>
+151:           <span class="ruby-identifier">close_channel</span>
+152:         <span class="ruby-keyword kw">end</span>
+153:       <span class="ruby-keyword kw">else</span>
+154:         <span class="ruby-keyword kw">self</span>
+155:       <span class="ruby-keyword kw">end</span>
+156:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000108"></a><b>do_attrs</b>( driver, id, attributes )
+  </div>
+  <div class="description">
+  <p>
+Invoked by the underlying <a href="../SFTP.html">SFTP</a> protocol layer
+when a <a href="../SFTP.html">SFTP</a> attrs packet is received.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000108_source')" id="l_M000108_source">show source</a> ]</p>
+  <div id="M000108_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 238</span>
+238:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_attrs</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">attributes</span> )
+239:       <span class="ruby-ivar">@requests</span>.<span class="ruby-identifier">delete</span>( <span class="ruby-identifier">id</span> ).<span class="ruby-identifier">do_attrs</span>( <span class="ruby-identifier">attributes</span> )
+240:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000104"></a><b>do_data</b>( driver, id, data )
+  </div>
+  <div class="description">
+  <p>
+Invoked by the underlying <a href="../SFTP.html">SFTP</a> protocol layer
+when a <a href="../SFTP.html">SFTP</a> data packet is received.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000104_source')" id="l_M000104_source">show source</a> ]</p>
+  <div id="M000104_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 214</span>
+214:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">data</span> )
+215:       <span class="ruby-ivar">@requests</span>.<span class="ruby-identifier">delete</span>( <span class="ruby-identifier">id</span> ).<span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">data</span> )
+216:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000106"></a><b>do_handle</b>( driver, id, handle )
+  </div>
+  <div class="description">
+  <p>
+Invoked by the underlying <a href="../SFTP.html">SFTP</a> protocol layer
+when a <a href="../SFTP.html">SFTP</a> handle packet is received.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000106_source')" id="l_M000106_source">show source</a> ]</p>
+  <div id="M000106_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 226</span>
+226:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_handle</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">handle</span> )
+227:       <span class="ruby-ivar">@requests</span>.<span class="ruby-identifier">delete</span>( <span class="ruby-identifier">id</span> ).<span class="ruby-identifier">do_handle</span>( <span class="ruby-identifier">handle</span> )
+228:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000107"></a><b>do_name</b>( driver, id, items )
+  </div>
+  <div class="description">
+  <p>
+Invoked by the underlying <a href="../SFTP.html">SFTP</a> protocol layer
+when a <a href="../SFTP.html">SFTP</a> name packet is received.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000107_source')" id="l_M000107_source">show source</a> ]</p>
+  <div id="M000107_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 232</span>
+232:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_name</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">items</span> )
+233:       <span class="ruby-ivar">@requests</span>.<span class="ruby-identifier">delete</span>( <span class="ruby-identifier">id</span> ).<span class="ruby-identifier">do_name</span>( <span class="ruby-identifier">items</span> )
+234:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000105"></a><b>do_status</b>( driver, id, code, message, language )
+  </div>
+  <div class="description">
+  <p>
+Invoked by the underlying <a href="../SFTP.html">SFTP</a> protocol layer
+when a <a href="../SFTP.html">SFTP</a> status packet is received.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000105_source')" id="l_M000105_source">show source</a> ]</p>
+  <div id="M000105_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 220</span>
+220:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">driver</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> )
+221:       <span class="ruby-ivar">@requests</span>.<span class="ruby-identifier">delete</span>( <span class="ruby-identifier">id</span> ).<span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> )
+222:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000102"></a><b>get_file</b>( remote_path, local_path )
+  </div>
+  <div class="description">
+  <p>
+Retrieves the given remote file to the given local path. This will
+overwrite any file at the local path name. The remote file must exist.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000102_source')" id="l_M000102_source">show source</a> ]</p>
+  <div id="M000102_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 192</span>
+192:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_file</span>( <span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">local_path</span> )
+193:       <span class="ruby-identifier">open_handle</span>( <span class="ruby-identifier">remote_path</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">handle</span><span class="ruby-operator">|</span>
+194:         <span class="ruby-identifier">contents</span> = <span class="ruby-identifier">read</span>( <span class="ruby-identifier">handle</span> )
+195:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>( <span class="ruby-identifier">local_path</span>, <span class="ruby-value str">&quot;wb&quot;</span> ) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">contents</span> }
+196:       <span class="ruby-keyword kw">end</span>
+197:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000099"></a><b>loop</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Delegates to Net::SSH::Session#loop. Causes the underlying SSH connection
+to process events as long as the given block returns <tt>true</tt>, or (if
+no block is given) until there are no more open channels.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000099_source')" id="l_M000099_source">show source</a> ]</p>
+  <div id="M000099_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 112</span>
+112:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">loop</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+113:       <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">loop</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+114:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000109"></a><b>method_missing</b>( sym, *args, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Delegates the message to the operation that has been registered with the
+given name. If no such operation exists, control is passed to the
+superclass&#8217; implementation of <a
+href="Session.html#M000109">method_missing</a>.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000109_source')" id="l_M000109_source">show source</a> ]</p>
+  <div id="M000109_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 251</span>
+251:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>( <span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+252:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@operations</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">sym</span> )
+253:         <span class="ruby-ivar">@operations</span>[ <span class="ruby-identifier">sym</span> ].<span class="ruby-identifier">execute</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+254:       <span class="ruby-keyword kw">else</span>
+255:         <span class="ruby-keyword kw">super</span>
+256:       <span class="ruby-keyword kw">end</span>
+257:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000101"></a><b>open_handle</b>( path, flags=IO::RDONLY, mode=0660 ) {|handle| ...}
+  </div>
+  <div class="description">
+  <p>
+Opens the given remote file and returns a handle to it, which may be used
+with other operations (read, write, etc.). If a block is given, the handle
+will be yielded to it and closed when the block finishes, otherwise the
+handle will be returned. If the flags parameter is a numeric value, it must
+be a combination of IO constants, otherwise, it should be a string such as
+given to File.open.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000101_source')" id="l_M000101_source">show source</a> ]</p>
+  <div id="M000101_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 164</span>
+164:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_handle</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span>, <span class="ruby-identifier">mode</span>=<span class="ruby-value">0660</span> )
+165:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">String</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">flags</span>
+166:         <span class="ruby-identifier">flags</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">flags</span>
+167:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;r&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span>
+168:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;r+&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">IO</span><span class="ruby-identifier">:RDWR</span>
+169:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;w&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">WRONLY</span> <span class="ruby-operator">|</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> <span class="ruby-operator">|</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">TRUNC</span>
+170:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;w+&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDWR</span> <span class="ruby-operator">|</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> <span class="ruby-operator">|</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">TRUNC</span>
+171:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;a&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">APPEND</span> <span class="ruby-operator">|</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span>
+172:           <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;a+&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">APPEND</span> <span class="ruby-operator">|</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span>
+173:           <span class="ruby-keyword kw">else</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span>
+174:         <span class="ruby-keyword kw">end</span>
+175:       <span class="ruby-keyword kw">end</span>
+176: 
+177:       <span class="ruby-identifier">handle</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">open</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-identifier">mode</span> )
+178:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+179:         <span class="ruby-keyword kw">begin</span>
+180:           <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">handle</span>
+181:         <span class="ruby-keyword kw">ensure</span>
+182:           <span class="ruby-identifier">close_handle</span>( <span class="ruby-identifier">handle</span> )
+183:         <span class="ruby-keyword kw">end</span>
+184:       <span class="ruby-keyword kw">else</span>
+185:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">handle</span>
+186:       <span class="ruby-keyword kw">end</span>
+187:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000103"></a><b>put_file</b>( local_path, remote_path )
+  </div>
+  <div class="description">
+  <p>
+This stores the given local file at the given remote path. This will
+overwrite any file at the remote path name. The local file must exist.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000103_source')" id="l_M000103_source">show source</a> ]</p>
+  <div id="M000103_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 201</span>
+201:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">put_file</span>( <span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">remote_path</span> )
+202:       <span class="ruby-identifier">contents</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>( <span class="ruby-identifier">local_path</span>, <span class="ruby-value str">&quot;rb&quot;</span> ) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
+203:       <span class="ruby-identifier">open_handle</span>( <span class="ruby-identifier">remote_path</span>, <span class="ruby-value str">&quot;w&quot;</span> ) { <span class="ruby-operator">|</span><span class="ruby-identifier">handle</span><span class="ruby-operator">|</span> <span class="ruby-identifier">write</span>( <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">contents</span> ) }
+204:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000098"></a><b>register</b>( id, handler )
+  </div>
+  <div class="description">
+  <p>
+Registers the given handler with the given request id. This is used
+internally by the operations, so that the session knows who to delegate a
+response to that has been received from the server.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000098_source')" id="l_M000098_source">show source</a> ]</p>
+  <div id="M000098_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 105</span>
+105:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">register</span>( <span class="ruby-identifier">id</span>, <span class="ruby-identifier">handler</span> )
+106:       <span class="ruby-ivar">@requests</span>[ <span class="ruby-identifier">id</span> ] = <span class="ruby-identifier">handler</span>
+107:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000110"></a><b>respond_to?</b>( sym )
+  </div>
+  <div class="description">
+  <p>
+Returns <tt>true</tt> if the object responds to the given symbol, or if
+there is an operation registered under the given symbol.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000110_source')" id="l_M000110_source">show source</a> ]</p>
+  <div id="M000110_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 261</span>
+261:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">sym</span> )
+262:       <span class="ruby-keyword kw">super</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@operations</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">sym</span> )
+263:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000094"></a><b>state</b>()
+  </div>
+  <div class="description">
+  <p>
+Return the state of the <a href="../SFTP.html">SFTP</a> connection. (See
+Net::SFTP::Protocol::Driver#state.)
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000094_source')" id="l_M000094_source">show source</a> ]</p>
+  <div id="M000094_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 81</span>
+81:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">state</span>
+82:       <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">state</span>
+83:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000111"></a><b>support?</b>( sym )
+  </div>
+  <div class="description">
+  <p>
+Returns <tt>true</tt> if the underlying driver responds to the given
+symbol. This can be used by clients to determine whether the <a
+href="../SFTP.html">SFTP</a> protocol version in use supports a particular
+operation.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000111_source')" id="l_M000111_source">show source</a> ]</p>
+  <div id="M000111_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 268</span>
+268:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">support?</span>( <span class="ruby-identifier">sym</span> )
+269:       <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">sym</span> )
+270:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::PortForwardManager::LocalNetworkHandler</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::PortForwardManager::LocalNetworkHandler</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../../files/lib/net/ssh/service/forward_rb.html">lib/net/ssh/service/forward.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+This is a utility class used internally by <a
+href="../PortForwardManager.html">PortForwardManager</a>. It manages the
+network server instance for each locally forwarded port, and is passed as
+the handler to <a
+href="../PortForwardManager.html#M000152">PortForwardManager#direct_channel</a>
+by <a
+href="../PortForwardManager.html#M000153">PortForwardManager#forward_local</a>.
+Other clients may desire to extend this class and pass the modified class
+to <a
+href="../PortForwardManager.html#M000152">PortForwardManager#direct_channel</a>
+for their own purposes, but in general this class will rarely be used
+outside of <a href="../PortForwardManager.html">PortForwardManager</a>.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000160">new</a></li>
+  <li><a href="#M000162">on_eof</a></li>
+  <li><a href="#M000161">on_receive</a></li>
+  <li><a href="#M000163">process</a></li>
+  </ul>
+
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000160"></a><b>new</b>( client )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="LocalNetworkHandler.html">LocalNetworkHandler</a> for
+the given client connection.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000160-source')" id="l_M000160-source">show source</a> ]</p>
+  <div id="M000160-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 274</span>
+274:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">client</span> )
+275:             <span class="ruby-ivar">@client</span> = <span class="ruby-identifier">client</span>
+276:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000162"></a><b>on_eof</b>( channel )
+  </div>
+  <div class="description">
+  <p>
+Invoked when the remote end of the channel will no longer be sending data.
+It may still receive data, however.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000162-source')" id="l_M000162-source">show source</a> ]</p>
+  <div id="M000162-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 286</span>
+286:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_eof</span>( <span class="ruby-identifier">channel</span> )
+287:             <span class="ruby-identifier">channel</span>[<span class="ruby-identifier">:eof</span>] = <span class="ruby-keyword kw">true</span>
+288:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000161"></a><b>on_receive</b>( channel, data )
+  </div>
+  <div class="description">
+  <p>
+Invoked when data is recieved from the channel. This method just sends the
+data to the client connection.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000161-source')" id="l_M000161-source">show source</a> ]</p>
+  <div id="M000161-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 280</span>
+280:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_receive</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">data</span> )
+281:             <span class="ruby-ivar">@client</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">data</span>, <span class="ruby-value">0</span>
+282:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000163"></a><b>process</b>( channel )
+  </div>
+  <div class="description">
+  <p>
+Called to process the channel in a loop. It will repeatedly read from the
+client and send the results across the channel.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000163-source')" id="l_M000163-source">show source</a> ]</p>
+  <div id="M000163-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 292</span>
+292:           <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process</span>( <span class="ruby-identifier">channel</span> )
+293:             <span class="ruby-keyword kw">begin</span>
+294:               <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+295:                 <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">channel</span>[<span class="ruby-identifier">:eof</span>]
+296:                 <span class="ruby-identifier">data</span> = <span class="ruby-ivar">@client</span>.<span class="ruby-identifier">recv</span>( <span class="ruby-constant">READ_BLOCK_SIZE</span> )
+297:                 <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span>
+298:                 <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">send_data</span> <span class="ruby-identifier">data</span>
+299:               <span class="ruby-keyword kw">end</span>
+300: 
+301:               <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">close</span>
+302:             <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+303:               <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;error processing connection: #{e.class} (#{e.message})&quot;</span>
+304:               <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+305:             <span class="ruby-keyword kw">end</span>
+306:           <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

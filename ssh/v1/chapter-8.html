@@ -1,0 +1,487 @@
+<html>
+  <head>
+    <title>Net::SSH Manual :: Chapter 8: Net::SSH Architecture</title>
+    <link type="text/css" rel="stylesheet" href="manual.css" />
+  </head>
+  
+  <body>
+    <div id="banner">
+      <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+        <tr><td valign='top' align='left'>
+          <div class="title">
+            <span class="product">Net::SSH&mdash;</span><br />
+            <span class="tagline">Life Just Got A Whole Lot Better...</span>
+          </div>
+        </td><td valign='middle' align='right'>
+          <div class="info">
+            Net::SSH Version: <strong>0.1.0</strong><br />
+            Manual Last Updated: <strong>2004-08-14 20:08 GMT</strong>
+          </div>
+        </td></tr>
+      </table>
+    </div>
+
+    <table border='0' width='100%' cellpadding='0' cellspacing='0'>
+      <tr><td valign='top'>
+
+        <div id="navigation">
+          <h1>Net::SSH Manual</h1>
+
+          <h2>Chapters</h2>
+          <ol type="I">
+          
+            <li>
+                <a href="chapter-1.html">
+                Introduction
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-1.html#s1">What is Net::SSH?</a></li>
+                
+                  <li><a href="chapter-1.html#s2">What isn't Net::SSH?</a></li>
+                
+                  <li><a href="chapter-1.html#s3">Getting Net::SSH</a></li>
+                
+                  <li><a href="chapter-1.html#s4">License Information</a></li>
+                
+                  <li><a href="chapter-1.html#s5">Support</a></li>
+                
+                  <li><a href="chapter-1.html#s6">Author</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-2.html">
+                Starting a Session
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-2.html#s1">Using Net::SSH.start</a></li>
+                
+                  <li><a href="chapter-2.html#s2">Using a Public/Private Key</a></li>
+                
+                  <li><a href="chapter-2.html#s3">Options</a></li>
+                
+                  <li><a href="chapter-2.html#s4">Using Net::SSH::Session</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-3.html">
+                Channels
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-3.html#s1">What are Channels?</a></li>
+                
+                  <li><a href="chapter-3.html#s2">Session.main_loop</a></li>
+                
+                  <li><a href="chapter-3.html#s3">Channel Types</a></li>
+                
+                  <li><a href="chapter-3.html#s4">Opening a Channel</a></li>
+                
+                  <li><a href="chapter-3.html#s5">Callbacks</a></li>
+                
+                  <li><a href="chapter-3.html#s6">Channel Operations</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-4.html">
+                Executing Commands
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-4.html#s1">Net::SSH::Session.exec</a></li>
+                
+                  <li><a href="chapter-4.html#s2">Using Channels</a></li>
+                
+                  <li><a href="chapter-4.html#s3">Net::SSH::Service::Process</a></li>
+                
+                  <li><a href="chapter-4.html#s4">Process#popen3</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-5.html">
+                Port Forwarding
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-5.html#s1">Introduction</a></li>
+                
+                  <li><a href="chapter-5.html#s2">Local-to-Remote</a></li>
+                
+                  <li><a href="chapter-5.html#s3">Remote-to-Local</a></li>
+                
+                  <li><a href="chapter-5.html#s4">Direct Channels</a></li>
+                
+                  <li><a href="chapter-5.html#s5">Remote-to-Local Handlers</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-6.html">
+                SFTP Subsystem
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-6.html#s1">Introduction</a></li>
+                
+                  <li><a href="chapter-6.html#s2">SFTP::Session</a></li>
+                
+                  <li><a href="chapter-6.html#s3">SFTP::Simple</a></li>
+                
+                  <li><a href="chapter-6.html#s4">Listing a Directory</a></li>
+                
+                  <li><a href="chapter-6.html#s5">Retrieving a File</a></li>
+                
+                  <li><a href="chapter-6.html#s6">Storing a File</a></li>
+                
+                  <li><a href="chapter-6.html#s7">Other Operations</a></li>
+                
+                  <li><a href="chapter-6.html#s8">URI and Open-URI</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-7.html">
+                Using Proxies
+                </a>
+                
+              <ol type="1">
+                
+                  <li><a href="chapter-7.html#s1">Introduction</a></li>
+                
+                  <li><a href="chapter-7.html#s2">HTTP Proxies</a></li>
+                
+                  <li><a href="chapter-7.html#s3">SOCKS Proxies</a></li>
+                
+              </ol>
+            </li>
+          
+            <li><strong>
+                <a href="chapter-8.html">
+                Net::SSH Architecture
+                </a>
+                </strong> <big>&larr;</big>
+              <ol type="1">
+                
+                  <li><a href="chapter-8.html#s1">Transport Layer</a></li>
+                
+                  <li><a href="chapter-8.html#s2">Authentication Layer</a></li>
+                
+                  <li><a href="chapter-8.html#s3">Connection Layer</a></li>
+                
+                  <li><a href="chapter-8.html#s4">Session Layer</a></li>
+                
+                  <li><a href="chapter-8.html#s5">Port Forwarding</a></li>
+                
+                  <li><a href="chapter-8.html#s6">SFTP Subsystem</a></li>
+                
+              </ol>
+            </li>
+          
+            <li>
+                <a href="chapter-9.html">
+                Future Directions
+                </a>
+                
+              <ol type="1">
+                
+              </ol>
+            </li>
+          
+          </ol>
+
+          <h2>API Reference</h2>
+
+          <ul>
+            <li><a href="http://net-ssh.rubyforge.org/api">Net::SSH API</a></li>
+          </ul>
+
+          
+
+          
+
+          <div class="license">
+            <a href="http://creativecommons.org/licenses/by-sa/1.0/"><img alt="Creative Commons License" border="0" src="http://creativecommons.org/images/public/somerights" /></a><br />
+            This manual is licensed under a <a href="http://creativecommons.org/licenses/by-sa/1.0/">Creative Commons License</a>.
+          </div>
+        </div>
+
+      </td><td valign='top' width="100%">
+
+        <div id="content">
+
+          <h1>8. Net::SSH Architecture</h1>
+
+
+
+     <h2>
+       <a name="s1"></a>
+       8.1. Transport Layer
+     </h2>
+
+   
+
+   <div class="section">
+     <h3>Purpose</h3>
+
+	<p>The <em>transport layer</em> is the fundemental network layer of the <span class="caps">SSH</span> protocol. It is designed to run on top of just about any other network protocol, but Net::SSH always runs it on top of <span class="caps">TCP</span>.</p>
+
+	<p>The transport layer deals only with key negotiation and the interchange of network packets between the client and the server. It has no knowledge of things like authentication, channels, and subsystems&#8212;all it knows is the <em>data</em> that is being sent and received.</p>
+
+	<h3>Location and Construction</h3>
+
+	<p>The Net::SSH transport layer is in the <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Transport.html">Net::SSH::Transport</a> module, and is composed of several classes. Some of the most significant components of the transport layer are:</p>
+
+	<table class="list">
+		<tr>
+			<th>Class </th>
+			<th>Require </th>
+			<th>Description </th>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Transport/Session.html">Session</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/transport/session</code> </td>
+			<td> This represents a single session with a server. An instance of this object is the fundamental means by which all other pieces of the Net::SSH framework communicate with the remote server. </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Transport/WriterBuffer.html">WriterBuffer</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/transport/buffer</code> </td>
+			<td> This is a class that makes it easier to encode data in <span class="caps">SSH</span>-specific formats. Various other layers of the Net::SSH framework employ the WriterBuffer class to help format packets to send to the server. </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Transport/ReaderBuffer.html">ReaderBuffer</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/transport/buffer</code> </td>
+			<td> This is a class that makes it easier to decode data in <span class="caps">SSH</span>-specific formats. This is useful for taking apart packets received from the server. </td>
+		</tr>
+	</table>
+
+	<h3>Flow</h3>
+
+	<p>When you start a Net::SSH application, a new transport Session object is instantiated. It is told which server to connect to (host name and port number), and accepts a variety of options to allow clients to define which algorithms should be used for each of its pieces.</p>
+
+	<p>The connection to the server is either made using a <span class="caps">TCP</span>Socket, or if a proxy is given, the proxy is used to connect.</p>
+
+	<p>After connecting to the server, the transport session then instantiates an <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Transport/IncomingPacketStream.html">IncomingPacketStream</a> and an <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Transport/OutgoingPacketStream.html;">OutgoingPacketStream</a> these two classes are used to perform all <span class="caps">SSH</span>-mandated operations on packets as they are received or sent.</p>
+
+	<p>Once the packet streams are set up, version negoation takes place. Net::SSH reads the version of the server, and then tells the server what its own version is.</p>
+
+	<p>After the version exchange, the <em>algorithm negotiation</em> stage occurs. This is where the client and the server exchange what algorithms they support (and which ones they prefer), and they negotiate which algorithms they should use. The algorithms settled on include the <em>key exchange algorithm</em>, the <em>cipher encryption algorithm</em>, what <em>compression algorithm</em> to use, and so forth.</p>
+
+	<p>Once the algorithms have been settled on, the key exchange takes place. This is done according to the algorithm selected in the algorithm negotiation stage, and it is where the client and the server agree upon their <em>shared secret</em>, which is used as the key for the ciphers and so forth that will be used throughout the session.</p>
+
+	<p>Once the key exchange is complete, the transport layer hands control back to its instantiator, who will then use the transport layer to mediate packets between the client and the server.<br />
+</p>
+   </div>
+
+
+
+     <h2>
+       <a name="s2"></a>
+       8.2. Authentication Layer
+     </h2>
+
+   
+
+   <div class="section">
+     <h3>Purpose</h3>
+
+	<p>Once the transport layer has finished the key exchange, the next big thing is typically the user authentication. Before the user authenticates, there is very little a client is allowed to do besides exchange keys with the server.</p>
+
+	<p>The authentication layer handles the authentication of the user with the server. When it finishes, the server has agreed that it recognizes the stated user&#8217;s authority to perform operations on the server. The server agrees that the user&#8217;s credentials are <em>authentic</em>.</p>
+
+	<p>Once the authentication layer finishes, it&#8217;s use is done. Nothing runs &#8220;on top of&#8221; the authentication layer, but the authentication layer itself runs on top of the transport layer, using it to send and receive packets.</p>
+
+	<h3>Location and Construction</h3>
+
+	<p>The authentication layer exists in the <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists (primarily) of three classes:</p>
+
+	<table class="list">
+		<tr>
+			<th>Class </th>
+			<th>Require </th>
+			<th>Description </th>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service/UserAuth.html">UserAuth</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/service/userauth</code> </td>
+			<td> The UserAuth class is the core of the authentication layer. It attempts each requested authentication method in turn, until one succeeds. To help, it uses the UserKeyManager class. </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service/UserKeyManager.html">UserKeyManager</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/service/userkeys</code> </td>
+			<td> The UserKeyManager keeps track of all knows <em>identities</em> (public keys) of the current user. It abstracts the keys away from the rest of the application, so that other classes do not have to deal directly with the private keys. It also interacts with the <span class="caps">SSH</span> agent, if one is active, via the Agent class. </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service/Agent.html">Agent</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/service/agent</code> </td>
+			<td> The Agent interfaces with the active <span class="caps">SSH</span> agent, if one is running. It provides an interface for querying all of the identities (public keys) that the agent knows of, and for performing operations with those identities. </td>
+		</tr>
+	</table>
+
+	<h3>Flow</h3>
+
+	<p>When the UserAuth service is asked to authenticate a user, it immediately tells the server that it wishes to begin an authentication session. Once the server response that it can proceed, the UserAuth service will then try each specified authentication method in turn (the default order is &#8220;publickey&#8221;, &#8220;keyboard-interactive&#8221;, and &#8220;password&#8221;).</p>
+
+	<p>Once one of those succeed (or all of them fail), the authentication layer is finished. If any of the methods succeeded, the user is now authenticated and may proceed to request other services of the server.<br />
+</p>
+   </div>
+
+
+
+     <h2>
+       <a name="s3"></a>
+       8.3. Connection Layer
+     </h2>
+
+   
+
+   <div class="section">
+     <h3>Purpose</h3>
+
+	<p>The connection layer sits on top of the transport layer, and is an abstraction upon which still <em>other</em> layers may be built. This layer provides the infrastructure for <em>channels</em>, which are the primary means by which data is organized and communicated to and from the server.</p>
+
+	<h3>Location and Construction</h3>
+
+	<p>The connection layer exists in the <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists of only two classes:</p>
+
+	<table class="list">
+		<tr>
+			<th>Class </th>
+			<th>Require </th>
+			<th>Description </th>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service/Connection.html">Connection</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/service/connection</code> </td>
+			<td> The Connection class manages the lifecycle of the channels. When the <code>main_loop</code> method is invoked, it is really the Connection&#8217;s <code>process_connection</code> method that does all the work. </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service/Channel.html">Channel</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/service/channel</code> </td>
+			<td> The Channel class represents a single bidirectional communication channel across a connection. It provides a rich event-driven interface for handling the various events that occur in a channel. It also provides ways for sending data across a channel. </td>
+		</tr>
+	</table>
+
+	<h3>Flow</h3>
+
+	<p>The creation of a Connection object does nothing by itself. However, opening channels cause a message to be sent to the server, requesting that a channel be opened. The channel is not considered open until the server ackowledges the existence of the new channel. This is the same model for all operations on a channel: the client sends a request to the server, and the server (in its own time) responds.</p>
+
+	<p>The connection itself waits in a loop, handling the server replies. Whenever a message is received, it routes it to the channel that it is intended for, which will then invoke the corresponding callbacks. The callbacks in turn may send yet <em>more</em> messages to the server, resulting in more replies, <em>ad infinitum</em>...</p>
+
+	<p>The connection&#8217;s loop will terminate when the associated block returns <code>false</code>. If no block was specified, then the loop continues until all channels have been closed.<br />
+</p>
+   </div>
+
+
+
+     <h2>
+       <a name="s4"></a>
+       8.4. Session Layer
+     </h2>
+
+   
+
+   <div class="section">
+     <p>The <em>session layer</em> is not a formal layer defined in the <span class="caps">SSH</span> specification. Instead, it is an abstraction provided by Net::SSH for accessing the connection layer. This layer is defined in the <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Session.html">Net::SSH::Session</a> class.</p>
+
+	<p>In truth, the Net::SSH::Session class is little more than a wrapper for the connection object, although it also instantiates the transport layer and invokes the authentication layer.<br />
+</p>
+   </div>
+
+
+
+     <h2>
+       <a name="s5"></a>
+       8.5. Port Forwarding
+     </h2>
+
+   
+
+   <div class="section">
+     <h3>Purpose</h3>
+
+	<p>The <em>port forwarding abstraction layer</em> is another informal layer provided by Net::SSH. It runs on top of the connection layer, providing an interface for defining and interacting with network connections being forwarded from one host to another.</p>
+
+	<h3>Location and Construction</h3>
+
+	<p>The port forwarding layer is, like all other services, defined in the <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists of really only one significant class:</p>
+
+	<table class="list">
+		<tr>
+			<th>Class </th>
+			<th>Require </th>
+			<th>Description </th>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/Service/PortForwardManager.html">PortForwardManager</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/service/forward</code> </td>
+			<td> The PortForwardManager manages all forwarded ports and connections. It uses a system of <em>handler objects</em> (each encapsulating a set of callbacks) to manage the operation of each forwarded connection. </td>
+		</tr>
+	</table>
+
+	<p>This layer is actually mildly complex; it deals with some minor threading issues, and setting up sockets that listen on the requested ports. It uses a system of <em>handler objects</em> that each encapsulate a set of callback methods to manage the forwarded connections; each handler exports one or more callbacks that are invoked in response to various events inside the manager.<br />
+</p>
+   </div>
+
+
+
+     <h2>
+       <a name="s6"></a>
+       8.6. SFTP Subsystem
+     </h2>
+
+   
+
+   <div class="section">
+     <h3>Purpose</h3>
+
+	<p>The <span class="caps">SFTP</span> subsystem is a complete protocol built on top of the connection layer. Net::SSH only implements a small subset of this protocol, but it sufficient for transfering files between hosts.</p>
+
+	<h3>Location and Construction</h3>
+
+	<p>The <span class="caps">SFTP</span> subsystem is defined in the <a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/SFTP.html">Net::SSH::SFTP</a> module, and consists of two primary classes:</p>
+
+	<table class="list">
+		<tr>
+			<th>Class </th>
+			<th>Require </th>
+			<th>Description </th>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/SFTP/Session.html">Session</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/sftp/session</code> </td>
+			<td> The Session class represents a single <span class="caps">SFTP</span> channel on a connection. All operations are asynchronous, which is inconvenient but powerful. </td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;"><a href="http://net-ssh.rubyforge.org/api/classes/Net/SSH/SFTP/Simple.html">Simple</a> </td>
+			<td style="vertical-align:top;"><code>net/ssh/sftp/simple</code> </td>
+			<td> The Simple class encapsulates both the Net::SSH::Session and Net::SSH::SFTP::Session. It also provides a <em>synchronous</em> interface, making it ideal for simple interactive <span class="caps">SFTP</span> sessions. </td>
+		</tr>
+	</table>
+   </div>
+
+
+
+
+        </div>
+
+      </td></tr>
+    </table>
+  </body>
+</html>

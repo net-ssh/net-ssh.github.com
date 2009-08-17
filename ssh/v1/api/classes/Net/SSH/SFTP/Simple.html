@@ -1,0 +1,512 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::SFTP::Simple</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::SFTP::Simple</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/sftp/simple_rb.html">lib/net/ssh/sftp/simple.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+A wrapper for the <a href="Session.html">SFTP::Session</a> class. This
+assumes only a single channel of operation. If you need to have multiple
+open channels operating simultaneously, use <a
+href="Session.html">SFTP::Session</a> instead.
+</p>
+<p>
+Basic usage:
+</p>
+<pre>
+  require 'net/ssh/sftp/simple'
+
+  Net::SSH::SFTP::Simple.new( 'localhost' ) do |sftp|
+    status, files = sftp.list_dir( &quot;/tmp&quot; )
+    status, body = sftp.get( &quot;/etc/services&quot; )
+    status = sftp.put( &quot;/tmp/bogus&quot;, &quot;123456789\n&quot;*1000 )
+  end
+</pre>
+<p>
+All operations of this class are synchronous, meaning that they all block
+until the operation is completed.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000117">attributes</a></li>
+  <li><a href="#M000120">close</a></li>
+  <li><a href="#M000111">get</a></li>
+  <li><a href="#M000113">get_file</a></li>
+  <li><a href="#M000110">list_dir</a></li>
+  <li><a href="#M000109">new</a></li>
+  <li><a href="#M000119">open_file</a></li>
+  <li><a href="#M000112">put</a></li>
+  <li><a href="#M000114">put_file</a></li>
+  <li><a href="#M000115">remove</a></li>
+  <li><a href="#M000116">rename</a></li>
+  <li><a href="#M000118">size</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>status</td>
+    <td class='attr-desc'>
+The status of the last operation. This will be <tt>nil</tt> if there is no
+status to report (i.e., no operation has been attempted yet), or a hash
+containing at least the <tt>:code</tt> and <tt>:message</tt> keys.
+
+</td>
+  </tr>
+  </table>
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000109"></a><b>new</b>( *args ) {|self| ...}
+  </div>
+  <div class="description">
+  <p>
+Create a new simple <a href="../SFTP.html">SFTP</a> session. The arguments
+for this are exactly the same as for <a
+href="../../SSH.html#M000016">Net::SSH.start</a>. If a block is given, this
+object will be passed to it, and then closed when the block returns. If a
+block is not given, then the object is returned open.
+</p>
+<p>
+Note that this is a synchronous operation. It will block until the new
+session is open and ready.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000109-source')" id="l_M000109-source">show source</a> ]</p>
+  <div id="M000109-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 59</span>
+59:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> )
+60:           <span class="ruby-ivar">@session</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">start</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> )
+61:           <span class="ruby-constant">Session</span>.<span class="ruby-identifier">new</span>( <span class="ruby-ivar">@session</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sftp</span><span class="ruby-operator">|</span>
+62:             <span class="ruby-ivar">@sftp</span> = <span class="ruby-identifier">sftp</span>
+63:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+64:               <span class="ruby-keyword kw">begin</span>
+65:                 <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>
+66:               <span class="ruby-keyword kw">ensure</span>
+67:                 <span class="ruby-identifier">close</span>
+68:               <span class="ruby-keyword kw">end</span>
+69:             <span class="ruby-keyword kw">end</span>
+70:           <span class="ruby-keyword kw">end</span>
+71:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+72:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000117"></a><b>attributes</b>( path, flags=nil )
+  </div>
+  <div class="description">
+  <p>
+Attempts to retrieve the attributes of the file system object at the given
+path. If the optional flags attribute is specified, it must be a
+combination of the FileAttribute::F_xxx constants (OR&#8216;d together)
+that specifies which attributes are desired; otherwise, all possible
+attributes are returned. This method will return a FileAttribute instance,
+or @nil@ if the request failed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000117-source')" id="l_M000117-source">show source</a> ]</p>
+  <div id="M000117-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 173</span>
+173:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">attributes</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span> )
+174:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">attributes</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-identifier">attrs</span><span class="ruby-operator">|</span>
+175:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+176:             <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">attrs</span>
+177:           <span class="ruby-keyword kw">end</span>
+178:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+179:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000120"></a><b>close</b>()
+  </div>
+  <div class="description">
+  <p>
+This shuts down the connection. Future attempts to use this object for any
+operations will fail.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000120-source')" id="l_M000120-source">show source</a> ]</p>
+  <div id="M000120-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 218</span>
+218:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
+219:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">shutdown</span>
+220:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+221:           <span class="ruby-keyword kw">self</span>
+222:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000111"></a><b>get</b>( filename, chunk_size=32000, progress_callback=nil )
+  </div>
+  <div class="description">
+  <p>
+Attempts to return the contents of the given file on the remote host. If
+there is an error, this will return <tt>nil</tt>. Otherwise, it will return
+a string containing the body of the file.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000111-source')" id="l_M000111-source">show source</a> ]</p>
+  <div id="M000111-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 95</span>
+ 95:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span>, <span class="ruby-identifier">progress_callback</span>=<span class="ruby-keyword kw">nil</span> )
+ 96:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">get</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">chunk_size</span>, <span class="ruby-identifier">progress_callback</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-identifier">body</span><span class="ruby-operator">|</span>
+ 97:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+ 98:             <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">body</span>
+ 99:           <span class="ruby-keyword kw">end</span>
+100:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+101:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000113"></a><b>get_file</b>( remote_filename, local_filename, chunk_size=32000, progress_callback=nil )
+  </div>
+  <div class="description">
+  <p>
+This is a convenience method for copying a remote file to the local
+filesystem. If it fails, it returns <tt>nil</tt>, otherwise it returns the
+contents of the file that was copied.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000113-source')" id="l_M000113-source">show source</a> ]</p>
+  <div id="M000113-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 123</span>
+123:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_file</span>( <span class="ruby-identifier">remote_filename</span>, <span class="ruby-identifier">local_filename</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span>, <span class="ruby-identifier">progress_callback</span>=<span class="ruby-keyword kw">nil</span> )
+124:           <span class="ruby-identifier">body</span> = <span class="ruby-identifier">get</span>( <span class="ruby-identifier">remote_filename</span>, <span class="ruby-identifier">chunk_size</span>, <span class="ruby-identifier">progress_callback</span> )
+125:           <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>( <span class="ruby-identifier">local_filename</span>, <span class="ruby-value str">&quot;w&quot;</span> ) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">body</span> } <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">body</span>.<span class="ruby-identifier">nil?</span>
+126:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">body</span>
+127:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000110"></a><b>list_dir</b>( path )
+  </div>
+  <div class="description">
+  <p>
+Enumerates all files in the given path. This will return either
+<tt>nil</tt> (if there was an error), or an array of [filename, attr]
+pairs. The &#8216;attr&#8217; element of each pair is a <a
+href="FileAttributes.html">Net::SSH::SFTP::FileAttributes</a> object
+representing known attributes of the corresponding file.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000110-source')" id="l_M000110-source">show source</a> ]</p>
+  <div id="M000110-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 81</span>
+81:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list_dir</span>( <span class="ruby-identifier">path</span> )
+82:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">list_dir</span>( <span class="ruby-identifier">path</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-identifier">files</span><span class="ruby-operator">|</span>
+83:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+84:             <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">files</span>
+85:           <span class="ruby-keyword kw">end</span>
+86:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+87:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000119"></a><b>open_file</b>( path, flags=IO::RDONLY, mode=0660 ) {|file| ...}
+  </div>
+  <div class="description">
+  <p>
+Opens a file and returns an object representing that file. The returned
+object will be of type <a href="SFTPFile.html">SFTPFile</a>.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000119-source')" id="l_M000119-source">show source</a> ]</p>
+  <div id="M000119-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 193</span>
+193:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_file</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span>, <span class="ruby-identifier">mode</span>=<span class="ruby-value">0660</span> )
+194:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">open_file</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-identifier">mode</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-identifier">handle</span><span class="ruby-operator">|</span>
+195:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+196: 
+197:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handle</span>
+198:               <span class="ruby-identifier">file</span> = <span class="ruby-constant">SFTPFile</span>.<span class="ruby-identifier">new</span>( <span class="ruby-ivar">@session</span>, <span class="ruby-ivar">@sftp</span>, <span class="ruby-identifier">handle</span> )
+199:               <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+200:                 <span class="ruby-keyword kw">begin</span>
+201:                   <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">file</span>
+202:                 <span class="ruby-keyword kw">ensure</span>
+203:                   <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
+204:                 <span class="ruby-keyword kw">end</span>
+205:                 <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+206:               <span class="ruby-keyword kw">else</span>
+207:                 <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">file</span>
+208:               <span class="ruby-keyword kw">end</span>
+209:             <span class="ruby-keyword kw">else</span>
+210:               <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+211:             <span class="ruby-keyword kw">end</span>
+212:           <span class="ruby-keyword kw">end</span>
+213:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+214:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000112"></a><b>put</b>( filename, content )
+  </div>
+  <div class="description">
+  <p>
+Attempts to create a new file on the remote host with the given filename
+and content. If there is an error, this will return <tt>false</tt>,
+otherwise it returns <tt>true</tt>. If it returns <tt>true</tt>, then the
+file was created and populated with the given content.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000112-source')" id="l_M000112-source">show source</a> ]</p>
+  <div id="M000112-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 109</span>
+109:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">put</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">content</span> )
+110:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">put</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">content</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span><span class="ruby-operator">|</span>
+111:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+112:             <span class="ruby-keyword kw">return</span> ( <span class="ruby-ivar">@status</span>[<span class="ruby-identifier">:code</span>] <span class="ruby-operator">==</span> <span class="ruby-constant">Constants</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH_FX_OK</span> )
+113:           <span class="ruby-keyword kw">end</span>
+114:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+115:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000114"></a><b>put_file</b>( local_filename, remote_filename )
+  </div>
+  <div class="description">
+  <p>
+This is a convenience method for copying a local file to the remote
+filesystem. If it fails, it returns <tt>false</tt>, otherwise it returns
+<tt>true</tt>.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000114-source')" id="l_M000114-source">show source</a> ]</p>
+  <div id="M000114-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 134</span>
+134:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">put_file</span>( <span class="ruby-identifier">local_filename</span>, <span class="ruby-identifier">remote_filename</span> )
+135:           <span class="ruby-identifier">content</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>( <span class="ruby-identifier">local_filename</span> ) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
+136:           <span class="ruby-identifier">put</span>( <span class="ruby-identifier">remote_filename</span>, <span class="ruby-identifier">content</span> )
+137:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000115"></a><b>remove</b>( filename )
+  </div>
+  <div class="description">
+  <p>
+Attempts to remove the file with the given name from the remote server.
+Returns <tt>true</tt> if it succeeds, and <tt>false</tt> if it fails.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000115-source')" id="l_M000115-source">show source</a> ]</p>
+  <div id="M000115-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 144</span>
+144:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove</span>( <span class="ruby-identifier">filename</span> )
+145:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">remove</span>( <span class="ruby-identifier">filename</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span><span class="ruby-operator">|</span>
+146:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+147:             <span class="ruby-keyword kw">return</span> ( <span class="ruby-ivar">@status</span>[<span class="ruby-identifier">:code</span>] <span class="ruby-operator">==</span> <span class="ruby-constant">Constants</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH_FX_OK</span> )
+148:           <span class="ruby-keyword kw">end</span>
+149:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+150:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000116"></a><b>rename</b>( oldname, newname, overwrite=false )
+  </div>
+  <div class="description">
+  <p>
+Attempts to rename the given file. See <a
+href="Session.html#M000101">Net::SSH::SFTP::Session#rename</a> for more
+information about the parameters, and support for different versions of the
+protocol. This will return <tt>true</tt> if the rename succeeded, and
+<tt>false</tt> if it failed.
+</p>
+<p>
+As with all operations of this class, this is a synchronous operation,
+which will block until the operation is completed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000116-source')" id="l_M000116-source">show source</a> ]</p>
+  <div id="M000116-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 159</span>
+159:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rename</span>( <span class="ruby-identifier">oldname</span>, <span class="ruby-identifier">newname</span>, <span class="ruby-identifier">overwrite</span>=<span class="ruby-keyword kw">false</span> )
+160:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">rename</span>( <span class="ruby-identifier">oldname</span>, <span class="ruby-identifier">newname</span>, <span class="ruby-identifier">overwrite</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span><span class="ruby-operator">|</span>
+161:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+162:             <span class="ruby-keyword kw">return</span> ( <span class="ruby-ivar">@status</span>[<span class="ruby-identifier">:code</span>] <span class="ruby-operator">==</span> <span class="ruby-constant">Constants</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH_FX_OK</span> )
+163:           <span class="ruby-keyword kw">end</span>
+164:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+165:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000118"></a><b>size</b>( path )
+  </div>
+  <div class="description">
+  <p>
+Attempts to return the size of the file at the given path. Returns @nil@ if
+it fails, or the size of the file if it succeeds.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000118-source')" id="l_M000118-source">show source</a> ]</p>
+  <div id="M000118-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 183</span>
+183:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>( <span class="ruby-identifier">path</span> )
+184:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">size</span>( <span class="ruby-identifier">path</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">|</span>
+185:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+186:             <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">size</span>
+187:           <span class="ruby-keyword kw">end</span>
+188:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+189:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

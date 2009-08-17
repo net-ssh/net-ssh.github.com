@@ -1,0 +1,308 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Module net-ssh-0.1.0/examples/</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Module net-ssh-0.1.0/examples/</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-06-20</span> to
+  <span class="date">2004-08-11</span></p>
+
+<h2>Modules</h2>
+
+<p><a href="module.html">[root]</a>/<a href="module_net-ssh-0.1.0.html">net-ssh-0.1.0</a>/<strong>examples</strong>
+<br></p>
+
+<h2>Lines of Code</h2>
+
+<p><img src="loc_module_net-ssh-0.1.0_examples.png" width="640" height="480" alt=""><br>
+<strong>Total Lines Of Code: </strong>
+775 (<span class="date">2005-01-07 15:12</span>)</p>
+
+<h2>Authors</h2>
+
+  <table rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left">
+    <colgroup align="right">
+    <colgroup align="right">
+    <colgroup align="right">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <th><a href="user_minam.html" class="author">minam</a></th>
+        <td>24 (100.0%)</td>
+        <td>809 (100.0%)</td>
+        <td>33.7</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h2>Most Recent Commits</h2>
+
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-11 00:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added more SFTP protocol coverage, including support for opening and manipulating<BR>
+files. Basic buffered file IO is supported as well.
+    </p>
+    <p class="commitdetails"><strong>38</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        complex-sftp-demo.rb&nbsp;<span class="change">(+20&nbsp;-9)</span>,
+        simple-sftp-demo.rb&nbsp;<span class="change">(+18)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 15:08</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modified demo to reflect existence of new kex algorithm (group-exchange).
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        algorithms-demo.rb&nbsp;<span class="change">(+4&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 13:27</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Gabriele Renzi's suggestion of an open-uri interface for SFTP. This<BR>
+required some new methods be added to the SFTP interfaces (attributes,<BR>
+and size). Also modified the SFTP 'get' interfaces to support the specification<BR>
+of a 'chunk size' and a progress callback.
+    </p>
+    <p class="commitdetails"><strong>63</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        complex-sftp-demo.rb&nbsp;<span class="change">(+9&nbsp;-2)</span>,
+        simple-sftp-demo.rb&nbsp;<span class="change">(+2)</span>,
+        uri-demo.rb&nbsp;<span class="new">(new&nbsp;52)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-27 15:20</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed 'write' to 'puts', and removed explicit newline appends.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        popen-demo.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-26 17:18</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Brought the examples into line so they no longer specify the optional<BR>
+parameter to open_channel.
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        channel-demo.rb&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        popen-demo.rb&nbsp;<span class="change">(-9)</span>,
+        tail-demo.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-24 23:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Support for interactively executing processes on a remote machine.
+    </p>
+    <p class="commitdetails"><strong>145</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        popen-demo.rb&nbsp;<span class="new">(new&nbsp;95)</span>,
+        tail-demo.rb&nbsp;<span class="new">(new&nbsp;50)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-13 16:26</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added "remove" and "rename" operations to the SFTP classes.
+    </p>
+    <p class="commitdetails"><strong>33</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        complex-sftp-demo.rb&nbsp;<span class="change">(+19&nbsp;-3)</span>,
+        simple-sftp-demo.rb&nbsp;<span class="change">(+14)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-11 15:20</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added kex_algorithm property to Transport::Session, and added demo for setting<BR>
+desired SSH algorithms.
+    </p>
+    <p class="commitdetails"><strong>74</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        algorithms-demo.rb&nbsp;<span class="new">(new&nbsp;74)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-10 23:31</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Remote-to-local forwarding supported. Forwarding now uses a handler object<BR>
+instead of a single callback, for better callback type granularity.
+    </p>
+    <p class="commitdetails"><strong>137</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        port-forward.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        remote-net-port-forward.rb&nbsp;<span class="new">(new&nbsp;50)</span>,
+        remote-port-forward.rb&nbsp;<span class="new">(new&nbsp;85)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-07 18:20</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Example program demonstrating the local-to-remote port-forwarding capabilities<BR>
+of Net::SSH.
+    </p>
+    <p class="commitdetails"><strong>55</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        port-forward.rb&nbsp;<span class="new">(new&nbsp;55)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-05 13:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added tests of get_file and put_file.
+    </p>
+    <p class="commitdetails"><strong>14</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        simple-sftp-demo.rb&nbsp;<span class="change">(+14)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-05 12:53</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added comments. Changed SFTP::Simple so that the synchronous operations only<BR>
+return the data that was requested, and the status is made a property of<BR>
+the Simple object itself.
+    </p>
+    <p class="commitdetails"><strong>127</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        complex-sftp-demo.rb&nbsp;<span class="new">(new&nbsp;68)</span>,
+        simple-sftp-demo.rb&nbsp;<span class="new">(new&nbsp;59)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-06-20 13:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>113</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        channel-demo.rb&nbsp;<span class="new">(new&nbsp;71)</span>,
+        simple-exec-demo.rb&nbsp;<span class="new">(new&nbsp;42)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

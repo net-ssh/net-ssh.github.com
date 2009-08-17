@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Module net-ssh-0.1.0/lib/net/ssh/sftp/</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Module net-ssh-0.1.0/lib/net/ssh/sftp/</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-07-04</span> to
+  <span class="date">2004-08-17</span></p>
+
+<h2>Modules</h2>
+
+<p><a href="module.html">[root]</a>/<a href="module_net-ssh-0.1.0.html">net-ssh-0.1.0</a>/<a href="module_net-ssh-0.1.0_lib.html">lib</a>/<a href="module_net-ssh-0.1.0_lib_net.html">net</a>/<a href="module_net-ssh-0.1.0_lib_net_ssh.html">ssh</a>/<strong>sftp</strong>
+<br></p>
+
+<h2>Lines of Code</h2>
+
+<p><img src="loc_module_net-ssh-0.1.0_lib_net_ssh_sftp.png" width="640" height="480" alt=""><br>
+<strong>Total Lines Of Code: </strong>
+1475 (<span class="date">2005-01-07 15:12</span>)</p>
+
+<h2>Authors</h2>
+
+  <table rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left">
+    <colgroup align="right">
+    <colgroup align="right">
+    <colgroup align="right">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <th><a href="user_minam.html" class="author">minam</a></th>
+        <td>22 (100.0%)</td>
+        <td>1547 (100.0%)</td>
+        <td>70.3</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h2>Most Recent Commits</h2>
+
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-17 15:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+SFTP::Simple constructor now returns self if a block is not given.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        simple.rb&nbsp;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-17 15:00</span>
+  </dt>
+  <dd>
+    <p class="comment">
+typo: rb_raise instead of raise
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-11 00:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added more SFTP protocol coverage, including support for opening and manipulating<BR>
+files. Basic buffered file IO is supported as well.
+    </p>
+    <p class="commitdetails"><strong>351</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+175&nbsp;-22)</span>,
+        simple.rb&nbsp;<span class="change">(+176)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed buffer implementation and refactored it to a new module. Added<BR>
+support for tunneling via HTTP proxy.
+    </p>
+    <p class="commitdetails"><strong>18</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        attrs.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        session.rb&nbsp;<span class="change">(+16&nbsp;-16)</span>,
+        simple.rb&nbsp;<span class="change">(-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 13:27</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Gabriele Renzi's suggestion of an open-uri interface for SFTP. This<BR>
+required some new methods be added to the SFTP interfaces (attributes,<BR>
+and size). Also modified the SFTP 'get' interfaces to support the specification<BR>
+of a 'chunk size' and a progress callback.
+    </p>
+    <p class="commitdetails"><strong>106</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+78&nbsp;-4)</span>,
+        simple.rb&nbsp;<span class="change">(+28&nbsp;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 14:30</span>
+  </dt>
+  <dd>
+    <p class="comment">
+SSH exception definitions.
+    </p>
+    <p class="commitdetails"><strong>31</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        errors.rb&nbsp;<span class="new">(new&nbsp;31)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 00:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+First pass at creating SSH-specific exception classes, as recommended by<BR>
+Daniel Hobe.
+    </p>
+    <p class="commitdetails"><strong>12</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        attrs.rb&nbsp;<span class="change">(+2&nbsp;-1)</span>,
+        session.rb&nbsp;<span class="change">(+10&nbsp;-10)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-13 16:26</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added "remove" and "rename" operations to the SFTP classes.
+    </p>
+    <p class="commitdetails"><strong>99</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        constants.rb&nbsp;<span class="change">(+4)</span>,
+        session.rb&nbsp;<span class="change">(+67)</span>,
+        simple.rb&nbsp;<span class="change">(+28)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-05 12:53</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added comments. Changed SFTP::Simple so that the synchronous operations only<BR>
+return the data that was requested, and the status is made a property of<BR>
+the Simple object itself.
+    </p>
+    <p class="commitdetails"><strong>176</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        attrs.rb&nbsp;<span class="change">(+10)</span>,
+        session.rb&nbsp;<span class="change">(+80&nbsp;-1)</span>,
+        simple.rb&nbsp;<span class="change">(+86&nbsp;-10)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-04 14:22</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added rudimentary SFTP support. Still undocumented.
+    </p>
+    <p class="commitdetails"><strong>751</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        attrs.rb&nbsp;<span class="new">(new&nbsp;204)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;107)</span>,
+        session.rb&nbsp;<span class="new">(new&nbsp;365)</span>,
+        simple.rb&nbsp;<span class="new">(new&nbsp;75)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

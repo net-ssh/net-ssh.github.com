@@ -1,0 +1,291 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::Agent</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::Agent</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/agent_rb.html">lib/net/ssh/service/agent.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+This class implements a simple client for the ssh-agent protocol. It does
+not implement any specific protocol, but instead copies the behavior of the
+ssh-agent functions in the OpenSSH library (3.8).
+</p>
+<p>
+This means that although it behaves like a SSH1 client, it also has some
+SSH2 functionality (like signing data).
+</p>
+<p>
+Also, this class relies on there being a UNIXSocket that the active
+ssh-agent is listening on. It expects that socket to exist at the location
+described by the SSH_AUTH_SOCK environment variable. Because of the
+dependency on UNIXSocket, the agent is not available under Windows, and I
+have no immediate plans to implement support for PuTTy&#8217;s
+&quot;pageant&quot; utility.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000224">close</a></li>
+  <li><a href="#M000221">get</a></li>
+  <li><a href="#M000223">identities</a></li>
+  <li><a href="#M000222">new</a></li>
+  <li><a href="#M000225">sign</a></li>
+  </ul>
+
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000221"></a><b>get</b>( socket=ENV[SSH_AUTH_SOCK] )
+  </div>
+  <div class="description">
+  <p>
+Obtain a reference to the ssh-agent listening on the UNIX socket with the
+given path. This returns <tt>nil</tt> if the socket parameter is
+<tt>nil</tt>, or if the <tt>UNIXSocket</tt> class is undefined.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000221-source')" id="l_M000221-source">show source</a> ]</p>
+  <div id="M000221-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/agent.rb, line 63</span>
+63:         <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">get</span>( <span class="ruby-identifier">socket</span>=<span class="ruby-constant">ENV</span>[<span class="ruby-constant">SSH_AUTH_SOCK</span>] )
+64:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">socket</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-keyword kw">defined?</span>(<span class="ruby-constant">UNIXSocket</span>)
+65:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">new</span>( <span class="ruby-identifier">socket</span> )
+66:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000222"></a><b>new</b>( socket_name, version=2 )
+  </div>
+  <div class="description">
+  <p>
+Instantiate the agent on the UNIXSocket with the given name, using the
+given <a href="../../SSH.html">SSH</a> protocol version. If the agent on
+the other end of the socket reports that it is an SSH2-compatible agent,
+this will fail (it only supports the ssh-agent distributed by OpenSSH).
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000222-source')" id="l_M000222-source">show source</a> ]</p>
+  <div id="M000222-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/agent.rb, line 74</span>
+74:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">socket_name</span>, <span class="ruby-identifier">version</span>=<span class="ruby-value">2</span> )
+75:           <span class="ruby-ivar">@socket</span> = <span class="ruby-constant">UNIXSocket</span>.<span class="ruby-identifier">open</span>( <span class="ruby-identifier">socket_name</span> )
+76:           <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
+77: 
+78:           <span class="ruby-comment cmt"># determine what type of agent we're communicating with</span>
+79:           <span class="ruby-identifier">buffer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+80:           <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">version</span>
+81:           <span class="ruby-identifier">type</span>, <span class="ruby-identifier">body</span> = <span class="ruby-identifier">send_with_reply</span> <span class="ruby-constant">SSH2_AGENT_REQUEST_VERSION</span>, <span class="ruby-identifier">buffer</span>
+82: 
+83:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">SSH2_AGENT_VERSION_RESPONSE</span>
+84:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-value str">&quot;SSH2 agents are not yet supported&quot;</span>
+85:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">!=</span> <span class="ruby-constant">SSH_AGENT_RSA_IDENTITIES_ANSWER</span>
+86:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">AgentError</span>, <span class="ruby-node">&quot;unknown response from agent: #{type}, #{body.to_s.inspect}&quot;</span>
+87:           <span class="ruby-keyword kw">end</span>
+88:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000224"></a><b>close</b>()
+  </div>
+  <div class="description">
+  <p>
+Closes this socket. This agent reference is no longer able to query the
+agent.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000224-source')" id="l_M000224-source">show source</a> ]</p>
+  <div id="M000224-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/agent.rb, line 149</span>
+149:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
+150:           <span class="ruby-ivar">@socket</span>.<span class="ruby-identifier">close</span>
+151:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000223"></a><b>identities</b>()
+  </div>
+  <div class="description">
+  <p>
+Return an array of all identities (public keys) known to the agent. Each
+key returned is augmented with a <tt>comment</tt> property which is set to
+the comment returned by the agent for that key.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000223-source')" id="l_M000223-source">show source</a> ]</p>
+  <div id="M000223-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/agent.rb, line 93</span>
+ 93:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">identities</span>
+ 94:           <span class="ruby-keyword kw">case</span> <span class="ruby-ivar">@version</span>
+ 95:             <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span>
+ 96:               <span class="ruby-identifier">code1</span> = <span class="ruby-constant">SSH_AGENT_REQUEST_RSA_IDENTITIES</span>
+ 97:               <span class="ruby-identifier">code2</span> = <span class="ruby-constant">SSH_AGENT_RSA_IDENTITIES_ANSWER</span>
+ 98:             <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span>
+ 99:               <span class="ruby-identifier">code1</span> = <span class="ruby-constant">SSH2_AGENT_REQUEST_IDENTITIES</span>
+100:               <span class="ruby-identifier">code2</span> = <span class="ruby-constant">SSH2_AGENT_IDENTITIES_ANSWER</span>
+101:             <span class="ruby-keyword kw">else</span>
+102:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-node">&quot;SSH version #{@version}&quot;</span>
+103:           <span class="ruby-keyword kw">end</span>
+104: 
+105:           <span class="ruby-identifier">type</span>, <span class="ruby-identifier">body</span> = <span class="ruby-identifier">send_with_reply</span> <span class="ruby-identifier">code1</span>
+106:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">AgentError</span>, <span class="ruby-value str">&quot;could not get identity count&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">agent_failed</span>( <span class="ruby-identifier">type</span> )
+107:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">AgentError</span>, <span class="ruby-node">&quot;bad authentication reply: #{type}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">code2</span>
+108: 
+109:           <span class="ruby-identifier">identities</span> = []
+110:           <span class="ruby-identifier">body</span>.<span class="ruby-identifier">read_long</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+111:             <span class="ruby-keyword kw">case</span> <span class="ruby-ivar">@version</span>
+112:               <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span>
+113:                 <span class="ruby-identifier">key</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">PKey</span><span class="ruby-operator">::</span><span class="ruby-constant">RSA</span>.<span class="ruby-identifier">new</span>
+114:                 <span class="ruby-identifier">bits</span> = <span class="ruby-identifier">body</span>.<span class="ruby-identifier">read_long</span>
+115:                 <span class="ruby-identifier">key</span>.<span class="ruby-identifier">e</span> = <span class="ruby-identifier">body</span>.<span class="ruby-identifier">read_bignum</span>
+116:                 <span class="ruby-identifier">key</span>.<span class="ruby-identifier">n</span> = <span class="ruby-identifier">body</span>.<span class="ruby-identifier">read_bignum</span>
+117:               <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span>
+118:                 <span class="ruby-identifier">blob</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">ReaderBuffer</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">body</span>.<span class="ruby-identifier">read_string</span> )
+119:                 <span class="ruby-identifier">key</span> = <span class="ruby-identifier">blob</span>.<span class="ruby-identifier">read_key</span>
+120:             <span class="ruby-keyword kw">end</span>
+121: 
+122:             <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:comment=</span> )
+123:               <span class="ruby-identifier">key</span>.<span class="ruby-identifier">instance_eval</span> <span class="ruby-value str">&quot;def comment=(cmt)\n@comment = cmt\nend\n&quot;</span>
+124:             <span class="ruby-keyword kw">end</span>
+125: 
+126:             <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:comment</span> )
+127:               <span class="ruby-identifier">key</span>.<span class="ruby-identifier">instance_eval</span> <span class="ruby-value str">&quot;def comment\n@comment\nend\n&quot;</span>
+128:             <span class="ruby-keyword kw">end</span>
+129: 
+130:             <span class="ruby-identifier">key</span>.<span class="ruby-identifier">comment</span> = <span class="ruby-identifier">body</span>.<span class="ruby-identifier">read_string</span>
+131:             <span class="ruby-identifier">identities</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">key</span>
+132:           <span class="ruby-keyword kw">end</span>
+133: 
+134:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">identities</span>
+135:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000225"></a><b>sign</b>( key, data )
+  </div>
+  <div class="description">
+  <p>
+Using the agent and the given public key, sign the given data. The
+signature is returned in SSH2 format.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000225-source')" id="l_M000225-source">show source</a> ]</p>
+  <div id="M000225-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/agent.rb, line 155</span>
+155:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sign</span>( <span class="ruby-identifier">key</span>, <span class="ruby-identifier">data</span> )
+156:           <span class="ruby-identifier">blob</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+157:           <span class="ruby-identifier">blob</span>.<span class="ruby-identifier">write_key</span> <span class="ruby-identifier">key</span>
+158: 
+159:           <span class="ruby-identifier">packet_data</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+160:           <span class="ruby-identifier">packet_data</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">blob</span>.<span class="ruby-identifier">to_s</span>
+161:           <span class="ruby-identifier">packet_data</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+162:           <span class="ruby-identifier">packet_data</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-value">0</span>
+163: 
+164:           <span class="ruby-identifier">type</span>, <span class="ruby-identifier">reply</span> = <span class="ruby-identifier">send_with_reply</span> <span class="ruby-constant">SSH2_AGENT_SIGN_REQUEST</span>, <span class="ruby-identifier">packet_data</span>
+165:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">agent_failed</span>( <span class="ruby-identifier">type</span> )
+166:             <span class="ruby-comment cmt"># get a reference to the current log and use it...somehow?</span>
+167:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">AgentError</span>, <span class="ruby-value str">&quot;agent could not sign data with requested identity&quot;</span>
+168:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">!=</span> <span class="ruby-constant">SSH2_AGENT_SIGN_RESPONSE</span>
+169:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">AgentError</span>, <span class="ruby-node">&quot;bad authentication response #{type}&quot;</span>
+170:           <span class="ruby-keyword kw">end</span>
+171: 
+172:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">reply</span>.<span class="ruby-identifier">read_string</span>
+173:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

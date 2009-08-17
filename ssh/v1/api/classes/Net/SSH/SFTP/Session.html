@@ -1,0 +1,732 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::SFTP::Session</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::SFTP::Session</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/sftp/session_rb.html">lib/net/ssh/sftp/session.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+Represents a single <a href="../SFTP.html">SFTP</a> session multiplexed
+onto an existing connection. This class is not simple to use, but plays
+nicely with other open channels on the same connection.
+</p>
+<p>
+This class supports a subset of the <a href="../SFTP.html">SFTP</a>
+protocol, versions 3 through 5.
+</p>
+<p>
+If all you want is a single <a href="../SFTP.html">SFTP</a> session with no
+other open channels, you would be much better off using the <a
+href="Simple.html">Net::SSH::SFTP::Simple</a> class instead of this one.
+The <a href="Simple.html">Simple</a> class wraps this class and provides
+synchronous access to the <a href="../SFTP.html">SFTP</a> operations, where
+this class provides only asynchronous operations.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000102">attributes</a></li>
+  <li><a href="#M000104">close_handle</a></li>
+  <li><a href="#M000098">get</a></li>
+  <li><a href="#M000097">list_dir</a></li>
+  <li><a href="#M000096">new</a></li>
+  <li><a href="#M000103">open_file</a></li>
+  <li><a href="#M000099">put</a></li>
+  <li><a href="#M000105">read_handle</a></li>
+  <li><a href="#M000100">remove</a></li>
+  <li><a href="#M000101">rename</a></li>
+  <li><a href="#M000108">shutdown</a></li>
+  <li><a href="#M000107">size</a></li>
+  <li><a href="#M000106">write_handle</a></li>
+  </ul>
+
+
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li>Constants</li>
+</ul>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000096"></a><b>new</b>( session, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="../SFTP.html">SFTP</a> session on top of the given <a
+href="../../SSH.html">SSH</a> session. The new object is immediately
+returned. The given block is evaluated asynchronously, after the <a
+href="../SFTP.html">SFTP</a> connection has been validated by the server.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000096-source')" id="l_M000096-source">show source</a> ]</p>
+  <div id="M000096-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 50</span>
+50:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">session</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+51:           <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+52:           <span class="ruby-ivar">@extensions</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+53:           <span class="ruby-ivar">@next_request_id</span> = <span class="ruby-value">0</span>
+54: 
+55:           <span class="ruby-ivar">@channel</span> = <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">open_channel</span>( <span class="ruby-value str">&quot;session&quot;</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>(<span class="ruby-identifier">:on_confirm</span>) )
+56:           <span class="ruby-ivar">@active_requests</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+57: 
+58:           <span class="ruby-ivar">@after_validated</span> = <span class="ruby-identifier">block</span>
+59:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000102"></a><b>attributes</b>( path, flags=nil, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Retrieves the attributes of the file system object at the given path. By
+default, all possible attributes are returned, but you can specify a
+combination of the FileAttributes::F_xxx constants to have only those
+attributes you need returned. The associated block should accept two
+parameters: a status hash and the attributes object itself.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000102-source')" id="l_M000102-source">show source</a> ]</p>
+  <div id="M000102-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 258</span>
+258:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">attributes</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+259:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">nil?</span>
+260:             <span class="ruby-identifier">flags</span> = <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_SIZE</span> <span class="ruby-operator">|</span>
+261:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_UIDGID</span> <span class="ruby-operator">|</span>
+262:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_PERMISSIONS</span> <span class="ruby-operator">|</span>
+263:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_ACMODTIME</span> <span class="ruby-operator">|</span>
+264:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_ACCESSTIME</span> <span class="ruby-operator">|</span>
+265:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_CREATETIME</span> <span class="ruby-operator">|</span>
+266:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_MODIFYTIME</span> <span class="ruby-operator">|</span>
+267:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_ACL</span> <span class="ruby-operator">|</span>
+268:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_OWNERGROUP</span> <span class="ruby-operator">|</span>
+269:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_SUBSECOND_TIMES</span> <span class="ruby-operator">|</span>
+270:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_BITS</span> <span class="ruby-operator">|</span>
+271:                     <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_EXTENDED</span>
+272:           <span class="ruby-keyword kw">end</span>
+273: 
+274:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+275:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+276:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+277:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">path</span>
+278:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">to_i</span>
+279: 
+280:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:get_attrs</span>,
+281:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span> }
+282: 
+283:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_STAT</span>, <span class="ruby-identifier">packet</span>
+284:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000104"></a><b>close_handle</b>( handle, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Closes the given handle. The indicated block is optional, and will be
+called to indicate the success or failure of the operation.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000104-source')" id="l_M000104-source">show source</a> ]</p>
+  <div id="M000104-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 352</span>
+352:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close_handle</span>( <span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+353:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+354:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+355:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+356:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">handle</span>
+357: 
+358:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:close_handle</span>,
+359:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span> }
+360: 
+361:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_CLOSE</span>, <span class="ruby-identifier">packet</span>
+362:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000098"></a><b>get</b>( filename, chunk_size=32000, progress_callback=nil, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Retrieves the contents of the given filename. This method returns
+immediately, but the associated block will be called asynchronously when
+the operation finishes. The block takes two parameters, the <tt>status</tt>
+hash (as described in the <a href="Session.html#M000097">list_dir</a>
+method), and the <tt>body</tt> of the file as a string. If the body is
+<tt>nil</tt>, then the operation failed, otherwise it was successful.
+</p>
+<p>
+Usage:
+</p>
+<pre>
+  sftp.get( &quot;/tmp&quot; ) do |status, body|
+    if body.nil?
+      raise &quot;error (#{status[:code]}, #{status[:message]})&quot;
+    else
+      puts &quot;retrieved #{body.length} bytes&quot;
+    end
+  end
+  session.main_loop
+</pre>
+<p>
+The method takes two optional parameters: the <em>chunk_size</em> (how much
+data should be returned from the file per server request), and a
+<em>progress_callback</em> (which will be called after each chunk is
+recieved).
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000098-source')" id="l_M000098-source">show source</a> ]</p>
+  <div id="M000098-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 119</span>
+119:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span>, <span class="ruby-identifier">progress_callback</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+120:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">SFTPError</span>, <span class="ruby-value str">&quot;you must specify a callback for the file to be sent to&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">block</span>
+121: 
+122:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+123:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+124:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+125:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">filename</span>
+126: 
+127:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@protocol_version</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">3</span>
+128:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">SFTPError</span>, <span class="ruby-node">&quot;unsupported protocol #{@protocol_version}&quot;</span>
+129:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@protocol_version</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">4</span>
+130:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ</span>
+131:           <span class="ruby-keyword kw">else</span>
+132:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_DATA</span><span class="ruby-operator">|</span><span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_ATTRIBUTES</span>
+133:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_OPEN_EXISTING</span>
+134:           <span class="ruby-keyword kw">end</span>
+135: 
+136:           <span class="ruby-identifier">attr</span> = <span class="ruby-constant">FileAttributes</span>.<span class="ruby-identifier">empty</span>
+137:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">to_s</span>( <span class="ruby-ivar">@protocol_version</span> )
+138: 
+139:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">:get_file</span>,
+140:                                      <span class="ruby-identifier">:chunk_size=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">chunk_size</span>,
+141:                                      <span class="ruby-identifier">:callback=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">block</span>,
+142:                                      <span class="ruby-identifier">:progress_callback=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">progress_callback</span>,
+143:                                      <span class="ruby-identifier">:filename=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">filename</span> }
+144: 
+145:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_OPEN</span>, <span class="ruby-identifier">packet</span>
+146:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000097"></a><b>list_dir</b>( path, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Enumerate all of the files in the given path on the remote host. This
+method returns immediately. The attached block is called asynchronously
+when the file list is available.
+</p>
+<p>
+The block should take two parameters. The first parameter is a hash that
+represents the status of the operation, and the second parameter will be an
+array of hashes. Each element of the array represents a single file, with
+the has containing two keys, <tt>:name</tt> and <tt>:attr</tt>. The
+<tt>:name</tt> is the name of the file, and <tt>:attr</tt> is a <a
+href="../../SSH.html">Net::SSH</a>:<a
+href="FileAttributes.html">SFTP::FileAttributes</a> object representing the
+known attributes of that file.
+</p>
+<p>
+If the operation fails, the block will be called with the second parameter
+set to <tt>nil</tt>.
+</p>
+<p>
+Usage:
+</p>
+<pre>
+  sftp.list_dir( &quot;/tmp&quot; ) do |status, files|
+    if files.nil?
+      raise &quot;error (#{status[:code]}, #{status[:message]})&quot;
+    else
+      puts &quot;found #{files.length} files&quot;
+    end
+  end
+  session.main_loop
+</pre>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000097-source')" id="l_M000097-source">show source</a> ]</p>
+  <div id="M000097-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 86</span>
+86:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list_dir</span>( <span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+87:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">SFTPError</span>, <span class="ruby-value str">&quot;you must specify a callback for the list to be reported to&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">block</span>
+88: 
+89:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+90:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+91:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+92:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">path</span>
+93: 
+94:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">:list_dir</span>, <span class="ruby-identifier">:callback=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">block</span>, <span class="ruby-identifier">:path=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">path</span> }
+95: 
+96:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_OPENDIR</span>, <span class="ruby-identifier">packet</span>
+97:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000103"></a><b>open_file</b>( path, flags=IO::RDONLY, mode=0660, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Opens the file at the given path and passes the handle to the given block.
+The handle should always be closed when finished using the <a
+href="Session.html#M000104">close_handle</a> method.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000103-source')" id="l_M000103-source">show source</a> ]</p>
+  <div id="M000103-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 289</span>
+289:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_file</span>( <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span>, <span class="ruby-identifier">mode</span>=<span class="ruby-value">0660</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+290:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+291:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+292:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+293:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">path</span>
+294: 
+295:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@protocol_version</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">4</span>
+296:             <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-value">0</span>
+297:             <span class="ruby-identifier">desired_access</span> = <span class="ruby-value">0</span>
+298: 
+299:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+300:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_OPEN_EXISTING</span>
+301:               <span class="ruby-identifier">desired_access</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_ATTRIBUTES</span>
+302:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">WRONLY</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+303:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_CREATE_TRUNCATE</span>
+304:               <span class="ruby-identifier">desired_access</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span>
+305:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDWR</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+306:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_OPEN_OR_CREATE</span>
+307:               <span class="ruby-identifier">desired_access</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ_ATTRIBUTES</span> <span class="ruby-operator">|</span>
+308:                                <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span>
+309:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">APPEND</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+310:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_OPEN_OR_CREATE</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_APPEND_DATA</span>
+311:               <span class="ruby-identifier">desired_access</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span> <span class="ruby-operator">|</span>
+312:                                <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_APPEND_DATA</span>
+313:             <span class="ruby-keyword kw">end</span>
+314: 
+315:             <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_OPEN_OR_CREATE</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+316:             <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_TRUNCATE_EXISTING</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">TRUNC</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+317: 
+318:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">desired_access</span>
+319:           <span class="ruby-keyword kw">else</span>
+320:             <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-value">0</span>
+321: 
+322:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDONLY</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+323:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ</span>
+324:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">WRONLY</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+325:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE</span>
+326:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">RDWR</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+327:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_READ</span> <span class="ruby-operator">|</span> <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE</span>
+328:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">APPEND</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+329:               <span class="ruby-identifier">sftp_flags</span> = <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_APPEND</span>
+330:             <span class="ruby-keyword kw">end</span>
+331: 
+332:             <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_CREAT</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+333:             <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_TRUNC</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">TRUNC</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+334:             <span class="ruby-identifier">sftp_flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_EXCL</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span> <span class="ruby-operator">&amp;</span> <span class="ruby-constant">IO</span><span class="ruby-operator">::</span><span class="ruby-constant">EXCL</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+335:           <span class="ruby-keyword kw">end</span>
+336: 
+337:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">sftp_flags</span>
+338: 
+339:           <span class="ruby-identifier">attr</span> = <span class="ruby-constant">FileAttributes</span>.<span class="ruby-identifier">empty</span>
+340:           <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">mode</span>
+341:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">to_s</span>( <span class="ruby-ivar">@protocol_version</span> )
+342: 
+343:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:open_file</span>,
+344:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span> }
+345: 
+346:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_OPEN</span>, <span class="ruby-identifier">packet</span>
+347:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000099"></a><b>put</b>( filename, content, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Creates (or overwrites) a file on the remote host called <tt>filename</tt>.
+The file&#8217;s content will be the string value of <tt>content</tt>.
+</p>
+<p>
+This method will return immediately. The associated block will be called
+when the operation finishes, and accepts only one parameter: the status of
+the operation. If the value of the <tt>:code</tt> key of the status hash is
+not <tt>Net::SSH::SFTP::Constants::SSH_FX_OK</tt>, then the operation
+failed.
+</p>
+<p>
+Usage:
+</p>
+<pre>
+  sftp.put( &quot;/tmp/bogus&quot;, &quot;123456789\n&quot;*1000 ) do |status|
+    if status[:code] != sftp.class::SSH_FX_OK
+      raise &quot;error (#{status[:code]}, #{status[:message]})&quot;
+    else
+      puts &quot;success&quot;
+    end
+  end
+  session.main_loop
+</pre>
+<p>
+The block is optional for a <a href="Session.html#M000099">put</a>
+operation.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000099-source')" id="l_M000099-source">show source</a> ]</p>
+  <div id="M000099-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 168</span>
+168:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">put</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">content</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+169:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+170:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+171:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+172:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">filename</span>
+173: 
+174:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@protocol_version</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">3</span>
+175:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">SFTPError</span>, <span class="ruby-node">&quot;unsupported protocol #{@protocol_version}&quot;</span>
+176:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@protocol_version</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">4</span>
+177:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE</span><span class="ruby-operator">|</span><span class="ruby-constant">V3</span><span class="ruby-operator">::</span><span class="ruby-constant">F_CREAT</span>
+178:           <span class="ruby-keyword kw">else</span>
+179:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_DATA</span><span class="ruby-operator">|</span><span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">ACE</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_ATTRIBUTES</span>
+180:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_CREATE_NEW</span><span class="ruby-operator">|</span><span class="ruby-constant">V4</span><span class="ruby-operator">::</span><span class="ruby-constant">F_WRITE_LOCK</span>
+181:           <span class="ruby-keyword kw">end</span>
+182: 
+183:           <span class="ruby-identifier">attr</span> = <span class="ruby-constant">FileAttributes</span>.<span class="ruby-identifier">empty</span>
+184:           <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">size</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">size</span>
+185:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">to_s</span>( <span class="ruby-ivar">@protocol_version</span> )
+186: 
+187:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">:put_file</span>,
+188:                                      <span class="ruby-identifier">:callback=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">block</span>,
+189:                                      <span class="ruby-identifier">:filename=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">filename</span>,
+190:                                      <span class="ruby-identifier">:content=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">content</span>.<span class="ruby-identifier">to_s</span> }
+191: 
+192:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_OPEN</span>, <span class="ruby-identifier">packet</span>
+193:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000105"></a><b>read_handle</b>( handle, offset=0, length=nil, chunk_size=32000, progress_callback=nil, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Read data from the given handle, which must have been previously opened
+using <a href="Session.html#M000103">open_file</a>.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000105-source')" id="l_M000105-source">show source</a> ]</p>
+  <div id="M000105-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 366</span>
+366:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read_handle</span>( <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">length</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span>,
+367:                          <span class="ruby-identifier">progress_callback</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+368:         <span class="ruby-comment cmt"># begin</span>
+369:           <span class="ruby-identifier">read_size</span> = <span class="ruby-identifier">length</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">chunk_size</span>
+370:           <span class="ruby-identifier">read_size</span> = <span class="ruby-identifier">chunk_size</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">read_size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">chunk_size</span>
+371: 
+372:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+373:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+374:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+375:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">handle</span>
+376:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-identifier">offset</span>
+377:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">read_size</span>
+378: 
+379:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:readfile</span>,
+380:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span>,
+381:                                      <span class="ruby-identifier">:content</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;&quot;</span>,
+382:                                      <span class="ruby-identifier">:chunk_size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">chunk_size</span>,
+383:                                      <span class="ruby-identifier">:length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">length</span>,
+384:                                      <span class="ruby-identifier">:offset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">offset</span>, 
+385:                                      <span class="ruby-identifier">:progress_callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">progress_callback</span> }
+386: 
+387:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_READ</span>, <span class="ruby-identifier">packet</span>
+388:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000100"></a><b>remove</b>( filename, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Delete the given file from the remote server. This method will return
+immediately. The block is optional, but if it is given, it will be called
+when the operation completes. It should accept a single parameter, a Hash
+describing the status of the operation. This will be the client&#8217;s
+only indication of whether the operation succeeded or not.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000100-source')" id="l_M000100-source">show source</a> ]</p>
+  <div id="M000100-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 200</span>
+200:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove</span>( <span class="ruby-identifier">filename</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+201:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+202:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+203:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+204:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">filename</span>
+205: 
+206:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:remove_file</span>,
+207:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span> }
+208: 
+209:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_REMOVE</span>, <span class="ruby-identifier">packet</span>
+210:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000101"></a><b>rename</b>( oldname, newname, overwrite=false, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Rename the given file. If <tt>overwrite</tt> is a number, it should be a
+combination of the SSH_FXP_RENAME constants. Otherwise, if
+<tt>overwrite</tt> is <tt>false</tt> or <tt>nil</tt>, the file will be
+renamed even if by so doing an existing file will be overwritten.
+Otherwise, if a file of the new name already exists, the operation will
+fail.
+</p>
+<p>
+(Note that overwrite is only supported with <a href="../SFTP.html">SFTP</a>
+protocols version 5 and above. If the server you are connecting to does not
+support <a href="../SFTP.html">SFTP</a> protocol 5+, then trying to rename
+when the file already exists will always given an error, regardless of the
+value you gave for <tt>overwrite</tt>.)
+</p>
+<p>
+This method will return immediately. The block is optional, but if it is
+given, it will be called when the operation completes. It should accept a
+single parameter, a Hash describing the status of the operation. This will
+be the client&#8217;s only indication of whether the operation succeeded or
+not.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000101-source')" id="l_M000101-source">show source</a> ]</p>
+  <div id="M000101-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 226</span>
+226:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rename</span>( <span class="ruby-identifier">oldname</span>, <span class="ruby-identifier">newname</span>, <span class="ruby-identifier">overwrite</span>=<span class="ruby-keyword kw">false</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+227:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+228:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+229:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+230:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">oldname</span>
+231:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">newname</span>
+232: 
+233:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@protocol_version</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
+234:             <span class="ruby-identifier">flags</span> = <span class="ruby-value">0</span>
+235: 
+236:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">overwrite</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Numeric</span>
+237:               <span class="ruby-identifier">flags</span> = <span class="ruby-identifier">overwrite</span>
+238:             <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">overwrite</span>
+239:               <span class="ruby-identifier">flags</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">SSH_FXP_RENAME_OVERWRITE</span>
+240:             <span class="ruby-keyword kw">end</span>
+241: 
+242:             <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">flags</span>
+243:           <span class="ruby-keyword kw">end</span>
+244: 
+245:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:rename_file</span>,
+246:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span>,
+247:                                      <span class="ruby-identifier">:overwrite</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">overwrite</span> }
+248: 
+249:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_RENAME</span>, <span class="ruby-identifier">packet</span>
+250:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000108"></a><b>shutdown</b>()
+  </div>
+  <div class="description">
+  <p>
+Close the underlying channel that hosts this <a
+href="../SFTP.html">SFTP</a> connection.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000108-source')" id="l_M000108-source">show source</a> ]</p>
+  <div id="M000108-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 426</span>
+426:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">shutdown</span>
+427:           <span class="ruby-ivar">@channel</span>.<span class="ruby-identifier">close</span>
+428:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000107"></a><b>size</b>( path ) {|status, nil| ...}
+  </div>
+  <div class="description">
+  <p>
+Obtains the size of the given file system object. The attached block will
+be invoked with the status hash and the size of the file system object.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000107-source')" id="l_M000107-source">show source</a> ]</p>
+  <div id="M000107-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 415</span>
+415:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>( <span class="ruby-identifier">path</span> )
+416:           <span class="ruby-identifier">attributes</span>( <span class="ruby-identifier">path</span>, <span class="ruby-constant">FileAttributes</span><span class="ruby-operator">::</span><span class="ruby-constant">F_SIZE</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>,<span class="ruby-identifier">attrs</span><span class="ruby-operator">|</span>
+417:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">nil?</span>
+418:               <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">status</span>, <span class="ruby-keyword kw">nil</span>
+419:             <span class="ruby-keyword kw">else</span>
+420:               <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">status</span>, <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">size</span>
+421:             <span class="ruby-keyword kw">end</span>
+422:           <span class="ruby-keyword kw">end</span>
+423:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000106"></a><b>write_handle</b>( handle, data, offset=0, chunk_size=32000, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Write data to the given handle, which must have been previously opened
+using <a href="Session.html#M000103">open_file</a>.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000106-source')" id="l_M000106-source">show source</a> ]</p>
+  <div id="M000106-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/session.rb, line 392</span>
+392:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write_handle</span>( <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+393:         <span class="ruby-comment cmt"># begin</span>
+394:           <span class="ruby-identifier">packet</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+395:           <span class="ruby-identifier">id</span> = <span class="ruby-identifier">next_request_id</span>
+396:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">id</span>
+397:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">handle</span>
+398:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_int64</span> <span class="ruby-identifier">offset</span>
+399:           <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">data</span>[<span class="ruby-value">0</span>,<span class="ruby-identifier">chunk_size</span>]
+400: 
+401:           <span class="ruby-ivar">@active_requests</span>[ <span class="ruby-identifier">id</span> ] = { <span class="ruby-identifier">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:writefile</span>,
+402:                                      <span class="ruby-identifier">:callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">block</span>,
+403:                                      <span class="ruby-identifier">:content</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">data</span>,
+404:                                      <span class="ruby-identifier">:offset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">offset</span>,
+405:                                      <span class="ruby-identifier">:chunk_size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">chunk_size</span>,
+406:                                      <span class="ruby-identifier">:pos</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>,
+407:                                      <span class="ruby-identifier">:keep_handle</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }
+408: 
+409:           <span class="ruby-identifier">send_data</span> <span class="ruby-ivar">@channel</span>, <span class="ruby-constant">SSH_FXP_WRITE</span>, <span class="ruby-identifier">packet</span>
+410:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

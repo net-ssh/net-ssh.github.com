@@ -1,0 +1,150 @@
+<html>
+  <head>
+    <title>Class: KeyGenerator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />KeyGenerator</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../files/bin/rb-keygen.html">bin/rb-keygen</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+This class represents the &quot;keygen&quot; application for the Net::SSH
+suite. It implements a subset of the functionality of ssh-keygen, and tries
+to be reasonably commandline-compatible.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000001">new</a></li>
+  <li><a href="#M000002">run</a></li>
+  </ul>
+
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000001"></a><b>new</b>( args=ARGV )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="KeyGenerator.html">KeyGenerator</a>. By default the
+script&#8217;s commandline will be used to initialize the generator, but
+you can specify a different array of options manually.
+</p>
+<p>
+If there is an error parsing the arguments, the application will halt after
+displaying the error and a description of available options.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000001-source')" id="l_M000001-source">show source</a> ]</p>
+  <div id="M000001-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File bin/rb-keygen, line 45</span>
+45:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">args</span>=<span class="ruby-constant">ARGV</span> )
+46:     <span class="ruby-keyword kw">begin</span>
+47:       <span class="ruby-identifier">parse_args</span>( <span class="ruby-identifier">args</span> )
+48:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+49:       <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Error: #{e.message}&quot;</span>
+50:       <span class="ruby-identifier">puts</span> <span class="ruby-ivar">@parser</span>
+51:       <span class="ruby-identifier">exit</span>
+52:     <span class="ruby-keyword kw">end</span>
+53:   <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000002"></a><b>run</b>()
+  </div>
+  <div class="description">
+  <p>
+The driver for the application. Currently, it just calls
+<tt>generate_key</tt>, but eventually other functionality may be added.
+This method would do the logic to determine which methods should be
+invoked.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000002-source')" id="l_M000002-source">show source</a> ]</p>
+  <div id="M000002-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File bin/rb-keygen, line 58</span>
+58:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run</span>
+59:     <span class="ruby-identifier">generate_key</span>
+60:   <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

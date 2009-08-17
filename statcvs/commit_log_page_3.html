@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Commit Log (Page 3 of 3)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Commit Log (Page 3 of 3)</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p>Pages: <a href="commit_log_page_2.html">&laquo; Previous</a> <a href="commit_log.html">1</a> <a href="commit_log_page_2.html">2</a> 3 </p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-07-04</span> to
+  <span class="date">2004-06-20</span>  (Commits 1-6 of 106)
+</p>
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-04 14:22</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added rudimentary SFTP support. Still undocumented.
+    </p>
+    <p class="commitdetails"><strong>867</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        sftp.rb&nbsp;<span class="new">(new&nbsp;39)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+52&nbsp;-10)</span>,
+        connection.rb&nbsp;<span class="change">(+8)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        attrs.rb&nbsp;<span class="new">(new&nbsp;204)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;107)</span>,
+        session.rb&nbsp;<span class="new">(new&nbsp;365)</span>,
+        simple.rb&nbsp;<span class="new">(new&nbsp;75)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        buffer.rb&nbsp;<span class="change">(+17)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-02 10:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Removed dependence on the last OpenSSL patch I submitted (since it was<BR>
+rejected, and unnecessary). The DSA#ssh_do_veriy code is that which was<BR>
+proposed on the ruby-talk list.
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        openssl.rb&nbsp;<span class="change">(+7&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-01 18:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Yay! Comments! Documentation!
+    </p>
+    <p class="commitdetails"><strong>334</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        README&nbsp;<span class="change">(+4&nbsp;-3)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        openssl.rb&nbsp;<span class="change">(+31)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+56&nbsp;-3)</span>,
+        connection.rb&nbsp;<span class="change">(+10)</span>,
+        userauth.rb&nbsp;<span class="change">(+27)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        buffer.rb&nbsp;<span class="change">(+54&nbsp;-4)</span>,
+        cipher.rb&nbsp;<span class="change">(+27)</span>,
+        compressor.rb&nbsp;<span class="change">(+31&nbsp;-3)</span>,
+        kex.rb&nbsp;<span class="change">(+5)</span>,
+        mac.rb&nbsp;<span class="change">(+14)</span>,
+        packet-stream.rb&nbsp;<span class="change">(+21)</span>,
+        session.rb&nbsp;<span class="change">(+41&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="change">(+13)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-01 16:05</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Began the tedious task of commenting the code. Also (finally) support the<BR>
+ssh-dss server key type, although this depends on changes to Ruby's OpenSSL<BR>
+module that have (at the time of this commit) not yet been formally accepted.
+    </p>
+    <p class="commitdetails"><strong>62</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+48)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        openssl.rb&nbsp;<span class="change">(+8)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        cipher.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        session.rb&nbsp;<span class="change">(+4&nbsp;-9)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-06-20 13:22</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added gemspec file.
+    </p>
+    <p class="commitdetails"><strong>24</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        net-ssh.gemspec&nbsp;<span class="new">(new&nbsp;24)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-06-20 13:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>3424</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        COPYING&nbsp;<span class="new">(new&nbsp;152)</span>,
+        README&nbsp;<span class="new">(new&nbsp;12)</span>,
+        setup.rb&nbsp;<span class="new">(new&nbsp;1331)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        channel-demo.rb&nbsp;<span class="new">(new&nbsp;71)</span>,
+        simple-exec-demo.rb&nbsp;<span class="new">(new&nbsp;42)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="new">(new&nbsp;153)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        openssl.rb&nbsp;<span class="new">(new&nbsp;106)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="new">(new&nbsp;173)</span>,
+        connection.rb&nbsp;<span class="new">(new&nbsp;116)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;61)</span>,
+        userauth.rb&nbsp;<span class="new">(new&nbsp;210)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        buffer.rb&nbsp;<span class="new">(new&nbsp;4)</span>,
+        cipher.rb&nbsp;<span class="new">(new&nbsp;118)</span>,
+        compressor.rb&nbsp;<span class="new">(new&nbsp;88)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;69)</span>,
+        kex.rb&nbsp;<span class="new">(new&nbsp;43)</span>,
+        mac.rb&nbsp;<span class="new">(new&nbsp;74)</span>,
+        packet-stream.rb&nbsp;<span class="new">(new&nbsp;155)</span>,
+        session.rb&nbsp;<span class="new">(new&nbsp;323)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh.rb&nbsp;<span class="new">(new&nbsp;123)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p>Pages: <a href="commit_log_page_2.html">&laquo; Previous</a> <a href="commit_log.html">1</a> <a href="commit_log_page_2.html">2</a> 3 </p>
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

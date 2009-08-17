@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Net::SSH::Multi::ServerList</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Net::SSH::Multi::ServerList</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/lib/net/ssh/multi/server_list_rb.html">
+                lib/net/ssh/multi/server_list.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Encapsulates a list of server objects, both dynamic (<a
+href="DynamicServer.html">Net::SSH::Multi::DynamicServer</a>) and static
+(<a href="Server.html">Net::SSH::Multi::Server</a>). It attempts to make it
+transparent whether a dynamic server set has been evaluated or not. Note
+that a <a href="ServerList.html">ServerList</a> is NOT an Array, though it
+is Enumerable.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000013">add</a>&nbsp;&nbsp;
+      <a href="#M000014">concat</a>&nbsp;&nbsp;
+      <a href="#M000015">each</a>&nbsp;&nbsp;
+      <a href="#M000017">flatten</a>&nbsp;&nbsp;
+      <a href="#M000012">new</a>&nbsp;&nbsp;
+      <a href="#M000016">select</a>&nbsp;&nbsp;
+      <a href="#M000018">to_ary</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">Enumerable</span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(list=[])</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a <a href="ServerList.html#M000012">new</a> <a
+href="ServerList.html">ServerList</a> that wraps the given server list.
+Duplicate entries will be discarded.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/multi/server_list.rb, line 15</span>
+15:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">list</span>=[])
+16:       <span class="ruby-ivar">@list</span> = <span class="ruby-identifier">list</span>.<span class="ruby-identifier">uniq</span>
+17:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">add</span><span class="method-args">(server)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds the given server to the list, and returns the argument. If an
+identical server definition already exists in the collection, the argument
+is <em>not</em> added, and the existing server record is returned instead.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/multi/server_list.rb, line 23</span>
+23:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">server</span>)
+24:       <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@list</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">server</span>)
+25:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">index</span>
+26:         <span class="ruby-identifier">server</span> = <span class="ruby-ivar">@list</span>[<span class="ruby-identifier">index</span>]
+27:       <span class="ruby-keyword kw">else</span>
+28:         <span class="ruby-ivar">@list</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">server</span>)
+29:       <span class="ruby-keyword kw">end</span>
+30:       <span class="ruby-identifier">server</span>
+31:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">concat</span><span class="method-args">(servers)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds an array (or otherwise Enumerable list) of servers to this list, by
+calling <a href="ServerList.html#M000013">add</a> for <a
+href="ServerList.html#M000015">each</a> argument. Returns <tt>self</tt>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/multi/server_list.rb, line 35</span>
+35:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">concat</span>(<span class="ruby-identifier">servers</span>)
+36:       <span class="ruby-identifier">servers</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">server</span><span class="ruby-operator">|</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">server</span>) }
+37:       <span class="ruby-keyword kw">self</span>
+38:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="#M000015" class="method-signature">
+          <span class="method-name">each</span><span class="method-args">() {|server| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Iterates over <a href="ServerList.html#M000015">each</a> distinct server
+record in the collection. This will correctly iterate over server records
+instantiated by a <a href="DynamicServer.html">DynamicServer</a> as well,
+but only if the dynamic server has been &quot;evaluated&quot; (see
+Net::SSH::Multi::DynamicServer#evaluate!).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000015-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/multi/server_list.rb, line 44</span>
+44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">each</span>
+45:       <span class="ruby-ivar">@list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">server</span><span class="ruby-operator">|</span>
+46:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">server</span>
+47:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Server</span> <span class="ruby-keyword kw">then</span> <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">server</span>
+48:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">DynamicServer</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">server</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">item</span> }
+49:         <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;server list contains non-server: #{server.class}&quot;</span>
+50:         <span class="ruby-keyword kw">end</span>
+51:       <span class="ruby-keyword kw">end</span>
+52:       <span class="ruby-keyword kw">self</span>
+53:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">flatten</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array of all servers in the list, with dynamic server records
+expanded. The result is an array of distinct server records (duplicates are
+removed from the result).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/multi/server_list.rb, line 65</span>
+65:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flatten</span>
+66:       <span class="ruby-identifier">result</span> = <span class="ruby-ivar">@list</span>.<span class="ruby-identifier">inject</span>([]) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">aggregator</span>, <span class="ruby-identifier">server</span><span class="ruby-operator">|</span>
+67:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">server</span>
+68:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Server</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">aggregator</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">server</span>)
+69:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">DynamicServer</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">aggregator</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">server</span>)
+70:         <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;server list contains non-server: #{server.class}&quot;</span>
+71:         <span class="ruby-keyword kw">end</span>
+72:       <span class="ruby-keyword kw">end</span>
+73: 
+74:       <span class="ruby-identifier">result</span>.<span class="ruby-identifier">uniq</span>
+75:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">select</span><span class="method-args">() {|i| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Works exactly as Enumerable#select, but returns the result as a <a
+href="ServerList.html#M000012">new</a> <a
+href="ServerList.html">ServerList</a> instance.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/multi/server_list.rb, line 57</span>
+57:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">select</span>
+58:       <span class="ruby-identifier">subset</span> = <span class="ruby-ivar">@list</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">i</span> }
+59:       <span class="ruby-constant">ServerList</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">subset</span>)
+60:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <span class="method-name">to_ary</span><span class="method-args">()</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="ServerList.html#M000017">flatten</a>
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

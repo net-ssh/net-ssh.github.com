@@ -1,0 +1,480 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::PortForwardManager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::PortForwardManager</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/forward_rb.html">lib/net/ssh/service/forward.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+The <a href="PortForwardManager.html">PortForwardManager</a> class manages
+ports that have been forwarded. It will open a socket on each local port
+and listen for local connections, forwarding those connections over an <a
+href="../../SSH.html">SSH</a> channel to the other end.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000156">active_local_forwards</a></li>
+  <li><a href="#M000157">active_remote_forwards</a></li>
+  <li><a href="#M000158">cancel_forward_local</a></li>
+  <li><a href="#M000159">cancel_forward_remote</a></li>
+  <li><a href="#M000152">direct_channel</a></li>
+  <li><a href="#M000153">forward_local</a></li>
+  <li><a href="#M000154">forward_remote</a></li>
+  <li><a href="#M000155">forward_remote_to</a></li>
+  <li><a href="#M000151">new</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>direct_channel_count</td>
+    <td class='attr-desc'>
+The number of direct (local-to-remote) channels that have been opened.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>open_direct_channel_count</td>
+    <td class='attr-desc'>
+The number of direct (local-to-remote) channels that are currently open.
+
+</td>
+  </tr>
+  </table>
+
+  <div class="sectiontitle">Classes and Modules</div>
+  Class <a href="PortForwardManager/LocalNetworkHandler.html" class="link">Net::SSH::Service::PortForwardManager::LocalNetworkHandler</a><br />
+Class <a href="PortForwardManager/RemoteNetworkHandler.html" class="link">Net::SSH::Service::PortForwardManager::RemoteNetworkHandler</a><br />
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000151"></a><b>new</b>( session )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="PortForwardManager.html">PortForwardManager</a> on
+top of the given <a href="../Session.html">Net::SSH::Session</a> instance.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000151-source')" id="l_M000151-source">show source</a> ]</p>
+  <div id="M000151-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 46</span>
+46:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">session</span> )
+47:           <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+48:           <span class="ruby-ivar">@local_forwards</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+49:           <span class="ruby-ivar">@remote_forwards</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+50:           <span class="ruby-ivar">@direct_channel_count</span> = <span class="ruby-value">0</span>
+51:           <span class="ruby-ivar">@open_direct_channel_count</span> = <span class="ruby-value">0</span>
+52:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">add_channel_open_handler</span>( <span class="ruby-value str">&quot;forwarded-tcpip&quot;</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>(<span class="ruby-identifier">:do_open_channel</span>) )
+53:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000156"></a><b>active_local_forwards</b>()
+  </div>
+  <div class="description">
+  <p>
+Return an array of the active forwarded local connections. Each element of
+the array is another array containing the local port, and the remote host
+and port of the connection.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000156-source')" id="l_M000156-source">show source</a> ]</p>
+  <div id="M000156-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 186</span>
+186:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">active_local_forwards</span>
+187:           <span class="ruby-ivar">@local_forwards</span>.<span class="ruby-identifier">keys</span>
+188:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000157"></a><b>active_remote_forwards</b>()
+  </div>
+  <div class="description">
+  <p>
+Return an array of the active forwarded remote connections. Each element of
+the array is an integer representing the port number of the remote host
+that is being forwarded to the local client.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000157-source')" id="l_M000157-source">show source</a> ]</p>
+  <div id="M000157-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 193</span>
+193:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">active_remote_forwards</span>
+194:           <span class="ruby-ivar">@remote_forwards</span>.<span class="ruby-identifier">keys</span>
+195:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000158"></a><b>cancel_forward_local</b>( local_port, bind_address=&quot;127.0.0.1&quot; )
+  </div>
+  <div class="description">
+  <p>
+Cease forwarding connections from the given local port (and interface). The
+parameters must match those given to a prior call to <a
+href="PortForwardManager.html#M000153">forward_local</a>. Existing
+forwarded connections are not affected by this call, but no more
+connections will be accepted on the local port.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000158-source')" id="l_M000158-source">show source</a> ]</p>
+  <div id="M000158-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 201</span>
+201:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cancel_forward_local</span>( <span class="ruby-identifier">local_port</span>, <span class="ruby-identifier">bind_address</span>=<span class="ruby-value str">&quot;127.0.0.1&quot;</span> )
+202:           <span class="ruby-identifier">key</span> = [ <span class="ruby-identifier">local_port</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">bind_address</span> ]
+203: 
+204:           <span class="ruby-identifier">forward</span> = <span class="ruby-ivar">@local_forwards</span>[ <span class="ruby-identifier">key</span> ]
+205:           <span class="ruby-ivar">@local_forwards</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">key</span>
+206: 
+207:           <span class="ruby-identifier">forward</span>[ <span class="ruby-identifier">:socket</span> ].<span class="ruby-identifier">shutdown</span>
+208:           <span class="ruby-identifier">forward</span>[ <span class="ruby-identifier">:thread</span> ].<span class="ruby-identifier">terminate</span>
+209: 
+210:           <span class="ruby-keyword kw">true</span>
+211:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000159"></a><b>cancel_forward_remote</b>( remote_port, remote_host=&quot;127.0.0.1&quot; )
+  </div>
+  <div class="description">
+  <p>
+Cease forwarding connections from the given remote port. The
+<tt>remote_host</tt> parameter must match the corresponding parameter that
+was passed to <a href="PortForwardManager.html#M000154">forward_remote</a>.
+Existing forwarded connections are not affected by this call, but no more
+connections will be forwarded from the remote host to the local host via
+that port.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000159-source')" id="l_M000159-source">show source</a> ]</p>
+  <div id="M000159-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 218</span>
+218:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cancel_forward_remote</span>( <span class="ruby-identifier">remote_port</span>, <span class="ruby-identifier">remote_host</span>=<span class="ruby-value str">&quot;127.0.0.1&quot;</span> )
+219:           <span class="ruby-identifier">writer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+220:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">remote_host</span>
+221:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">remote_port</span>.<span class="ruby-identifier">to_i</span>
+222: 
+223:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">global_request</span>( <span class="ruby-value str">&quot;cancel-tcpip-forward&quot;</span>, <span class="ruby-identifier">writer</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">success</span>, <span class="ruby-identifier">response</span><span class="ruby-operator">|</span>
+224:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">success</span>
+225:               <span class="ruby-ivar">@remote_forwards</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">remote_port</span>
+226:             <span class="ruby-keyword kw">else</span>
+227:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;could not cancel remote forward request on (#{remote_port},#{remote_host})&quot;</span>
+228:             <span class="ruby-keyword kw">end</span>
+229:           <span class="ruby-keyword kw">end</span>
+230:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000152"></a><b>direct_channel</b>( local_port, remote_host, remote_port, handler, *data )
+  </div>
+  <div class="description">
+  <p>
+Open a direct &quot;tcpip&quot; channel to the remote machine, which will
+then forward the connection to the given remote-host and remote-port. The
+connection will appear to have come from the given port on the local
+machine.
+</p>
+<p>
+The handler object may respond to the following messages, in order to
+respond to requests over the channel:
+</p>
+<ul>
+<li>on_receive( channel, data ): when data is received over the channel (from
+the remote machine), this method will be invoked.
+
+</li>
+<li>on_eof( channel ): when the remote machine will no longer send data, this
+method will be invoked. The client may continue to send data over the
+channel, however.
+
+</li>
+<li>on_close( channel ): when the channel has been closed and is no longer
+valid for passing data, this method will be invoked.
+
+</li>
+<li>confirm( channel, local_port, remote_host, remote_port, *data ): when the
+channel has been opened and the remote machine has confirmed it, this
+method will be invoked. The <tt>data</tt> parameters are the same
+parameters as were passed to the <a
+href="PortForwardManager.html#M000152">direct_channel</a> method.
+
+</li>
+<li>process( channel ): invoked after the channel is confirmed, to process the
+channel. It is invoked in a new Thread.
+
+</li>
+</ul>
+<p>
+Only the <tt>process</tt> method is required&#8212;the others will only be
+invoked if the handler responds to them.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000152-source')" id="l_M000152-source">show source</a> ]</p>
+  <div id="M000152-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 77</span>
+ 77:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">direct_channel</span>( <span class="ruby-identifier">local_port</span>, <span class="ruby-identifier">remote_host</span>, <span class="ruby-identifier">remote_port</span>, <span class="ruby-identifier">handler</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">data</span> )
+ 78:           <span class="ruby-identifier">writer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+ 79:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">remote_host</span>
+ 80:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">remote_port</span>.<span class="ruby-identifier">to_i</span>
+ 81:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-value str">&quot;127.0.0.1&quot;</span>
+ 82:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">local_port</span>.<span class="ruby-identifier">to_i</span>
+ 83: 
+ 84:           <span class="ruby-ivar">@direct_channel_count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+ 85:           <span class="ruby-ivar">@open_direct_channel_count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+ 86: 
+ 87:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">open_channel</span>( <span class="ruby-value str">'direct-tcpip'</span>, <span class="ruby-identifier">writer</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">channel</span><span class="ruby-operator">|</span>
+ 88:             <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_data</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">handler</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">:on_receive</span>) ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:on_receive</span> )
+ 89:             <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_eof</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">handler</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">:on_eof</span>) ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:on_eof</span> )
+ 90: 
+ 91:             <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_close</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span><span class="ruby-operator">|</span>
+ 92:               <span class="ruby-ivar">@open_direct_channel_count</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
+ 93:               <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">on_close</span>( <span class="ruby-identifier">ch</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:on_close</span> )
+ 94:             <span class="ruby-keyword kw">end</span>
+ 95: 
+ 96:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:confirm</span> )
+ 97:               <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">confirm</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">local_port</span>, <span class="ruby-identifier">remote_host</span>, <span class="ruby-identifier">remote_port</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">data</span> )
+ 98:             <span class="ruby-keyword kw">end</span>
+ 99: 
+100:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:process</span> )
+101:               <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> { <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">process</span>( <span class="ruby-identifier">channel</span> ) }
+102:             <span class="ruby-keyword kw">end</span>
+103:           <span class="ruby-keyword kw">end</span>
+104: 
+105:           <span class="ruby-keyword kw">nil</span>
+106:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000153"></a><b>forward_local</b>( *args )
+  </div>
+  <div class="description">
+  <p>
+Forward connections on the given local port, to the given remote host and
+remote port.
+</p>
+<p>
+This method will return immediately, forwarding the connections
+asynchronously.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000153-source')" id="l_M000153-source">show source</a> ]</p>
+  <div id="M000153-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 113</span>
+113:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">forward_local</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> )
+114:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">3</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
+115:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgError</span>, <span class="ruby-node">&quot;expected 3 or 4 parameters, got #{args.length+1}&quot;</span>
+116:           <span class="ruby-keyword kw">end</span>
+117: 
+118:           <span class="ruby-identifier">bind_address</span> = <span class="ruby-value str">&quot;127.0.0.1&quot;</span>
+119:           <span class="ruby-identifier">bind_address</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">String</span>
+120: 
+121:           <span class="ruby-identifier">local_port</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">to_i</span>
+122:           <span class="ruby-identifier">remote_host</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
+123:           <span class="ruby-identifier">remote_port</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
+124: 
+125:           <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">do</span>
+126:             <span class="ruby-keyword kw">begin</span>
+127:               <span class="ruby-comment cmt"># FIXME: should the bind address be customizable?</span>
+128:               <span class="ruby-identifier">socket</span> = <span class="ruby-constant">TCPServer</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">bind_address</span>, <span class="ruby-identifier">local_port</span> )
+129: 
+130:               <span class="ruby-identifier">key</span> = [ <span class="ruby-identifier">local_port</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">bind_address</span> ]
+131:               <span class="ruby-ivar">@local_forwards</span>[ <span class="ruby-identifier">key</span> ] = { <span class="ruby-identifier">:thread</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>,
+132:                                          <span class="ruby-identifier">:socket</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span> }
+133: 
+134:               <span class="ruby-keyword kw">while</span> ( <span class="ruby-identifier">client</span> = <span class="ruby-identifier">socket</span>.<span class="ruby-identifier">accept</span> )
+135:                 <span class="ruby-identifier">direct_channel</span>( <span class="ruby-identifier">local_port</span>,
+136:                                 <span class="ruby-identifier">remote_host</span>,
+137:                                 <span class="ruby-identifier">remote_port</span>,
+138:                                 <span class="ruby-constant">LocalNetworkHandler</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">client</span> ) )
+139:               <span class="ruby-keyword kw">end</span>
+140: 
+141:             <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+142:               <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;error forwarding local connection: #{e.class} (#{e.message})&quot;</span>
+143:               <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+144:             <span class="ruby-keyword kw">end</span>
+145:           <span class="ruby-keyword kw">end</span>
+146:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000154"></a><b>forward_remote</b>( handler, remote_port, remote_host=&quot;127.0.0.1&quot; )
+  </div>
+  <div class="description">
+  <p>
+Initiate forwarding of the given remote port on the connected host.
+Forwarded packets will be passed to the given block as they are recieved.
+The remote-host represents the address that should be bound on the remote
+host, and defaults to &#8216;127.0.0.1&#8217;.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000154-source')" id="l_M000154-source">show source</a> ]</p>
+  <div id="M000154-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 151</span>
+151:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">forward_remote</span>( <span class="ruby-identifier">handler</span>, <span class="ruby-identifier">remote_port</span>, <span class="ruby-identifier">remote_host</span>=<span class="ruby-value str">&quot;127.0.0.1&quot;</span> )
+152:           <span class="ruby-ivar">@remote_forwards</span>[ <span class="ruby-identifier">remote_port</span> ] <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;#{remote_port} is already forwarded&quot;</span>
+153: 
+154:           <span class="ruby-identifier">writer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+155:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">remote_host</span>
+156:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">remote_port</span>.<span class="ruby-identifier">to_i</span>
+157: 
+158:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">global_request</span>( <span class="ruby-value str">&quot;tcpip-forward&quot;</span>, <span class="ruby-identifier">writer</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">success</span>, <span class="ruby-identifier">response</span><span class="ruby-operator">|</span>
+159:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">success</span>
+160:               <span class="ruby-identifier">remote_port</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">remote_port</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+161:               <span class="ruby-ivar">@remote_forwards</span>[ <span class="ruby-identifier">remote_port</span> ] = { <span class="ruby-identifier">:port</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">remote_port</span>,
+162:                                                   <span class="ruby-identifier">:handler</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">handler</span> }
+163:               <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">setup</span>( <span class="ruby-identifier">remote_port</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:setup</span> )
+164:             <span class="ruby-keyword kw">else</span>
+165:               <span class="ruby-identifier">msg</span> = <span class="ruby-node">&quot;remote port #{remote_port} could not be forwarded to local host&quot;</span>
+166:               <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">:error</span> )
+167:                 <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">error</span>( <span class="ruby-identifier">msg</span> )
+168:               <span class="ruby-keyword kw">else</span>
+169:                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-identifier">msg</span>
+170:               <span class="ruby-keyword kw">end</span>
+171:             <span class="ruby-keyword kw">end</span>
+172:           <span class="ruby-keyword kw">end</span>
+173:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000155"></a><b>forward_remote_to</b>( port, host, remote_port, remote_host=&quot;127.0.0.1&quot; )
+  </div>
+  <div class="description">
+  <p>
+A convenience method for setting up a forwarded connection from the given
+port on the remote host, to the given host and port (local).
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000155-source')" id="l_M000155-source">show source</a> ]</p>
+  <div id="M000155-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/forward.rb, line 177</span>
+177:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">forward_remote_to</span>( <span class="ruby-identifier">port</span>, <span class="ruby-identifier">host</span>, <span class="ruby-identifier">remote_port</span>, <span class="ruby-identifier">remote_host</span>=<span class="ruby-value str">&quot;127.0.0.1&quot;</span> )
+178:           <span class="ruby-identifier">forward_remote</span>(
+179:             <span class="ruby-constant">RemoteNetworkHandler</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">port</span>, <span class="ruby-identifier">host</span> ),
+180:             <span class="ruby-identifier">remote_port</span>, <span class="ruby-identifier">remote_host</span> )
+181:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

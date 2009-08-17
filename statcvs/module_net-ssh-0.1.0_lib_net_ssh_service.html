@@ -1,0 +1,440 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Module net-ssh-0.1.0/lib/net/ssh/service/</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Module net-ssh-0.1.0/lib/net/ssh/service/</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-06-20</span> to
+  <span class="date">2004-08-14</span></p>
+
+<h2>Modules</h2>
+
+<p><a href="module.html">[root]</a>/<a href="module_net-ssh-0.1.0.html">net-ssh-0.1.0</a>/<a href="module_net-ssh-0.1.0_lib.html">lib</a>/<a href="module_net-ssh-0.1.0_lib_net.html">net</a>/<a href="module_net-ssh-0.1.0_lib_net_ssh.html">ssh</a>/<strong>service</strong>
+<br></p>
+
+<h2>Lines of Code</h2>
+
+<p><img src="loc_module_net-ssh-0.1.0_lib_net_ssh_service.png" width="640" height="480" alt=""><br>
+<strong>Total Lines Of Code: </strong>
+2342 (<span class="date">2005-01-07 15:12</span>)</p>
+
+<h2>Authors</h2>
+
+  <table rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left">
+    <colgroup align="right">
+    <colgroup align="right">
+    <colgroup align="right">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <th><a href="user_minam.html" class="author">minam</a></th>
+        <td>48 (100.0%)</td>
+        <td>2614 (100.0%)</td>
+        <td>54.4</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h2>Most Recent Commits</h2>
+
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-14 15:36</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Support for hostbased authenticaton.
+    </p>
+    <p class="commitdetails"><strong>129</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+79&nbsp;-3)</span>,
+        userkeys.rb&nbsp;<span class="change">(+50&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-13 00:23</span>
+  </dt>
+  <dd>
+    <p class="comment">
+HTTP proxy now supports basic authorization (thanks, Jochen!).
+    </p>
+    <p class="commitdetails"><strong>11</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+11&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:44</span>
+  </dt>
+  <dd>
+    <p class="comment">
+local forwarding no longer accepts a block. The whole "discriminator" concept<BR>
+was flawed (at least as it was currently implemented)--just try connecting to<BR>
+a POP3 server over a forwarded port to see what I mean.
+    </p>
+    <p class="commitdetails"><strong>11</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        forward.rb&nbsp;<span class="change">(+11&nbsp;-45)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed buffer implementation and refactored it to a new module. Added<BR>
+support for tunneling via HTTP proxy.
+    </p>
+    <p class="commitdetails"><strong>34</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        agent.rb&nbsp;<span class="change">(+8&nbsp;-8)</span>,
+        channel.rb&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        connection.rb&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        forward.rb&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        userauth.rb&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        userkeys.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-28 18:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added Daniel Hobe's suggestion of user-specified authentication methods. Also<BR>
+bumped the version to 0.0.5.
+    </p>
+    <p class="commitdetails"><strong>53</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+53&nbsp;-22)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-28 16:56</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated README and TODO. Added rb-keygen to gemspec file. Fixed typo in<BR>
+userauth.rb.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-28 12:22</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added "send_extended_data" method to Channel.
+    </p>
+    <p class="commitdetails"><strong>12</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+12)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-28 11:39</span>
+  </dt>
+  <dd>
+    <p class="comment">
+The UserKeyManager now encapsulates access to a user's private keys. Private<BR>
+keys are now loaded "on-demand", instead of up-front; this should prevent<BR>
+being prompted for passphrases for keys that will never actually be used.
+    </p>
+    <p class="commitdetails"><strong>216</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+22&nbsp;-37)</span>,
+        userkeys.rb&nbsp;<span class="new">(new&nbsp;194)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-27 15:19</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added ssh-agent support, and added a #version property to both Net::SSH<BR>
+and Net::SSH::Transport::Session.
+    </p>
+    <p class="commitdetails"><strong>236</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        agent.rb&nbsp;<span class="new">(new&nbsp;215)</span>,
+        userauth.rb&nbsp;<span class="change">(+21&nbsp;-7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-26 23:50</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Process was missing a puts method.
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        process.rb&nbsp;<span class="change">(+5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 14:39</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed forward_local so that first parameter may be either the port or<BR>
+(optionally) the address to bind to. Also made 127.0.0.1 the default bind<BR>
+address instead of 0.0.0.0 (for security reasons).
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        forward.rb&nbsp;<span class="change">(+10&nbsp;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 00:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+First pass at creating SSH-specific exception classes, as recommended by<BR>
+Daniel Hobe.
+    </p>
+    <p class="commitdetails"><strong>20</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+2&nbsp;-1)</span>,
+        connection.rb&nbsp;<span class="change">(+3&nbsp;-2)</span>,
+        forward.rb&nbsp;<span class="change">(+6&nbsp;-4)</span>,
+        process.rb&nbsp;<span class="change">(+3&nbsp;-1)</span>,
+        userauth.rb&nbsp;<span class="change">(+6&nbsp;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-24 23:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Support for interactively executing processes on a remote machine.
+    </p>
+    <p class="commitdetails"><strong>380</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+6)</span>,
+        process.rb&nbsp;<span class="new">(new&nbsp;374)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-23 13:22</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed problem with bad window-size/packet-size on earlier versions of<BR>
+OpenSSH servers (verified with 3.1p1). Also added interim support for<BR>
+interactive sessions.
+    </p>
+    <p class="commitdetails"><strong>188</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+96&nbsp;-15)</span>,
+        term.rb&nbsp;<span class="new">(new&nbsp;92)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-22 16:40</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added a logging infrastructure to aid in troubleshooting.
+    </p>
+    <p class="commitdetails"><strong>13</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        connection.rb&nbsp;<span class="change">(+13)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-22 16:39</span>
+  </dt>
+  <dd>
+    <p class="comment">
+As per the spec, channels now send a "close" after recieving an exit-status<BR>
+channel request.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-13 14:44</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Forwarding from a local port now accepts an optional bind address as the<BR>
+second parameter. Cancelling a local port forward now only requires the<BR>
+port being forwarded (and optionally the bind address).
+    </p>
+    <p class="commitdetails"><strong>19</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        forward.rb&nbsp;<span class="change">(+19&nbsp;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-12 18:56</span>
+  </dt>
+  <dd>
+    <p class="comment">
+DSA private keys were failing when trying to sign data.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+1&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-10 23:31</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Remote-to-local forwarding supported. Forwarding now uses a handler object<BR>
+instead of a single callback, for better callback type granularity.
+    </p>
+    <p class="commitdetails"><strong>340</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        channel.rb&nbsp;<span class="change">(+30&nbsp;-1)</span>,
+        connection.rb&nbsp;<span class="change">(+75)</span>,
+        forward.rb&nbsp;<span class="change">(+235&nbsp;-47)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-07 18:50</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed bind address from localhost to 0.0.0.0
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        forward.rb&nbsp;<span class="change">(+2&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p>(4 more)</p>
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

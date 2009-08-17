@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Module: Net::SFTP::Protocol::V_01</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Module</span><br />Net::SFTP::Protocol::V_01</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/sftp/protocol/01/attributes_rb.html">lib/net/sftp/protocol/01/attributes.rb</a>
+<a href="../../../../files/lib/net/sftp/protocol/01/impl_rb.html">lib/net/sftp/protocol/01/impl.rb</a>
+<a href="../../../../files/lib/net/sftp/protocol/01/packet-assistant_rb.html">lib/net/sftp/protocol/01/packet-assistant.rb</a>
+<a href="../../../../files/lib/net/sftp/protocol/01/services_rb.html">lib/net/sftp/protocol/01/services.rb</a>
+        </td>
+      </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000038">register_services</a></li>
+  </ul>
+
+
+
+  <div class="sectiontitle">Classes and Modules</div>
+  Class <a href="V_01/Attributes.html" class="link">Net::SFTP::Protocol::V_01::Attributes</a><br />
+Class <a href="V_01/Impl.html" class="link">Net::SFTP::Protocol::V_01::Impl</a><br />
+Class <a href="V_01/PacketAssistant.html" class="link">Net::SFTP::Protocol::V_01::PacketAssistant</a><br />
+
+
+
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000038"></a><b>register_services</b>( container )
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000038_source')" id="l_M000038_source">show source</a> ]</p>
+  <div id="M000038_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/01/services.rb, line 19</span>
+19:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">register_services</span>( <span class="ruby-identifier">container</span> )
+20:     <span class="ruby-identifier">container</span>.<span class="ruby-identifier">namespace_define</span> <span class="ruby-identifier">:v_01</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ns</span><span class="ruby-operator">|</span>
+21: 
+22:       <span class="ruby-comment cmt"># The packet assistant to use for formatting SFTP packets.</span>
+23:       <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">packet_assistant</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>,<span class="ruby-operator">|</span>
+24:         <span class="ruby-identifier">require</span> <span class="ruby-value str">'net/sftp/protocol/01/packet-assistant'</span>
+25:         <span class="ruby-constant">PacketAssistant</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:transport</span>][<span class="ruby-identifier">:buffers</span>],
+26:                              <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:driver</span>] )
+27:       <span class="ruby-keyword kw">end</span>
+28: 
+29:       <span class="ruby-comment cmt"># The attribute factory to use to obtain attribute object instances.</span>
+30:       <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">attr_factory</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>,<span class="ruby-operator">|</span>
+31:         <span class="ruby-identifier">require</span> <span class="ruby-value str">'net/sftp/protocol/01/attributes'</span>
+32:         <span class="ruby-constant">Attributes</span>.<span class="ruby-identifier">init</span>( <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:transport</span>][<span class="ruby-identifier">:buffers</span>] )
+33:       <span class="ruby-keyword kw">end</span>
+34: 
+35:       <span class="ruby-comment cmt"># The version implementation to use.</span>
+36:       <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">impl</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>,<span class="ruby-operator">|</span>
+37:         <span class="ruby-identifier">require</span> <span class="ruby-value str">'net/sftp/protocol/01/impl'</span>
+38:         <span class="ruby-constant">Impl</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:transport</span>][<span class="ruby-identifier">:buffers</span>],
+39:                   <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:driver</span>], <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:packet_assistant</span>],
+40:                   <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:attr_factory</span>] )
+41:       <span class="ruby-keyword kw">end</span>
+42: 
+43:     <span class="ruby-keyword kw">end</span>
+44:   <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

@@ -1,0 +1,1662 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Commit Log (Page 1 of 3)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Commit Log (Page 1 of 3)</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p>Pages: 1 <a href="commit_log_page_2.html">2</a> <a href="commit_log_page_3.html">3</a> <a href="commit_log_page_2.html">Next &raquo;</a> </p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2005-01-07</span> to
+  <span class="date">2004-07-29</span>  (Commits 57-106 of 106)
+</p>
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2005-01-07 15:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Name of the cvs2cl executable changed. Added more TODO's, to keep me busy with.
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        TODO&nbsp;<span class="change">(+4&nbsp;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2005-01-04 22:49</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added "host" and "options" attributes to Session (thanks to Daniel Hobe).
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/lib/net/ssh</strong>:
+        session.rb&nbsp;<span class="change">(+8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2005-01-04 15:17</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Raise an error if an attempt is made to load a file as a public key, which<BR>
+is not a public key.
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/lib/net/ssh/transport/ossl</strong>:
+        key-factory.rb&nbsp;<span class="change">(+4&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2005-01-04 14:27</span>
+  </dt>
+  <dd>
+    <p class="comment">
+If an agent wasn't running, the authentication would fail with an unhelpful<BR>
+error. This fix should allow authentication to proceed, even in the absense<BR>
+of an ssh-agent.
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/lib/net/ssh/userauth</strong>:
+        services.rb&nbsp;<span class="change">(+5&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-22 12:38</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added open_handle, get_file, and put_file methods. Bumped version to 0.9.
+    </p>
+    <p class="commitdetails"><strong>110</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-sftp</strong>:
+        TODO&nbsp;<span class="change">(-2)</span>
+      </li>
+      <li>
+        <strong>net-sftp/examples</strong>:
+        get-put.rb&nbsp;<span class="new">(new&nbsp;45)</span>,
+        synchronous.rb&nbsp;<span class="change">(+16&nbsp;-7)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+48)</span>,
+        version.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-11 20:29</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed some doc typos. Made the synchronous operations work in Ruby 1.8.1<BR>
+(they no longer require a 'return' from within a proc).
+    </p>
+    <p class="commitdetails"><strong>14</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-sftp</strong>:
+        TODO&nbsp;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>net-sftp/examples</strong>:
+        ssh-service.rb&nbsp;<span class="change">(-1)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        version.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/operations</strong>:
+        abstract.rb&nbsp;<span class="change">(+11&nbsp;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-02 00:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated NEWS file.
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-sftp</strong>:
+        NEWS&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh</strong>:
+        NEWS&nbsp;<span class="change">(+7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-01 23:58</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Moved README to project root.
+    </p>
+    <p class="commitdetails"><strong>26</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-sftp</strong>:
+        README&nbsp;<span class="new">(new&nbsp;22)</span>,
+        Rakefile&nbsp;<span class="change">(+4&nbsp;-3)</span>
+      </li>
+      <li>
+        <strong>net-sftp/doc</strong>:
+        README&nbsp;<span class="del">(del)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-01 23:49</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>7131</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-sftp</strong>:
+        LICENSE&nbsp;<span class="new">(new&nbsp;7)</span>,
+        NEWS&nbsp;<span class="new">(new&nbsp;5)</span>,
+        Rakefile&nbsp;<span class="new">(new&nbsp;194)</span>,
+        TODO&nbsp;<span class="new">(new&nbsp;2)</span>,
+        net-sftp.gemspec&nbsp;<span class="new">(new&nbsp;29)</span>,
+        setup.rb&nbsp;<span class="new">(new&nbsp;1331)</span>
+      </li>
+      <li>
+        <strong>net-sftp/doc</strong>:
+        LICENSE-BSD&nbsp;<span class="new">(new&nbsp;27)</span>,
+        LICENSE-GPL&nbsp;<span class="new">(new&nbsp;280)</span>,
+        LICENSE-RUBY&nbsp;<span class="new">(new&nbsp;56)</span>,
+        README&nbsp;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>net-sftp/examples</strong>:
+        asynchronous.rb&nbsp;<span class="new">(new&nbsp;57)</span>,
+        ssh-service.rb&nbsp;<span class="new">(new&nbsp;31)</span>,
+        synchronous.rb&nbsp;<span class="new">(new&nbsp;120)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net</strong>:
+        sftp.rb&nbsp;<span class="new">(new&nbsp;39)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp</strong>:
+        errors.rb&nbsp;<span class="new">(new&nbsp;25)</span>,
+        session.rb&nbsp;<span class="new">(new&nbsp;215)</span>,
+        version.rb&nbsp;<span class="new">(new&nbsp;25)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/operations</strong>:
+        abstract.rb&nbsp;<span class="new">(new&nbsp;103)</span>,
+        close.rb&nbsp;<span class="new">(new&nbsp;31)</span>,
+        errors.rb&nbsp;<span class="new">(new&nbsp;76)</span>,
+        fsetstat.rb&nbsp;<span class="new">(new&nbsp;36)</span>,
+        fstat.rb&nbsp;<span class="new">(new&nbsp;32)</span>,
+        lstat.rb&nbsp;<span class="new">(new&nbsp;31)</span>,
+        mkdir.rb&nbsp;<span class="new">(new&nbsp;33)</span>,
+        open.rb&nbsp;<span class="new">(new&nbsp;32)</span>,
+        opendir.rb&nbsp;<span class="new">(new&nbsp;32)</span>,
+        read.rb&nbsp;<span class="new">(new&nbsp;84)</span>,
+        readdir.rb&nbsp;<span class="new">(new&nbsp;55)</span>,
+        realpath.rb&nbsp;<span class="new">(new&nbsp;37)</span>,
+        remove.rb&nbsp;<span class="new">(new&nbsp;31)</span>,
+        rename.rb&nbsp;<span class="new">(new&nbsp;32)</span>,
+        rmdir.rb&nbsp;<span class="new">(new&nbsp;31)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;42)</span>,
+        setstat.rb&nbsp;<span class="new">(new&nbsp;33)</span>,
+        stat.rb&nbsp;<span class="new">(new&nbsp;31)</span>,
+        write.rb&nbsp;<span class="new">(new&nbsp;63)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/protocol</strong>:
+        constants.rb&nbsp;<span class="new">(new&nbsp;60)</span>,
+        driver.rb&nbsp;<span class="new">(new&nbsp;232)</span>,
+        packet-assistant.rb&nbsp;<span class="new">(new&nbsp;84)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;55)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/protocol/01</strong>:
+        attributes.rb&nbsp;<span class="new">(new&nbsp;146)</span>,
+        impl.rb&nbsp;<span class="new">(new&nbsp;251)</span>,
+        packet-assistant.rb&nbsp;<span class="new">(new&nbsp;82)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;47)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/protocol/02</strong>:
+        impl.rb&nbsp;<span class="new">(new&nbsp;39)</span>,
+        packet-assistant.rb&nbsp;<span class="new">(new&nbsp;32)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;44)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/protocol/03</strong>:
+        impl.rb&nbsp;<span class="new">(new&nbsp;42)</span>,
+        packet-assistant.rb&nbsp;<span class="new">(new&nbsp;35)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;44)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/protocol/04</strong>:
+        attributes.rb&nbsp;<span class="new">(new&nbsp;227)</span>,
+        impl.rb&nbsp;<span class="new">(new&nbsp;134)</span>,
+        packet-assistant.rb&nbsp;<span class="new">(new&nbsp;51)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;44)</span>
+      </li>
+      <li>
+        <strong>net-sftp/lib/net/sftp/protocol/05</strong>:
+        services.rb&nbsp;<span class="new">(new&nbsp;44)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test</strong>:
+        ALL-TESTS.rb&nbsp;<span class="new">(new&nbsp;21)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test/operations</strong>:
+        tc_abstract.rb&nbsp;<span class="new">(new&nbsp;124)</span>,
+        tc_close.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_fsetstat.rb&nbsp;<span class="new">(new&nbsp;48)</span>,
+        tc_fstat.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_lstat.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_mkdir.rb&nbsp;<span class="new">(new&nbsp;48)</span>,
+        tc_open.rb&nbsp;<span class="new">(new&nbsp;42)</span>,
+        tc_opendir.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_read.rb&nbsp;<span class="new">(new&nbsp;103)</span>,
+        tc_readdir.rb&nbsp;<span class="new">(new&nbsp;88)</span>,
+        tc_realpath.rb&nbsp;<span class="new">(new&nbsp;54)</span>,
+        tc_remove.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_rmdir.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_setstat.rb&nbsp;<span class="new">(new&nbsp;48)</span>,
+        tc_stat.rb&nbsp;<span class="new">(new&nbsp;40)</span>,
+        tc_write.rb&nbsp;<span class="new">(new&nbsp;91)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test/protocol</strong>:
+        tc_driver.rb&nbsp;<span class="new">(new&nbsp;219)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test/protocol/01</strong>:
+        tc_attributes.rb&nbsp;<span class="new">(new&nbsp;138)</span>,
+        tc_impl.rb&nbsp;<span class="new">(new&nbsp;294)</span>,
+        tc_packet_assistant.rb&nbsp;<span class="new">(new&nbsp;81)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test/protocol/02</strong>:
+        tc_impl.rb&nbsp;<span class="new">(new&nbsp;41)</span>,
+        tc_packet_assistant.rb&nbsp;<span class="new">(new&nbsp;31)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test/protocol/03</strong>:
+        tc_impl.rb&nbsp;<span class="new">(new&nbsp;48)</span>,
+        tc_packet_assistant.rb&nbsp;<span class="new">(new&nbsp;34)</span>
+      </li>
+      <li>
+        <strong>net-sftp/test/protocol/04</strong>:
+        tc_attributes.rb&nbsp;<span class="new">(new&nbsp;174)</span>,
+        tc_impl.rb&nbsp;<span class="new">(new&nbsp;102)</span>,
+        tc_packet_assistant.rb&nbsp;<span class="new">(new&nbsp;41)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-01 23:26</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Pageant support! Fixed documentation. Bumped version to 0.6.0. Added<BR>
+support for external services. The USERNAME environment variable is used if<BR>
+USER is not set. Moved the README to the project root (for consistency with<BR>
+other project files). Fixed some documentation typos.
+    </p>
+    <p class="commitdetails"><strong>356</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        README&nbsp;<span class="new">(new&nbsp;13)</span>,
+        Rakefile&nbsp;<span class="change">(+4&nbsp;-3)</span>,
+        THANKS&nbsp;<span class="new">(new&nbsp;13)</span>,
+        TODO&nbsp;<span class="change">(+2)</span>,
+        net-ssh.gemspec&nbsp;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>net-ssh/doc</strong>:
+        README&nbsp;<span class="del">(del)</span>
+      </li>
+      <li>
+        <strong>net-ssh/doc/manual/parts</strong>:
+        session_key.txt&nbsp;<span class="change">(+4&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>net-ssh/examples</strong>:
+        channel-demo.rb&nbsp;<span class="change">(+81&nbsp;-81)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+15)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh</strong>:
+        session.rb&nbsp;<span class="change">(+5&nbsp;-1)</span>,
+        version.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/service</strong>:
+        services.rb&nbsp;<span class="change">(+12)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/userauth</strong>:
+        agent.rb&nbsp;<span class="change">(-7)</span>,
+        pageant.rb&nbsp;<span class="new">(new&nbsp;197)</span>,
+        services.rb&nbsp;<span class="change">(+7&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/util</strong>:
+        openssl.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:42</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Forgot to include the 'examples' subdirectory in the packages.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Cut-and-paste errors. :(
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:17</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added date of this release to NEWS file.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        NEWS&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:16</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Minor rakefile tweakage.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+1&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:14</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added Needle as a dependency in gemspec.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        net-ssh.gemspec&nbsp;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated TODO (prompter impl was added)
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        TODO&nbsp;<span class="change">(-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:11</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added a prompter implementation, instead of depending on ruby-password.
+    </p>
+    <p class="commitdetails"><strong>78</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/lib/net/ssh</strong>:
+        session.rb&nbsp;<span class="change">(+5)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/util</strong>:
+        prompter.rb&nbsp;<span class="new">(new&nbsp;73)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 14:43</span>
+  </dt>
+  <dd>
+    <p class="comment">
+:verbose and :log options were not being removed from the options before being<BR>
+passed to the transport layer, which was causing the transport layer to fail.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/lib/net/ssh</strong>:
+        session.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 14:42</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Oops. :verbosity should have been :verbose.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/doc/manual/parts</strong>:
+        session_options.txt&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 14:40</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Documented the :log and :verbosity options.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/doc/manual/parts</strong>:
+        session_options.txt&nbsp;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 14:37</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added examples. Made it easier to customize logging in Net::SSH::Session.
+    </p>
+    <p class="commitdetails"><strong>421</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+6&nbsp;-19)</span>,
+        TODO&nbsp;<span class="change">(-2)</span>
+      </li>
+      <li>
+        <strong>net-ssh/examples</strong>:
+        channel-demo.rb&nbsp;<span class="new">(new&nbsp;81)</span>,
+        port-forward.rb&nbsp;<span class="new">(new&nbsp;51)</span>,
+        process-demo.rb&nbsp;<span class="new">(new&nbsp;91)</span>,
+        remote-net-port-forward.rb&nbsp;<span class="new">(new&nbsp;45)</span>,
+        remote-port-forward.rb&nbsp;<span class="new">(new&nbsp;80)</span>,
+        tail-demo.rb&nbsp;<span class="new">(new&nbsp;49)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh</strong>:
+        session.rb&nbsp;<span class="change">(+18)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 13:45</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed FAQ link.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/doc/manual</strong>:
+        page.erb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 13:29</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated manual for new version.
+    </p>
+    <p class="commitdetails"><strong>1297</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/doc/manual</strong>:
+        chapter.erb&nbsp;<span class="new">(new&nbsp;18)</span>,
+        example.erb&nbsp;<span class="new">(new&nbsp;18)</span>,
+        index.erb&nbsp;<span class="new">(new&nbsp;29)</span>,
+        manual.css&nbsp;<span class="new">(new&nbsp;192)</span>,
+        manual.rb&nbsp;<span class="new">(new&nbsp;240)</span>,
+        manual.yml&nbsp;<span class="new">(new&nbsp;67)</span>,
+        page.erb&nbsp;<span class="new">(new&nbsp;87)</span>,
+        tutorial.erb&nbsp;<span class="new">(new&nbsp;30)</span>
+      </li>
+      <li>
+        <strong>net-ssh/doc/manual/parts</strong>:
+        channels_callbacks.txt&nbsp;<span class="new">(new&nbsp;32)</span>,
+        channels_loop.txt&nbsp;<span class="new">(new&nbsp;14)</span>,
+        channels_open.txt&nbsp;<span class="new">(new&nbsp;20)</span>,
+        channels_operations.txt&nbsp;<span class="new">(new&nbsp;15)</span>,
+        channels_types.txt&nbsp;<span class="new">(new&nbsp;3)</span>,
+        channels_what_are.txt&nbsp;<span class="new">(new&nbsp;7)</span>,
+        exec_channels.txt&nbsp;<span class="new">(new&nbsp;28)</span>,
+        exec_open.txt&nbsp;<span class="new">(new&nbsp;51)</span>,
+        exec_popen3.txt&nbsp;<span class="new">(new&nbsp;35)</span>,
+        forward_direct.txt&nbsp;<span class="new">(new&nbsp;37)</span>,
+        forward_handlers.txt&nbsp;<span class="new">(new&nbsp;16)</span>,
+        forward_intro.txt&nbsp;<span class="new">(new&nbsp;18)</span>,
+        forward_local.txt&nbsp;<span class="new">(new&nbsp;18)</span>,
+        forward_remote.txt&nbsp;<span class="new">(new&nbsp;14)</span>,
+        intro_author.txt&nbsp;<span class="new">(new&nbsp;1)</span>,
+        intro_getting.txt&nbsp;<span class="new">(new&nbsp;39)</span>,
+        intro_license.txt&nbsp;<span class="new">(new&nbsp;6)</span>,
+        intro_support.txt&nbsp;<span class="new">(new&nbsp;7)</span>,
+        intro_what_is.txt&nbsp;<span class="new">(new&nbsp;7)</span>,
+        intro_what_is_not.txt&nbsp;<span class="new">(new&nbsp;3)</span>,
+        proxy_http.txt&nbsp;<span class="new">(new&nbsp;52)</span>,
+        proxy_intro.txt&nbsp;<span class="new">(new&nbsp;1)</span>,
+        proxy_socks.txt&nbsp;<span class="new">(new&nbsp;23)</span>,
+        session_key.txt&nbsp;<span class="new">(new&nbsp;66)</span>,
+        session_options.txt&nbsp;<span class="new">(new&nbsp;40)</span>,
+        session_session.txt&nbsp;<span class="new">(new&nbsp;14)</span>,
+        session_start.txt&nbsp;<span class="new">(new&nbsp;49)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 13:28</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated TODO list. Fixed a documentation typo in channel.rb.
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        TODO&nbsp;<span class="change">(+6)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/connection</strong>:
+        channel.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-22 16:37</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added :coverage goal, to run rcov on the unit tests.
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-22 16:05</span>
+  </dt>
+  <dd>
+    <p class="comment">
+*sigh* These shouldn't have been checked it. :(
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh/test/coverage</strong>:
+        _-ALL-TESTS_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-connection-channel_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-connection-constants_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-connection-driver_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-connection-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-errors_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-proxy-errors_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-proxy-http_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-proxy-socks4_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-proxy-socks5_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-forward-driver_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-forward-local-network-handler_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-forward-remote-network-handler_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-forward-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-process-driver_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-process-open_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-process-popen3_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-process-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-service-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-session_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-algorithm-negotiator_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-compressor_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-decompressor_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-none-compressor_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-none-decompressor_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-zlib-compressor_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-compress-zlib-decompressor_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-constants_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-errors_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-identity-cipher_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-kex-dh-gex_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-kex-dh_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-kex-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-buffer-factory_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-buffer_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-cipher-factory_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-digest-factory_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-factory_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-hmac_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-md5-96_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-md5_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-none_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-sha1-96_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-sha1_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-key-factory_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-ossl-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-packet-stream_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-session_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-transport-version-negotiator_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-agent_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-constants_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-driver_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-methods-hostbased_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-methods-password_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-methods-publickey_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-methods-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-services_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-userauth-userkeys_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-util-buffer_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-util-openssl_rb.html&nbsp;<span class="del">(del)</span>,
+        __-lib-net-ssh-version_rb.html&nbsp;<span class="del">(del)</span>,
+        index.html&nbsp;<span class="del">(del)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-22 15:52</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>15399</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        LICENSE&nbsp;<span class="new">(new&nbsp;7)</span>,
+        NEWS&nbsp;<span class="new">(new&nbsp;9)</span>,
+        Rakefile&nbsp;<span class="new">(new&nbsp;225)</span>,
+        TODO&nbsp;<span class="new">(new&nbsp;1)</span>,
+        net-ssh.gemspec&nbsp;<span class="new">(new&nbsp;27)</span>,
+        setup.rb&nbsp;<span class="new">(new&nbsp;1331)</span>
+      </li>
+      <li>
+        <strong>net-ssh/doc</strong>:
+        LICENSE-BSD&nbsp;<span class="new">(new&nbsp;27)</span>,
+        LICENSE-GPL&nbsp;<span class="new">(new&nbsp;280)</span>,
+        LICENSE-RUBY&nbsp;<span class="new">(new&nbsp;56)</span>,
+        README&nbsp;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net</strong>:
+        ssh.rb&nbsp;<span class="new">(new&nbsp;52)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh</strong>:
+        errors.rb&nbsp;<span class="new">(new&nbsp;27)</span>,
+        session.rb&nbsp;<span class="new">(new&nbsp;219)</span>,
+        version.rb&nbsp;<span class="new">(new&nbsp;29)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/connection</strong>:
+        channel.rb&nbsp;<span class="new">(new&nbsp;411)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;47)</span>,
+        driver.rb&nbsp;<span class="new">(new&nbsp;343)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;72)</span>,
+        term.rb&nbsp;<span class="new">(new&nbsp;90)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/proxy</strong>:
+        errors.rb&nbsp;<span class="new">(new&nbsp;34)</span>,
+        http.rb&nbsp;<span class="new">(new&nbsp;126)</span>,
+        socks4.rb&nbsp;<span class="new">(new&nbsp;83)</span>,
+        socks5.rb&nbsp;<span class="new">(new&nbsp;160)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/service</strong>:
+        services.rb&nbsp;<span class="new">(new&nbsp;44)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/service/forward</strong>:
+        driver.rb&nbsp;<span class="new">(new&nbsp;319)</span>,
+        local-network-handler.rb&nbsp;<span class="new">(new&nbsp;74)</span>,
+        remote-network-handler.rb&nbsp;<span class="new">(new&nbsp;81)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;76)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/service/process</strong>:
+        driver.rb&nbsp;<span class="new">(new&nbsp;153)</span>,
+        open.rb&nbsp;<span class="new">(new&nbsp;193)</span>,
+        popen3.rb&nbsp;<span class="new">(new&nbsp;160)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;66)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/transport</strong>:
+        algorithm-negotiator.rb&nbsp;<span class="new">(new&nbsp;267)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;66)</span>,
+        errors.rb&nbsp;<span class="new">(new&nbsp;47)</span>,
+        identity-cipher.rb&nbsp;<span class="new">(new&nbsp;61)</span>,
+        packet-stream.rb&nbsp;<span class="new">(new&nbsp;210)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;146)</span>,
+        session.rb&nbsp;<span class="new">(new&nbsp;296)</span>,
+        version-negotiator.rb&nbsp;<span class="new">(new&nbsp;73)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/transport/compress</strong>:
+        compressor.rb&nbsp;<span class="new">(new&nbsp;53)</span>,
+        decompressor.rb&nbsp;<span class="new">(new&nbsp;53)</span>,
+        none-compressor.rb&nbsp;<span class="new">(new&nbsp;39)</span>,
+        none-decompressor.rb&nbsp;<span class="new">(new&nbsp;39)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;68)</span>,
+        zlib-compressor.rb&nbsp;<span class="new">(new&nbsp;60)</span>,
+        zlib-decompressor.rb&nbsp;<span class="new">(new&nbsp;52)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/transport/kex</strong>:
+        dh-gex.rb&nbsp;<span class="new">(new&nbsp;106)</span>,
+        dh.rb&nbsp;<span class="new">(new&nbsp;231)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;60)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/transport/ossl</strong>:
+        buffer-factory.rb&nbsp;<span class="new">(new&nbsp;52)</span>,
+        buffer.rb&nbsp;<span class="new">(new&nbsp;87)</span>,
+        cipher-factory.rb&nbsp;<span class="new">(new&nbsp;98)</span>,
+        digest-factory.rb&nbsp;<span class="new">(new&nbsp;51)</span>,
+        hmac-factory.rb&nbsp;<span class="new">(new&nbsp;71)</span>,
+        key-factory.rb&nbsp;<span class="new">(new&nbsp;113)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;149)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/transport/ossl/hmac</strong>:
+        hmac.rb&nbsp;<span class="new">(new&nbsp;62)</span>,
+        md5-96.rb&nbsp;<span class="new">(new&nbsp;44)</span>,
+        md5.rb&nbsp;<span class="new">(new&nbsp;46)</span>,
+        none.rb&nbsp;<span class="new">(new&nbsp;46)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;68)</span>,
+        sha1-96.rb&nbsp;<span class="new">(new&nbsp;44)</span>,
+        sha1.rb&nbsp;<span class="new">(new&nbsp;45)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/userauth</strong>:
+        agent.rb&nbsp;<span class="new">(new&nbsp;218)</span>,
+        constants.rb&nbsp;<span class="new">(new&nbsp;35)</span>,
+        driver.rb&nbsp;<span class="new">(new&nbsp;176)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;126)</span>,
+        userkeys.rb&nbsp;<span class="new">(new&nbsp;258)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/userauth/methods</strong>:
+        hostbased.rb&nbsp;<span class="new">(new&nbsp;119)</span>,
+        password.rb&nbsp;<span class="new">(new&nbsp;70)</span>,
+        publickey.rb&nbsp;<span class="new">(new&nbsp;137)</span>,
+        services.rb&nbsp;<span class="new">(new&nbsp;63)</span>
+      </li>
+      <li>
+        <strong>net-ssh/lib/net/ssh/util</strong>:
+        buffer.rb&nbsp;<span class="new">(new&nbsp;274)</span>,
+        openssl.rb&nbsp;<span class="new">(new&nbsp;146)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test</strong>:
+        ALL-TESTS.rb&nbsp;<span class="new">(new&nbsp;21)</span>,
+        tc_integration.rb&nbsp;<span class="new">(new&nbsp;79)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/connection</strong>:
+        tc_channel.rb&nbsp;<span class="new">(new&nbsp;136)</span>,
+        tc_driver.rb&nbsp;<span class="new">(new&nbsp;287)</span>,
+        tc_integration.rb&nbsp;<span class="new">(new&nbsp;85)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/coverage</strong>:
+        _-ALL-TESTS_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-connection-channel_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-connection-constants_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-connection-driver_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-connection-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-errors_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-proxy-errors_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-proxy-http_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-proxy-socks4_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-proxy-socks5_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-forward-driver_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-forward-local-network-handler_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-forward-remote-network-handler_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-forward-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-process-driver_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-process-open_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-process-popen3_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-process-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-service-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-session_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-algorithm-negotiator_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-compressor_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-decompressor_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-none-compressor_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-none-decompressor_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-zlib-compressor_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-compress-zlib-decompressor_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-constants_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-errors_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-identity-cipher_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-kex-dh-gex_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-kex-dh_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-kex-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-buffer-factory_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-buffer_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-cipher-factory_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-digest-factory_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-factory_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-hmac_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-md5-96_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-md5_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-none_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-sha1-96_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-hmac-sha1_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-key-factory_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-ossl-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-packet-stream_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-session_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-transport-version-negotiator_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-agent_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-constants_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-driver_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-methods-hostbased_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-methods-password_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-methods-publickey_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-methods-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-services_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-userauth-userkeys_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-util-buffer_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-util-openssl_rb.html&nbsp;<span class="new">(new)</span>,
+        __-lib-net-ssh-version_rb.html&nbsp;<span class="new">(new)</span>,
+        index.html&nbsp;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/proxy</strong>:
+        tc_http.rb&nbsp;<span class="new">(new&nbsp;209)</span>,
+        tc_socks4.rb&nbsp;<span class="new">(new&nbsp;148)</span>,
+        tc_socks5.rb&nbsp;<span class="new">(new&nbsp;214)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/service/forward</strong>:
+        tc_driver.rb&nbsp;<span class="new">(new&nbsp;289)</span>,
+        tc_local_network_handler.rb&nbsp;<span class="new">(new&nbsp;123)</span>,
+        tc_remote_network_handler.rb&nbsp;<span class="new">(new&nbsp;108)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/service/process</strong>:
+        tc_driver.rb&nbsp;<span class="new">(new&nbsp;79)</span>,
+        tc_integration.rb&nbsp;<span class="new">(new&nbsp;117)</span>,
+        tc_open.rb&nbsp;<span class="new">(new&nbsp;179)</span>,
+        tc_popen3.rb&nbsp;<span class="new">(new&nbsp;164)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/transport</strong>:
+        tc_algorithm_negotiator.rb&nbsp;<span class="new">(new&nbsp;169)</span>,
+        tc_identity_cipher.rb&nbsp;<span class="new">(new&nbsp;52)</span>,
+        tc_integration.rb&nbsp;<span class="new">(new&nbsp;110)</span>,
+        tc_packet_stream.rb&nbsp;<span class="new">(new&nbsp;183)</span>,
+        tc_session.rb&nbsp;<span class="new">(new&nbsp;283)</span>,
+        tc_version_negotiator.rb&nbsp;<span class="new">(new&nbsp;86)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/transport/compress</strong>:
+        tc_none_compress.rb&nbsp;<span class="new">(new&nbsp;41)</span>,
+        tc_none_decompress.rb&nbsp;<span class="new">(new&nbsp;45)</span>,
+        tc_zlib_compress.rb&nbsp;<span class="new">(new&nbsp;61)</span>,
+        tc_zlib_decompress.rb&nbsp;<span class="new">(new&nbsp;48)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/transport/kex</strong>:
+        tc_dh.rb&nbsp;<span class="new">(new&nbsp;304)</span>,
+        tc_dh_gex.rb&nbsp;<span class="new">(new&nbsp;70)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/transport/ossl</strong>:
+        tc_buffer.rb&nbsp;<span class="new">(new&nbsp;97)</span>,
+        tc_buffer_factory.rb&nbsp;<span class="new">(new&nbsp;67)</span>,
+        tc_cipher_factory.rb&nbsp;<span class="new">(new&nbsp;84)</span>,
+        tc_digest_factory.rb&nbsp;<span class="new">(new&nbsp;39)</span>,
+        tc_hmac_factory.rb&nbsp;<span class="new">(new&nbsp;72)</span>,
+        tc_key_factory.rb&nbsp;<span class="new">(new&nbsp;199)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/transport/ossl/fixtures</strong>:
+        dsa-encrypted&nbsp;<span class="new">(new&nbsp;15)</span>,
+        dsa-encrypted-bad&nbsp;<span class="new">(new&nbsp;15)</span>,
+        dsa-unencrypted&nbsp;<span class="new">(new&nbsp;12)</span>,
+        dsa-unencrypted-bad&nbsp;<span class="new">(new&nbsp;12)</span>,
+        dsa-unencrypted.pub&nbsp;<span class="new">(new&nbsp;1)</span>,
+        not-a-private-key&nbsp;<span class="new">(new&nbsp;4)</span>,
+        not-supported&nbsp;<span class="new">(new&nbsp;2)</span>,
+        rsa-encrypted&nbsp;<span class="new">(new&nbsp;18)</span>,
+        rsa-encrypted-bad&nbsp;<span class="new">(new&nbsp;18)</span>,
+        rsa-unencrypted&nbsp;<span class="new">(new&nbsp;15)</span>,
+        rsa-unencrypted-bad&nbsp;<span class="new">(new&nbsp;15)</span>,
+        rsa-unencrypted.pub&nbsp;<span class="new">(new&nbsp;1)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/transport/ossl/hmac</strong>:
+        tc_hmac.rb&nbsp;<span class="new">(new&nbsp;58)</span>,
+        tc_md5.rb&nbsp;<span class="new">(new&nbsp;50)</span>,
+        tc_md5_96.rb&nbsp;<span class="new">(new&nbsp;50)</span>,
+        tc_none.rb&nbsp;<span class="new">(new&nbsp;50)</span>,
+        tc_sha1.rb&nbsp;<span class="new">(new&nbsp;50)</span>,
+        tc_sha1_96.rb&nbsp;<span class="new">(new&nbsp;50)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/userauth</strong>:
+        tc_agent.rb&nbsp;<span class="new">(new&nbsp;223)</span>,
+        tc_driver.rb&nbsp;<span class="new">(new&nbsp;190)</span>,
+        tc_integration.rb&nbsp;<span class="new">(new&nbsp;81)</span>,
+        tc_userkeys.rb&nbsp;<span class="new">(new&nbsp;265)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/userauth/methods</strong>:
+        tc_hostbased.rb&nbsp;<span class="new">(new&nbsp;136)</span>,
+        tc_password.rb&nbsp;<span class="new">(new&nbsp;89)</span>,
+        tc_publickey.rb&nbsp;<span class="new">(new&nbsp;167)</span>
+      </li>
+      <li>
+        <strong>net-ssh/test/util</strong>:
+        tc_buffer.rb&nbsp;<span class="new">(new&nbsp;217)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-17 15:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated TODO list.
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        TODO&nbsp;<span class="change">(+3&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-17 15:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+SFTP::Simple constructor now returns self if a block is not given.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        simple.rb&nbsp;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-17 15:00</span>
+  </dt>
+  <dd>
+    <p class="comment">
+typo: rb_raise instead of raise
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-16 16:29</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Typo prevented session option table from formatting correctly.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-14 16:08</span>
+  </dt>
+  <dd>
+    <p class="comment">
+"Future Directions" chapter included obsolete information.
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+3&nbsp;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-14 15:41</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Version bump to 0.1.0
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        README&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        net-ssh.gemspec&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        session.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-14 15:36</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Support for hostbased authenticaton.
+    </p>
+    <p class="commitdetails"><strong>145</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        TODO&nbsp;<span class="change">(-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+6&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+7&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+79&nbsp;-3)</span>,
+        userkeys.rb&nbsp;<span class="change">(+50&nbsp;-3)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        session.rb&nbsp;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-14 00:47</span>
+  </dt>
+  <dd>
+    <p class="comment">
+SOCKS4 support. Documented the basic usage of the SOCKS proxies.
+    </p>
+    <p class="commitdetails"><strong>120</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        TODO&nbsp;<span class="change">(-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+32)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/proxy</strong>:
+        socks4.rb&nbsp;<span class="new">(new&nbsp;88)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-13 18:48</span>
+  </dt>
+  <dd>
+    <p class="comment">
+SOCKS5 proxy support.
+    </p>
+    <p class="commitdetails"><strong>162</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/proxy</strong>:
+        socks5.rb&nbsp;<span class="new">(new&nbsp;162)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-13 00:23</span>
+  </dt>
+  <dd>
+    <p class="comment">
+HTTP proxy now supports basic authorization (thanks, Jochen!).
+    </p>
+    <p class="commitdetails"><strong>128</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        README&nbsp;<span class="change">(+2)</span>,
+        TODO&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+34)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/proxy</strong>:
+        errors.rb&nbsp;<span class="change">(+3)</span>,
+        http.rb&nbsp;<span class="change">(+77&nbsp;-5)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        userauth.rb&nbsp;<span class="change">(+11&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-13 00:20</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed bug where if server version is nil (due to closed connection) program would crash.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        session.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-11 23:34</span>
+  </dt>
+  <dd>
+    <p class="comment">
+More unit tests.
+    </p>
+    <p class="commitdetails"><strong>167</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/test</strong>:
+        tc_cipher.rb&nbsp;<span class="new">(new&nbsp;96)</span>,
+        tc_mac.rb&nbsp;<span class="new">(new&nbsp;71)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-11 14:40</span>
+  </dt>
+  <dd>
+    <p class="comment">
+More unit testing madness.
+    </p>
+    <p class="commitdetails"><strong>45</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        net-ssh.gemspec&nbsp;<span class="change">(+3&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/test</strong>:
+        tc_buffer.rb&nbsp;<span class="change">(+10)</span>,
+        tc_compressor.rb&nbsp;<span class="change">(+10)</span>,
+        tests.rb&nbsp;<span class="new">(new&nbsp;22)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-11 14:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed some minor bugs in the buffer routines, and added some unit tests.
+    </p>
+    <p class="commitdetails"><strong>438</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/util</strong>:
+        buffer.rb&nbsp;<span class="change">(+17&nbsp;-8)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/test</strong>:
+        tc_buffer.rb&nbsp;<span class="new">(new&nbsp;277)</span>,
+        tc_compressor.rb&nbsp;<span class="new">(new&nbsp;144)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-11 00:01</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added more SFTP protocol coverage, including support for opening and manipulating<BR>
+files. Basic buffered file IO is supported as well.
+    </p>
+    <p class="commitdetails"><strong>391</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        TODO&nbsp;<span class="change">(+2)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        complex-sftp-demo.rb&nbsp;<span class="change">(+20&nbsp;-9)</span>,
+        simple-sftp-demo.rb&nbsp;<span class="change">(+18)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+175&nbsp;-22)</span>,
+        simple.rb&nbsp;<span class="change">(+176)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:44</span>
+  </dt>
+  <dd>
+    <p class="comment">
+local forwarding no longer accepts a block. The whole "discriminator" concept<BR>
+was flawed (at least as it was currently implemented)--just try connecting to<BR>
+a POP3 server over a forwarded port to see what I mean.
+    </p>
+    <p class="commitdetails"><strong>11</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        forward.rb&nbsp;<span class="change">(+11&nbsp;-45)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:35</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added chapter on using proxies. Fixed description of public/private keys<BR>
+(thanks to David Mitchell).
+    </p>
+    <p class="commitdetails"><strong>63</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+63&nbsp;-10)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-10 03:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed buffer implementation and refactored it to a new module. Added<BR>
+support for tunneling via HTTP proxy.
+    </p>
+    <p class="commitdetails"><strong>511</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        openssl.rb&nbsp;<span class="change">(+4&nbsp;-4)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/proxy</strong>:
+        errors.rb&nbsp;<span class="new">(new&nbsp;34)</span>,
+        http.rb&nbsp;<span class="new">(new&nbsp;57)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/service</strong>:
+        agent.rb&nbsp;<span class="change">(+8&nbsp;-8)</span>,
+        channel.rb&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        connection.rb&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        forward.rb&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        userauth.rb&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        userkeys.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        attrs.rb&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        session.rb&nbsp;<span class="change">(+16&nbsp;-16)</span>,
+        simple.rb&nbsp;<span class="change">(-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        buffer.rb&nbsp;<span class="del">(del)</span>,
+        packet-stream.rb&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        session.rb&nbsp;<span class="change">(+5&nbsp;-5)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh-gex.rb&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        dh.rb&nbsp;<span class="change">(+6&nbsp;-6)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/util</strong>:
+        buffer.rb&nbsp;<span class="new">(new&nbsp;304)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/uri</strong>:
+        open-sftp.rb&nbsp;<span class="change">(+19)</span>,
+        sftp.rb&nbsp;<span class="change">(+19)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 15:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated docs to reflect existence of new kex algorithm.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+2&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 15:08</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modified demo to reflect existence of new kex algorithm (group-exchange).
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        algorithms-demo.rb&nbsp;<span class="change">(+4&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 15:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added support for the diffie-hellman-group-exchange-sha1 key exchange<BR>
+algorithm, which is more secure than the diffie-hellman-group1-sha1<BR>
+algorithm. Also fixed various TODOs in the kex stuff.
+    </p>
+    <p class="commitdetails"><strong>226</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh</strong>:
+        openssl.rb&nbsp;<span class="change">(+16)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport</strong>:
+        cipher.rb&nbsp;<span class="change">(+9)</span>,
+        kex.rb&nbsp;<span class="change">(+4&nbsp;-1)</span>,
+        mac.rb&nbsp;<span class="change">(+6)</span>,
+        session.rb&nbsp;<span class="change">(+22&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/transport/kex</strong>:
+        dh-gex.rb&nbsp;<span class="new">(new&nbsp;162)</span>,
+        dh.rb&nbsp;<span class="change">(+7&nbsp;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 13:33</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added documentation for the uri/sftp and uri/open-sftp routines.
+    </p>
+    <p class="commitdetails"><strong>34</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/doc</strong>:
+        manual.yml&nbsp;<span class="change">(+34)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 13:27</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Gabriele Renzi's suggestion of an open-uri interface for SFTP. This<BR>
+required some new methods be added to the SFTP interfaces (attributes,<BR>
+and size). Also modified the SFTP 'get' interfaces to support the specification<BR>
+of a 'chunk size' and a progress callback.
+    </p>
+    <p class="commitdetails"><strong>250</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0</strong>:
+        TODO&nbsp;<span class="change">(-1)</span>,
+        net-ssh.gemspec&nbsp;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/examples</strong>:
+        complex-sftp-demo.rb&nbsp;<span class="change">(+9&nbsp;-2)</span>,
+        simple-sftp-demo.rb&nbsp;<span class="change">(+2)</span>,
+        uri-demo.rb&nbsp;<span class="new">(new&nbsp;52)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+3&nbsp;-3)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/net/ssh/sftp</strong>:
+        session.rb&nbsp;<span class="change">(+78&nbsp;-4)</span>,
+        simple.rb&nbsp;<span class="change">(+28&nbsp;-4)</span>
+      </li>
+      <li>
+        <strong>net-ssh-0.1.0/lib/uri</strong>:
+        open-sftp.rb&nbsp;<span class="new">(new&nbsp;34)</span>,
+        sftp.rb&nbsp;<span class="new">(new&nbsp;43)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p>Pages: 1 <a href="commit_log_page_2.html">2</a> <a href="commit_log_page_3.html">3</a> <a href="commit_log_page_2.html">Next &raquo;</a> </p>
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

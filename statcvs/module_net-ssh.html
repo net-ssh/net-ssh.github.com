@@ -1,0 +1,445 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Module net-ssh/</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Module net-ssh/</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-11-22</span> to
+  <span class="date">2005-01-07</span></p>
+
+<h2>Modules</h2>
+
+<p><a href="module.html">[root]</a>/<strong>net-ssh</strong>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_doc.html">doc</a> 
+(3 files, 363 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_doc_manual.html">manual</a> 
+(8 files, 681 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_doc_manual_parts.html">parts</a> 
+(27 files, 620 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_examples.html">examples</a> 
+(6 files, 397 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib.html">lib</a> 
+(0 files, 0 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net.html">net</a> 
+(1 files, 67 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh.html">ssh</a> 
+(3 files, 310 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_connection.html">connection</a> 
+(5 files, 963 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_proxy.html">proxy</a> 
+(4 files, 403 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_service.html">service</a> 
+(1 files, 56 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_service_forward.html">forward</a> 
+(4 files, 550 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_service_process.html">process</a> 
+(4 files, 572 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_transport.html">transport</a> 
+(8 files, 1166 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_transport_compress.html">compress</a> 
+(7 files, 364 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_transport_kex.html">kex</a> 
+(3 files, 397 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_transport_ossl.html">ossl</a> 
+(7 files, 624 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_transport_ossl_hmac.html">hmac</a> 
+(7 files, 355 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_userauth.html">userauth</a> 
+(6 files, 1011 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_userauth_methods.html">methods</a> 
+(4 files, 389 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_lib_net_ssh_util.html">util</a> 
+(3 files, 493 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test.html">test</a> 
+(2 files, 100 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_connection.html">connection</a> 
+(3 files, 508 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder-deleted.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_coverage.html">coverage</a> 
+(0 files, 0 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_proxy.html">proxy</a> 
+(3 files, 571 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_service.html">service</a> 
+(0 files, 0 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_service_forward.html">forward</a> 
+(3 files, 520 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_service_process.html">process</a> 
+(4 files, 539 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_transport.html">transport</a> 
+(6 files, 883 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_transport_compress.html">compress</a> 
+(4 files, 195 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_transport_kex.html">kex</a> 
+(2 files, 374 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_transport_ossl.html">ossl</a> 
+(6 files, 558 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_transport_ossl_fixtures.html">fixtures</a> 
+(12 files, 128 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_transport_ossl_hmac.html">hmac</a> 
+(6 files, 308 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_userauth.html">userauth</a> 
+(4 files, 759 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_userauth_methods.html">methods</a> 
+(3 files, 392 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh_test_util.html">util</a> 
+(1 files, 217 lines)<br>
+
+</p>
+
+<h2>Lines of Code</h2>
+
+<p><img src="loc_module_net-ssh.png" width="640" height="480" alt=""><br>
+<strong>Total Lines Of Code: </strong>
+1631 (<span class="date">2005-01-07 15:12</span>)</p>
+
+<h2>Authors</h2>
+
+  <table rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left">
+    <colgroup align="right">
+    <colgroup align="right">
+    <colgroup align="right">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <th><a href="user_minam.html" class="author">minam</a></th>
+        <td>24 (100.0%)</td>
+        <td>1672 (100.0%)</td>
+        <td>69.6</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h2>Most Recent Commits</h2>
+
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2005-01-07 15:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Name of the cvs2cl executable changed. Added more TODO's, to keep me busy with.
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        TODO&nbsp;<span class="change">(+4&nbsp;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-02 00:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated NEWS file.
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        NEWS&nbsp;<span class="change">(+7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-12-01 23:26</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Pageant support! Fixed documentation. Bumped version to 0.6.0. Added<BR>
+support for external services. The USERNAME environment variable is used if<BR>
+USER is not set. Moved the README to the project root (for consistency with<BR>
+other project files). Fixed some documentation typos.
+    </p>
+    <p class="commitdetails"><strong>33</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        README&nbsp;<span class="new">(new&nbsp;13)</span>,
+        Rakefile&nbsp;<span class="change">(+4&nbsp;-3)</span>,
+        THANKS&nbsp;<span class="new">(new&nbsp;13)</span>,
+        TODO&nbsp;<span class="change">(+2)</span>,
+        net-ssh.gemspec&nbsp;<span class="change">(+1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:42</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Forgot to include the 'examples' subdirectory in the packages.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Cut-and-paste errors. :(
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:17</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added date of this release to NEWS file.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        NEWS&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:16</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Minor rakefile tweakage.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+1&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:14</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added Needle as a dependency in gemspec.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        net-ssh.gemspec&nbsp;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 15:12</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated TODO (prompter impl was added)
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        TODO&nbsp;<span class="change">(-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 14:37</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added examples. Made it easier to customize logging in Net::SSH::Session.
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+6&nbsp;-19)</span>,
+        TODO&nbsp;<span class="change">(-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-23 13:28</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Updated TODO list. Fixed a documentation typo in channel.rb.
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        TODO&nbsp;<span class="change">(+6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-22 16:37</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added :coverage goal, to run rcov on the unit tests.
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        Rakefile&nbsp;<span class="change">(+6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-11-22 15:52</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>1600</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh</strong>:
+        LICENSE&nbsp;<span class="new">(new&nbsp;7)</span>,
+        NEWS&nbsp;<span class="new">(new&nbsp;9)</span>,
+        Rakefile&nbsp;<span class="new">(new&nbsp;225)</span>,
+        TODO&nbsp;<span class="new">(new&nbsp;1)</span>,
+        net-ssh.gemspec&nbsp;<span class="new">(new&nbsp;27)</span>,
+        setup.rb&nbsp;<span class="new">(new&nbsp;1331)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

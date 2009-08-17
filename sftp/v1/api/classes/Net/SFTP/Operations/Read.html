@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Operations::Read</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Operations::Read</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/sftp/operations/read_rb.html">lib/net/sftp/operations/read.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+        <a href="Abstract.html">
+Abstract
+         </a>
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+Implements the <tt>read</tt> operation, which reads data from an open file
+handle. This also implements the common case of reading to the end of the
+file. In that case, the callback is guaranteed to receive the contents of
+the entire file in one chunk.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000009">do_data</a></li>
+  <li><a href="#M000010">do_status</a></li>
+  <li><a href="#M000008">perform</a></li>
+  </ul>
+
+
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">DEFAULT_CHUNK_SIZE</td>
+    <td>=</td>
+    <td class="attr-value">64 * 1024</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+The default maximum amount of data to read at once when reading an entire
+file.
+
+</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000009"></a><b>do_data</b>( data )
+  </div>
+  <div class="description">
+  <p>
+Invoked when a data packet is received from the server. If the original
+request was for an entire file, this will send another read request, offset
+to the end of the data that has been read so far. Otherwise, the callback
+will be invoked directly.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000009_source')" id="l_M000009_source">show source</a> ]</p>
+  <div id="M000009_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/read.rb, line 51</span>
+51:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">data</span> )
+52:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;[#{@id}] got #{data.length} bytes&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+53: 
+54:       <span class="ruby-ivar">@data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span>
+55:       <span class="ruby-ivar">@progress_callback</span>[<span class="ruby-ivar">@data</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@progress_callback</span>
+56: 
+57:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@length</span>
+58:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>
+59:           <span class="ruby-identifier">length</span> = <span class="ruby-ivar">@chunk_size</span>
+60:         <span class="ruby-keyword kw">else</span>
+61:           <span class="ruby-identifier">length</span> = <span class="ruby-ivar">@length</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">length</span>
+62:           <span class="ruby-identifier">length</span> = <span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@chunk_size</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@chunk_size</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">length</span>
+63:         <span class="ruby-keyword kw">end</span>
+64: 
+65:         <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;[#{@id}] requesting #{length} more bytes&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+66:         <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">read</span> <span class="ruby-ivar">@id</span>, <span class="ruby-ivar">@handle</span>, <span class="ruby-ivar">@offset</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">length</span>, <span class="ruby-identifier">length</span>
+67:         <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">register</span>( <span class="ruby-ivar">@id</span>, <span class="ruby-keyword kw">self</span> )
+68:       <span class="ruby-keyword kw">else</span>
+69:         <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">OK</span>, <span class="ruby-ivar">@data</span> ]
+70:       <span class="ruby-keyword kw">end</span>
+71:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000010"></a><b>do_status</b>( code, message, language )
+  </div>
+  <div class="description">
+  <p>
+Invoked when a status code is received from the server. If the code is
+FX_EOF, then no data could be read because the end of the file was reached.
+In this case, the callback is invoked with the data that has been read so
+far. Other status codes are handled by the superclass.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000010_source')" id="l_M000010_source">show source</a> ]</p>
+  <div id="M000010_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/read.rb, line 77</span>
+77:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_status</span>( <span class="ruby-identifier">code</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> )
+78:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">code</span> <span class="ruby-operator">==</span> <span class="ruby-constant">FX_EOF</span>
+79:         <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;[#{@id}] got EOF&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+80:         <span class="ruby-ivar">@callback</span>[ <span class="ruby-constant">OK</span>, <span class="ruby-ivar">@data</span> ]
+81:       <span class="ruby-keyword kw">else</span>
+82:         <span class="ruby-keyword kw">super</span>
+83:       <span class="ruby-keyword kw">end</span>
+84:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000008"></a><b>perform</b>( handle, options={} )
+  </div>
+  <div class="description">
+  <p>
+Perform the operation. If length is less than 0 (the default), then the
+entire file (from the given offset) will be read and returned in &quot;one
+fell swoop&quot;. Otherwise, the given length of data will be requested.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000008_source')" id="l_M000008_source">show source</a> ]</p>
+  <div id="M000008_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/read.rb, line 34</span>
+34:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">perform</span>( <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">options</span>={} )
+35:       <span class="ruby-ivar">@length</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:length</span>] <span class="ruby-operator">||</span> <span class="ruby-value">-1</span>
+36:       <span class="ruby-ivar">@handle</span> = <span class="ruby-identifier">handle</span>
+37:       <span class="ruby-ivar">@offset</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:offset</span>] <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+38:       <span class="ruby-ivar">@chunk_size</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:chunk_size</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_CHUNK_SIZE</span>
+39:       <span class="ruby-ivar">@progress_callback</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:progress_callback</span>]
+40:       <span class="ruby-ivar">@data</span> = <span class="ruby-value str">&quot;&quot;</span>
+41: 
+42:       <span class="ruby-identifier">real_length</span> = ( <span class="ruby-ivar">@length</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@chunk_size</span> <span class="ruby-operator">?</span>
+43:                           <span class="ruby-ivar">@length</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@chunk_size</span> )
+44:       <span class="ruby-ivar">@driver</span>.<span class="ruby-identifier">read</span>( <span class="ruby-keyword kw">nil</span>, <span class="ruby-ivar">@handle</span>, <span class="ruby-ivar">@offset</span>, <span class="ruby-identifier">real_length</span> )
+45:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

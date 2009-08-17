@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Net::SFTP::Protocol::Driver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SFTP::Protocol::Driver</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/sftp/protocol/driver_rb.html">lib/net/sftp/protocol/driver.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+This is the driver object for the <a href="../../SFTP.html">SFTP</a>
+protocol. It manages the SSH channel used to communicate with the server,
+as well as the negotiation of the protocol. The operations themselves are
+specific to the protocol version in use, and are handled by
+protocol-version-specific dispatcher objects.
+</p>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000083">close</a></li>
+  <li><a href="#M000086">do_confirm</a></li>
+  <li><a href="#M000089">do_data</a></li>
+  <li><a href="#M000087">do_success</a></li>
+  <li><a href="#M000088">do_version</a></li>
+  <li><a href="#M000090">method_missing</a></li>
+  <li><a href="#M000082">new</a></li>
+  <li><a href="#M000084">next_request_id</a></li>
+  <li><a href="#M000085">on_open</a></li>
+  <li><a href="#M000091">respond_to?</a></li>
+  <li><a href="#M000092">send_data</a></li>
+  </ul>
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li><a href="Constants.html">Constants</a></li>
+</ul>
+
+
+
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>channel</td>
+    <td class='attr-desc'>
+The underlying SSH channel supporting this <a
+href="../../SFTP.html">SFTP</a> connection.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>state</td>
+    <td class='attr-desc'>
+The current state of the driver. This will be one of <tt>unconfirmed</tt>,
+<tt>init</tt>, <tt>version</tt>, <tt>open</tt>, or <tt>closed</tt>.
+
+</td>
+  </tr>
+  </table>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000082"></a><b>new</b>( connection, buffers, version, dispatchers, log )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="../../SFTP.html">SFTP</a> protocol driver object on
+the given SSH connection. <tt>buffers</tt> is a reference to a buffer
+factory, <tt>version</tt> is the highest supported <a
+href="../../SFTP.html">SFTP</a> protocol version, <tt>dispatchers</tt> is a
+Proc object that returns a dispatcher instance for a specific protocol
+version, and <tt>log</tt> is a logger instance.
+</p>
+<p>
+The new protocol driver will be in an <tt>unconfirmed</tt> state,
+initially. When the server validates the requested channel, the driver goes
+to the <tt>init</tt> state, and requests the <a
+href="../../SFTP.html">SFTP</a> subsystem. When the subsystem has been
+accepted, the driver sends its supported protocol version to the server,
+and goes to the <tt>version</tt> state. Lastly, when the server responds
+with its supported protocol version and the version to use has been
+successfully negotiated, the driver will go to the <tt>open</tt> state,
+after which <a href="../../SFTP.html">SFTP</a> operations may be
+successfully performed on the driver.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000082_source')" id="l_M000082_source">show source</a> ]</p>
+  <div id="M000082_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 51</span>
+51:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">connection</span>, <span class="ruby-identifier">buffers</span>, <span class="ruby-identifier">version</span>, <span class="ruby-identifier">dispatchers</span>, <span class="ruby-identifier">log</span> )
+52:       <span class="ruby-ivar">@buffers</span> = <span class="ruby-identifier">buffers</span>
+53:       <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
+54:       <span class="ruby-ivar">@dispatchers</span> = <span class="ruby-identifier">dispatchers</span>
+55:       <span class="ruby-ivar">@log</span> = <span class="ruby-identifier">log</span>
+56: 
+57:       <span class="ruby-ivar">@next_request_id</span> = <span class="ruby-value">0</span>
+58:       <span class="ruby-ivar">@next_request_mutex</span> = <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
+59:       <span class="ruby-ivar">@parsed_data</span> = <span class="ruby-keyword kw">nil</span>
+60:       <span class="ruby-ivar">@on_open</span> = <span class="ruby-keyword kw">nil</span>
+61: 
+62:       <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:unconfirmed</span>
+63: 
+64:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;opening channel for sftp&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+65:       <span class="ruby-ivar">@channel</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">open_channel</span>( <span class="ruby-value str">&quot;session&quot;</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_confirm</span> ) )
+66:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000083"></a><b>close</b>()
+  </div>
+  <div class="description">
+  <p>
+Closes the underlying SSH channel that the <a
+href="../../SFTP.html">SFTP</a> session uses to communicate with the
+server. This moves the driver to the <tt>closed</tt> state. If the driver
+is already closed, this does nothing.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000083_source')" id="l_M000083_source">show source</a> ]</p>
+  <div id="M000083_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 71</span>
+71:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
+72:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">:closed</span>
+73:         <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;closing sftp channel&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+74:         <span class="ruby-ivar">@channel</span>.<span class="ruby-identifier">close</span>
+75:         <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:closed</span>
+76:       <span class="ruby-keyword kw">end</span>
+77:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000086"></a><b>do_confirm</b>( channel )
+  </div>
+  <div class="description">
+  <p>
+The callback used internally to indicate that the requested channel has
+been confirmed. This will request the <a href="../../SFTP.html">SFTP</a>
+subsystem, register some request callbacks, and move the driver&#8217;s
+state to <tt>init</tt>. This may only be called when the driver&#8217;s
+state is <tt>unconfirmed</tt>.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000086_source')" id="l_M000086_source">show source</a> ]</p>
+  <div id="M000086_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 100</span>
+100:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_confirm</span>( <span class="ruby-identifier">channel</span> )
+101:       <span class="ruby-identifier">assert_state</span> <span class="ruby-identifier">:unconfirmed</span>
+102:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;requesting sftp subsystem&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+103: 
+104:       <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">subsystem</span>  <span class="ruby-value str">&quot;sftp&quot;</span>
+105:       <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_success</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_success</span> )
+106:       <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_data</span>    <span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>( <span class="ruby-identifier">:do_data</span> )
+107: 
+108:       <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:init</span>
+109:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000089"></a><b>do_data</b>( channel, data )
+  </div>
+  <div class="description">
+  <p>
+This is called internally when a data packet is received from the server.
+All <a href="../../SFTP.html">SFTP</a> packets are transfered as SSH data
+packets, so this parses the data packet to determine the <a
+href="../../SFTP.html">SFTP</a> packet type, and then sends the contents on
+to the active dispatcher for further processing. This routine correctly
+handles <a href="../../SFTP.html">SFTP</a> packets that span multiple SSH
+data packets.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000089_source')" id="l_M000089_source">show source</a> ]</p>
+  <div id="M000089_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 163</span>
+163:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_data</span>( <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">data</span> )
+164:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@parsed_data</span>
+165:         <span class="ruby-ivar">@parsed_data</span>[<span class="ruby-identifier">:content</span>].<span class="ruby-identifier">append</span> <span class="ruby-identifier">data</span>
+166:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@parsed_data</span>[<span class="ruby-identifier">:length</span>] <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@parsed_data</span>[<span class="ruby-identifier">:content</span>].<span class="ruby-identifier">length</span>
+167: 
+168:         <span class="ruby-identifier">type</span> = <span class="ruby-ivar">@parsed_data</span>[<span class="ruby-identifier">:type</span>]
+169:         <span class="ruby-identifier">content</span> = <span class="ruby-ivar">@parsed_data</span>[<span class="ruby-identifier">:content</span>]
+170:         <span class="ruby-ivar">@parsed_data</span> = <span class="ruby-keyword kw">nil</span>
+171:       <span class="ruby-keyword kw">else</span>
+172:         <span class="ruby-identifier">reader</span> = <span class="ruby-ivar">@buffers</span>.<span class="ruby-identifier">reader</span>( <span class="ruby-identifier">data</span> )
+173:         <span class="ruby-identifier">length</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_long</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>
+174:         <span class="ruby-identifier">type</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">read_byte</span>
+175:         <span class="ruby-identifier">content</span> = <span class="ruby-identifier">reader</span>.<span class="ruby-identifier">remainder_as_buffer</span>
+176: 
+177:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">length</span>
+178:           <span class="ruby-ivar">@parsed_data</span> = { <span class="ruby-identifier">:length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">length</span>,
+179:                            <span class="ruby-identifier">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type</span>,
+180:                            <span class="ruby-identifier">:content</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">content</span> }
+181:           <span class="ruby-keyword kw">return</span>
+182:         <span class="ruby-keyword kw">end</span>
+183:       <span class="ruby-keyword kw">end</span>
+184: 
+185:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">FXP_VERSION</span>
+186:         <span class="ruby-identifier">do_version</span> <span class="ruby-identifier">content</span>
+187:       <span class="ruby-keyword kw">else</span>
+188:         <span class="ruby-identifier">assert_state</span> <span class="ruby-identifier">:open</span>
+189:         <span class="ruby-ivar">@dispatcher</span>.<span class="ruby-identifier">dispatch</span> <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">content</span>
+190:       <span class="ruby-keyword kw">end</span>
+191:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000087"></a><b>do_success</b>( channel )
+  </div>
+  <div class="description">
+  <p>
+The callback used internally to indicate that the <a
+href="../../SFTP.html">SFTP</a> subsystem was successfully requested. This
+may only be called when the driver&#8217;s state is <tt>init</tt>. It sends
+an INIT packet containing the highest supported <a
+href="../../SFTP.html">SFTP</a> protocol version to the server, and moves
+the driver&#8217;s state to <tt>version</tt>.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000087_source')" id="l_M000087_source">show source</a> ]</p>
+  <div id="M000087_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 116</span>
+116:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_success</span>( <span class="ruby-identifier">channel</span> )
+117:       <span class="ruby-identifier">assert_state</span> <span class="ruby-identifier">:init</span>
+118:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;initializing sftp subsystem&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+119: 
+120:       <span class="ruby-identifier">packet</span> = <span class="ruby-ivar">@buffers</span>.<span class="ruby-identifier">writer</span>
+121:       <span class="ruby-identifier">packet</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@version</span>
+122:       <span class="ruby-identifier">send_data</span> <span class="ruby-constant">FXP_INIT</span>, <span class="ruby-identifier">packet</span>
+123: 
+124:       <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:version</span>
+125:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000088"></a><b>do_version</b>( content )
+  </div>
+  <div class="description">
+  <p>
+This is used internally to indicate that a VERSION packet was received from
+the server. This may only be called when the driver&#8217;s state is
+<tt>version</tt>. It determines the highest possible protocol version
+supported by both the client and the server, selects the dispatcher that
+handles that protocol version, moves the state to <tt>open</tt>, and then
+invokes the <tt><a href="Driver.html#M000085">on_open</a></tt> callback (if
+one was registered).
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000088_source')" id="l_M000088_source">show source</a> ]</p>
+  <div id="M000088_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 133</span>
+133:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_version</span>( <span class="ruby-identifier">content</span> )
+134:       <span class="ruby-identifier">assert_state</span> <span class="ruby-identifier">:version</span>
+135:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;negotiating sftp protocol version&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+136:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;my sftp version is #{@version}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+137: 
+138:       <span class="ruby-identifier">server_version</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_long</span>
+139:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;server reports sftp version #{server_version}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug?</span>
+140: 
+141:       <span class="ruby-identifier">negotiated_version</span> = [ <span class="ruby-ivar">@version</span>, <span class="ruby-identifier">server_version</span> ].<span class="ruby-identifier">min</span> 
+142:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;negotiated version is #{negotiated_version}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">info?</span>
+143: 
+144:       <span class="ruby-identifier">extensions</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+145:       <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">eof?</span>
+146:         <span class="ruby-identifier">ext_name</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>
+147:         <span class="ruby-identifier">ext_data</span> = <span class="ruby-identifier">content</span>.<span class="ruby-identifier">read_string</span>
+148:         <span class="ruby-identifier">extensions</span>[ <span class="ruby-identifier">ext_name</span> ] = <span class="ruby-identifier">ext_data</span>
+149:       <span class="ruby-keyword kw">end</span>
+150: 
+151:       <span class="ruby-ivar">@dispatcher</span> = <span class="ruby-ivar">@dispatchers</span>[ <span class="ruby-identifier">negotiated_version</span>, <span class="ruby-identifier">extensions</span> ]
+152: 
+153:       <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:open</span>
+154: 
+155:       <span class="ruby-ivar">@on_open</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_open</span>
+156:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000090"></a><b>method_missing</b>( sym, *args, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Delegates missing methods to the current dispatcher (if the state is
+<tt>open</tt>). This allows clients to register callbacks for the supported
+operations of the negotiated protocol version.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000090_source')" id="l_M000090_source">show source</a> ]</p>
+  <div id="M000090_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 196</span>
+196:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>( <span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+197:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:open</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@dispatcher</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">sym</span> )
+198:         <span class="ruby-identifier">assert_state</span> <span class="ruby-identifier">:open</span>
+199:         <span class="ruby-ivar">@dispatcher</span>.<span class="ruby-identifier">__send__</span>( <span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+200:       <span class="ruby-keyword kw">else</span>
+201:         <span class="ruby-keyword kw">super</span>
+202:       <span class="ruby-keyword kw">end</span>
+203:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000084"></a><b>next_request_id</b>()
+  </div>
+  <div class="description">
+  <p>
+Returns the next available request id in a thread-safe manner. The
+request-id is used to identify packets associated with request sequences.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000084_source')" id="l_M000084_source">show source</a> ]</p>
+  <div id="M000084_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 81</span>
+81:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">next_request_id</span>
+82:       <span class="ruby-ivar">@next_request_mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>
+83:         <span class="ruby-identifier">request_id</span> = <span class="ruby-ivar">@next_request_id</span>
+84:         <span class="ruby-ivar">@next_request_id</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+85:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">request_id</span>
+86:       <span class="ruby-keyword kw">end</span>
+87:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000085"></a><b>on_open</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Specify the callback to invoke when the session has been successfully
+opened (i.e., once the driver&#8217;s state has moved to <tt>open</tt>).
+The callback should accept a single parameter&#8212;the driver itself.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000085_source')" id="l_M000085_source">show source</a> ]</p>
+  <div id="M000085_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 92</span>
+92:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_open</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+93:       <span class="ruby-ivar">@on_open</span> = <span class="ruby-identifier">block</span>
+94:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000091"></a><b>respond_to?</b>( sym )
+  </div>
+  <div class="description">
+  <p>
+Returns true if the driver responds to the given message, or if the state
+is <tt>open</tt> and the active dispatcher responds to the given message.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000091_source')" id="l_M000091_source">show source</a> ]</p>
+  <div id="M000091_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 208</span>
+208:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">sym</span> )
+209:       <span class="ruby-keyword kw">super</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:open</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@dispatcher</span>.<span class="ruby-identifier">respond_to?</span>( <span class="ruby-identifier">sym</span> )
+210:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000092"></a><b>send_data</b>( type, data )
+  </div>
+  <div class="description">
+  <p>
+A convenience method for sending an <a href="../../SFTP.html">SFTP</a>
+packet of the given type, with the given payload. This repackages the data
+as an SSH data packet and sends it across the channel.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000092_source')" id="l_M000092_source">show source</a> ]</p>
+  <div id="M000092_source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/protocol/driver.rb, line 215</span>
+215:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_data</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span> )
+216:       <span class="ruby-identifier">data</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+217: 
+218:       <span class="ruby-identifier">msg</span> = <span class="ruby-ivar">@buffers</span>.<span class="ruby-identifier">writer</span>
+219:       <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+220:       <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-identifier">type</span>
+221:       <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">data</span>
+222: 
+223:       <span class="ruby-ivar">@channel</span>.<span class="ruby-identifier">send_data</span> <span class="ruby-identifier">msg</span>
+224:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

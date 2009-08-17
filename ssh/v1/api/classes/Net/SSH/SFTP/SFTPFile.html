@@ -1,0 +1,398 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::SFTP::SFTPFile</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::SFTP::SFTPFile</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/sftp/simple_rb.html">lib/net/ssh/sftp/simple.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+A class encapsulating a file handle on the remote server. Data may be read
+from or written to the file, depending on the permissions that were given
+when it was opened.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000089">&lt;&lt;</a></li>
+  <li><a href="#M000094">buffer!</a></li>
+  <li><a href="#M000093">buffered?</a></li>
+  <li><a href="#M000090">close</a></li>
+  <li><a href="#M000095">gets</a></li>
+  <li><a href="#M000084">new</a></li>
+  <li><a href="#M000087">print</a></li>
+  <li><a href="#M000088">puts</a></li>
+  <li><a href="#M000085">read</a></li>
+  <li><a href="#M000091">seek</a></li>
+  <li><a href="#M000092">tell</a></li>
+  <li><a href="#M000086">write</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>status</td>
+    <td class='attr-desc'></td>
+  </tr>
+  </table>
+
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000084"></a><b>new</b>( session, sftp, handle )
+  </div>
+  <div class="description">
+  <p>
+Create a new <a href="../SFTP.html">SFTP</a> file object from the given
+session, sftp reference, and handle.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000084-source')" id="l_M000084-source">show source</a> ]</p>
+  <div id="M000084-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 231</span>
+231:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">session</span>, <span class="ruby-identifier">sftp</span>, <span class="ruby-identifier">handle</span> )
+232:           <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+233:           <span class="ruby-ivar">@sftp</span> = <span class="ruby-identifier">sftp</span>
+234:           <span class="ruby-ivar">@handle</span> = <span class="ruby-identifier">handle</span>
+235:           <span class="ruby-ivar">@pos</span> = <span class="ruby-value">0</span>
+236:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000089"></a><b>&lt;&lt;</b>( data )
+  </div>
+  <div class="description">
+  <p>
+Writes the given data to the file
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000089-source')" id="l_M000089-source">show source</a> ]</p>
+  <div id="M000089-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 280</span>
+280:         <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;&lt;</span>( <span class="ruby-identifier">data</span> )
+281:           <span class="ruby-identifier">write</span> <span class="ruby-identifier">data</span>
+282:           <span class="ruby-keyword kw">self</span>
+283:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000094"></a><b>buffer!</b>( buffer_capacity=1024 )
+  </div>
+  <div class="description">
+  <p>
+Causes the file to become buffered. This also causes the file to extend the
+<a href="SFTPFileBufferer.html">SFTPFileBufferer</a> module.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000094-source')" id="l_M000094-source">show source</a> ]</p>
+  <div id="M000094-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 312</span>
+312:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">buffer!</span>( <span class="ruby-identifier">buffer_capacity</span>=<span class="ruby-value">1024</span> )
+313:           <span class="ruby-identifier">require</span> <span class="ruby-value str">'stringio'</span>
+314:           <span class="ruby-identifier">extend</span> <span class="ruby-constant">SFTPFileBufferer</span>
+315:           <span class="ruby-ivar">@buffer_capacity</span> = <span class="ruby-identifier">buffer_capacity</span>
+316:           <span class="ruby-ivar">@buffer</span> = <span class="ruby-keyword kw">nil</span>
+317:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000093"></a><b>buffered?</b>()
+  </div>
+  <div class="description">
+  <p>
+Returns false until the file has been buffered.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000093-source')" id="l_M000093-source">show source</a> ]</p>
+  <div id="M000093-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 306</span>
+306:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">buffered?</span>
+307:           <span class="ruby-keyword kw">false</span>
+308:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000090"></a><b>close</b>()
+  </div>
+  <div class="description">
+  <p>
+Closes the file handle. No other operations should be made on the file
+object.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000090-source')" id="l_M000090-source">show source</a> ]</p>
+  <div id="M000090-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 287</span>
+287:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
+288:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">close_handle</span>( <span class="ruby-ivar">@handle</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span><span class="ruby-operator">|</span>
+289:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+290:             <span class="ruby-keyword kw">return</span> ( <span class="ruby-ivar">@status</span>[<span class="ruby-identifier">:code</span>] <span class="ruby-operator">==</span> <span class="ruby-constant">Constants</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH_FX_OK</span> )
+291:           <span class="ruby-keyword kw">end</span>
+292:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+293:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000095"></a><b>gets</b>( sep_str = $/ )
+  </div>
+  <div class="description">
+  <p>
+Forces the file into buffered mode and returns the first full line of text.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000095-source')" id="l_M000095-source">show source</a> ]</p>
+  <div id="M000095-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 321</span>
+321:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">gets</span>( <span class="ruby-identifier">sep_str</span> = <span class="ruby-identifier">$/</span> )
+322:           <span class="ruby-identifier">buffer!</span>
+323:           <span class="ruby-identifier">gets</span>( <span class="ruby-identifier">sep_str</span> )
+324:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000087"></a><b>print</b>( data, chunk_size=32000 )
+  </div>
+  <div class="description">
+  <p>
+Alias for <a href="SFTPFile.html#M000086">write</a>
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000088"></a><b>puts</b>( *lines )
+  </div>
+  <div class="description">
+  <p>
+Writes the given parameters to the file, appending newlines.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000088-source')" id="l_M000088-source">show source</a> ]</p>
+  <div id="M000088-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 274</span>
+274:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">puts</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">lines</span> )
+275:           <span class="ruby-identifier">content</span> = <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-identifier">l</span>.<span class="ruby-identifier">chomp</span> }.<span class="ruby-identifier">join</span>( <span class="ruby-value str">&quot;\n&quot;</span> ) <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+276:           <span class="ruby-identifier">write</span> <span class="ruby-identifier">content</span>
+277:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000085"></a><b>read</b>( size=nil, chunk_size=32000, progress_callback=nil )
+  </div>
+  <div class="description">
+  <p>
+Do a synchronous read from the file. If the <tt>size</tt> parameter is
+non-null, then that may bytes will be read from the file. All reads advance
+the file pointer, so that subsequent reads will be done from that position.
+</p>
+<p>
+The read data will be returned.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000085-source')" id="l_M000085-source">show source</a> ]</p>
+  <div id="M000085-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 243</span>
+243:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read</span>( <span class="ruby-identifier">size</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span>, <span class="ruby-identifier">progress_callback</span>=<span class="ruby-keyword kw">nil</span> )
+244:           <span class="ruby-identifier">done</span> = <span class="ruby-keyword kw">false</span>
+245:           <span class="ruby-identifier">content</span> = <span class="ruby-keyword kw">nil</span>
+246:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">read_handle</span>( <span class="ruby-ivar">@handle</span>, <span class="ruby-ivar">@pos</span>, <span class="ruby-identifier">size</span>, <span class="ruby-identifier">chunk_size</span>, <span class="ruby-identifier">progress_callback</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span>, <span class="ruby-identifier">body</span><span class="ruby-operator">|</span>
+247:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+248:             <span class="ruby-ivar">@pos</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">body</span>.<span class="ruby-identifier">length</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">body</span>
+249:             <span class="ruby-identifier">content</span> = <span class="ruby-identifier">body</span>
+250:             <span class="ruby-identifier">done</span> = <span class="ruby-keyword kw">true</span>
+251:           <span class="ruby-keyword kw">end</span>
+252:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span> { <span class="ruby-operator">!</span><span class="ruby-identifier">done</span> }
+253:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">content</span>
+254:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000091"></a><b>seek</b>( pos )
+  </div>
+  <div class="description">
+  <p>
+Seek to the given position in the file.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000091-source')" id="l_M000091-source">show source</a> ]</p>
+  <div id="M000091-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 296</span>
+296:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">seek</span>( <span class="ruby-identifier">pos</span> )
+297:           <span class="ruby-ivar">@pos</span> = <span class="ruby-identifier">pos</span>
+298:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000092"></a><b>tell</b>()
+  </div>
+  <div class="description">
+  <p>
+Report the current file position.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000092-source')" id="l_M000092-source">show source</a> ]</p>
+  <div id="M000092-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 301</span>
+301:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tell</span>
+302:           <span class="ruby-ivar">@pos</span>
+303:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000086"></a><b>write</b>( data, chunk_size=32000 )
+  </div>
+  <div class="description">
+  <p>
+Do a synchronous write to the file. The given data will be written to the
+file. Returns true if successful, and false otherwise.
+</p>
+  </div>
+<div class="aka">
+  This method is also aliased as
+  <a href="SFTPFile.html#M000087">print</a>
+</div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000086-source')" id="l_M000086-source">show source</a> ]</p>
+  <div id="M000086-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/sftp/simple.rb, line 258</span>
+258:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write</span>( <span class="ruby-identifier">data</span>, <span class="ruby-identifier">chunk_size</span>=<span class="ruby-value">32000</span> )
+259:           <span class="ruby-ivar">@sftp</span>.<span class="ruby-identifier">write_handle</span>( <span class="ruby-ivar">@handle</span>, <span class="ruby-identifier">data</span>, <span class="ruby-ivar">@pos</span>, <span class="ruby-identifier">chunk_size</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">status</span><span class="ruby-operator">|</span>
+260:             <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+261:             <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@status</span>[<span class="ruby-identifier">:code</span>] <span class="ruby-operator">==</span> <span class="ruby-constant">Constants</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH_FX_OK</span>
+262:               <span class="ruby-ivar">@pos</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span>
+263:               <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+264:             <span class="ruby-keyword kw">else</span>
+265:               <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+266:             <span class="ruby-keyword kw">end</span>
+267:           <span class="ruby-keyword kw">end</span>
+268:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">main_loop</span>
+269:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

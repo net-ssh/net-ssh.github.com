@@ -1,0 +1,2438 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Net::SFTP::Session</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Net::SFTP::Session</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/net/sftp/session_rb.html">
+                lib/net/sftp/session.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="Session.html">Session</a> class encapsulates a single <a
+href="../SFTP.html">SFTP</a> channel on a <a
+href="../SSH.html">Net::SSH</a> connection. Instances of this class are
+what most applications will interact with most, as it provides access to
+both low-level (<a href="Session.html#M000143">mkdir</a>, <a
+href="Session.html#M000151">rename</a>, <a
+href="Session.html#M000141">remove</a>, <a
+href="Session.html#M000155">symlink</a>, etc.) and high-level (<a
+href="Session.html#M000115">upload</a>, <a
+href="Session.html#M000117">download</a>, etc.) <a
+href="../SFTP.html">SFTP</a> operations.
+</p>
+<p>
+Although <a href="Session.html">Session</a> makes it easy to do <a
+href="../SFTP.html">SFTP</a> operations serially, you can also set up
+multiple operations to be done in parallel, too, without needing to resort
+to threading. You merely need to fire off the requests, and then run the
+event <a href="Session.html#M000169">loop</a> until all of the requests
+have completed:
+</p>
+<pre>
+  handle1 = sftp.open!(&quot;/path/to/file1&quot;)
+  handle2 = sftp.open!(&quot;/path/to/file2&quot;)
+
+  r1 = sftp.read(handle1, 0, 1024)
+  r2 = sftp.read(handle2, 0, 1024)
+  sftp.loop { [r1, r2].any? { |r| r.pending? } }
+
+  puts &quot;chunk #1: #{r1.response[:data]}&quot;
+  puts &quot;chunk #2: #{r2.response[:data]}&quot;
+</pre>
+<p>
+By passing blocks to the operations, you can set up powerful state
+machines, to fire off subsequent operations. In fact, the <a
+href="Operations/Upload.html">Net::SFTP::Operations::Upload</a> and <a
+href="Operations/Download.html">Net::SFTP::Operations::Download</a> classes
+set up such state machines, so that multiple uploads and/or downloads can
+be running simultaneously.
+</p>
+<p>
+The convention with the names of the operations is as follows: if the
+method name ends with an exclamation mark, like <a
+href="Session.html#M000125">read</a>!, it will be synchronous (e.g., it
+will <a href="Session.html#M000159">block</a> until the server responds).
+Methods without an exclamation mark (e.g. <a
+href="Session.html#M000125">read</a>) are asynchronous, and return before
+the server has responded. You will need to make sure the <a
+href="../SSH.html">SSH</a> event <a href="Session.html#M000169">loop</a> is
+run in order to process these requests. (See <a
+href="Session.html#M000169">loop</a>.)
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000159">block</a>&nbsp;&nbsp;
+      <a href="#M000160">block!</a>&nbsp;&nbsp;
+      <a href="#M000123">close</a>&nbsp;&nbsp;
+      <a href="#M000124">close!</a>&nbsp;&nbsp;
+      <a href="#M000163">close_channel</a>&nbsp;&nbsp;
+      <a href="#M000165">closed?</a>&nbsp;&nbsp;
+      <a href="#M000167">connect</a>&nbsp;&nbsp;
+      <a href="#M000168">connect!</a>&nbsp;&nbsp;
+      <a href="#M000120">dir</a>&nbsp;&nbsp;
+      <a href="#M000117">download</a>&nbsp;&nbsp;
+      <a href="#M000118">download!</a>&nbsp;&nbsp;
+      <a href="#M000119">file</a>&nbsp;&nbsp;
+      <a href="#M000135">fsetstat</a>&nbsp;&nbsp;
+      <a href="#M000136">fsetstat!</a>&nbsp;&nbsp;
+      <a href="#M000131">fstat</a>&nbsp;&nbsp;
+      <a href="#M000132">fstat!</a>&nbsp;&nbsp;
+      <a href="#M000157">link</a>&nbsp;&nbsp;
+      <a href="#M000158">link!</a>&nbsp;&nbsp;
+      <a href="#M000169">loop</a>&nbsp;&nbsp;
+      <a href="#M000129">lstat</a>&nbsp;&nbsp;
+      <a href="#M000130">lstat!</a>&nbsp;&nbsp;
+      <a href="#M000143">mkdir</a>&nbsp;&nbsp;
+      <a href="#M000144">mkdir!</a>&nbsp;&nbsp;
+      <a href="#M000114">new</a>&nbsp;&nbsp;
+      <a href="#M000121">open</a>&nbsp;&nbsp;
+      <a href="#M000122">open!</a>&nbsp;&nbsp;
+      <a href="#M000164">open?</a>&nbsp;&nbsp;
+      <a href="#M000137">opendir</a>&nbsp;&nbsp;
+      <a href="#M000138">opendir!</a>&nbsp;&nbsp;
+      <a href="#M000166">opening?</a>&nbsp;&nbsp;
+      <a href="#M000125">read</a>&nbsp;&nbsp;
+      <a href="#M000126">read!</a>&nbsp;&nbsp;
+      <a href="#M000139">readdir</a>&nbsp;&nbsp;
+      <a href="#M000140">readdir!</a>&nbsp;&nbsp;
+      <a href="#M000153">readlink</a>&nbsp;&nbsp;
+      <a href="#M000154">readlink!</a>&nbsp;&nbsp;
+      <a href="#M000147">realpath</a>&nbsp;&nbsp;
+      <a href="#M000148">realpath!</a>&nbsp;&nbsp;
+      <a href="#M000141">remove</a>&nbsp;&nbsp;
+      <a href="#M000142">remove!</a>&nbsp;&nbsp;
+      <a href="#M000151">rename</a>&nbsp;&nbsp;
+      <a href="#M000152">rename!</a>&nbsp;&nbsp;
+      <a href="#M000145">rmdir</a>&nbsp;&nbsp;
+      <a href="#M000146">rmdir!</a>&nbsp;&nbsp;
+      <a href="#M000170">send_packet</a>&nbsp;&nbsp;
+      <a href="#M000133">setstat</a>&nbsp;&nbsp;
+      <a href="#M000134">setstat!</a>&nbsp;&nbsp;
+      <a href="#M000149">stat</a>&nbsp;&nbsp;
+      <a href="#M000150">stat!</a>&nbsp;&nbsp;
+      <a href="#M000155">symlink</a>&nbsp;&nbsp;
+      <a href="#M000156">symlink!</a>&nbsp;&nbsp;
+      <a href="#M000161">unblock</a>&nbsp;&nbsp;
+      <a href="#M000162">unblock!</a>&nbsp;&nbsp;
+      <a href="#M000115">upload</a>&nbsp;&nbsp;
+      <a href="#M000116">upload!</a>&nbsp;&nbsp;
+      <a href="#M000127">write</a>&nbsp;&nbsp;
+      <a href="#M000128">write!</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">Net::SSH::Loggable</span>
+        <span class="include-name"><a href="Constants/PacketTypes.html">Net::SFTP::Constants::PacketTypes</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HIGHEST_PROTOCOL_VERSION_SUPPORTED</td>
+          <td>=</td>
+          <td class="context-item-value">6</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+The highest protocol version supported by the <a
+href="../SFTP.html">Net::SFTP</a> library.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="aliases-list">
+      <h3 class="section-bar">External Aliases</h3>
+
+      <div class="name-list">
+                        <table summary="aliases">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">loop</td>
+          <td>-&gt;</td>
+          <td class="context-item-value">loop_forever</td>
+        </tr>
+                        </table>
+      </div>
+    </div>
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">channel</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The Net::SSH::Connection::Channel object that the <a
+href="../SFTP.html">SFTP</a> session is being processed by.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">pending_requests</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The hash of pending requests. Any requests that have been sent and which
+the server has not yet responded to will be represented here.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">protocol</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The protocol instance being used by this <a href="../SFTP.html">SFTP</a>
+session. Useful for querying the protocol version in effect.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">session</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+A reference to the <a href="../SSH.html">Net::SSH</a> session object that
+powers this <a href="../SFTP.html">SFTP</a> session.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">state</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The state of the <a href="../SFTP.html">SFTP</a> connection. It will be
+:opening, :subsystem, :init, :<a href="Session.html#M000121">open</a>, or
+:closed.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000114" class="method-detail">
+        <a name="M000114"></a>
+
+        <div class="method-heading">
+          <a href="#M000114" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(session, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a <a href="Session.html#M000114">new</a> <a
+href="../SFTP.html">Net::SFTP</a> instance atop the given <a
+href="../SSH.html">Net::SSH</a> connection. This will return immediately,
+before the <a href="../SFTP.html">SFTP</a> connection has been properly
+initialized. Once the connection is ready, the given <a
+href="Session.html#M000159">block</a> will be called. If you want to <a
+href="Session.html#M000159">block</a> until the connection has been
+initialized, try this:
+</p>
+<pre>
+  sftp = Net::SFTP::Session.new(ssh)
+  sftp.loop { sftp.opening? }
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000114-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000114-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 78</span>
+78:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">session</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+79:       <span class="ruby-ivar">@session</span>    = <span class="ruby-identifier">session</span>
+80:       <span class="ruby-ivar">@input</span>      = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Buffer</span>.<span class="ruby-identifier">new</span>
+81:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-identifier">session</span>.<span class="ruby-identifier">logger</span>
+82:       <span class="ruby-ivar">@state</span>      = <span class="ruby-identifier">:closed</span>
+83: 
+84:       <span class="ruby-identifier">connect</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+85:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000159" class="method-detail">
+        <a name="M000159"></a>
+
+        <div class="method-heading">
+          <a href="#M000159" class="method-signature">
+          <span class="method-name">block(handle, offset, length, mask) &rarr; request<br />
+block(handle, offset, length, mask) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a byte-range lock on the <a href="Session.html#M000119">file</a>
+specified by the given <tt>handle</tt>. This operation is only available in
+<a href="../SFTP.html">SFTP</a> protocol versions 6 and higher. The lock
+may be either mandatory or advisory.
+</p>
+<p>
+The <tt>handle</tt> parameter is a <a href="Session.html#M000119">file</a>
+handle, as obtained by the <a href="Session.html#M000121">open</a> method.
+</p>
+<p>
+The <tt>offset</tt> and <tt>length</tt> parameters describe the location
+and size of the byte range.
+</p>
+<p>
+The <tt>mask</tt> describes how the lock should be defined, and consists of
+some combination of the following bit masks:
+</p>
+<ul>
+<li>0x0040 - Read lock. The byte range may not be accessed for reading by via
+any other handle, though it may be written to.
+
+</li>
+<li>0x0080 - Write lock. The byte range may not be written to via any other
+handle, though it may be <a href="Session.html#M000125">read</a> from.
+
+</li>
+<li>0x0100 - Delete lock. No other handle may delete this <a
+href="Session.html#M000119">file</a>.
+
+</li>
+<li>0x0200 - Advisory lock. The server need not honor the lock instruction.
+
+</li>
+</ul>
+<p>
+Once created, the lock may be removed via the <a
+href="Session.html#M000161">unblock</a> method.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000159-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000159-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 690</span>
+690:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">block</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-identifier">mask</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+691:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:block</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-identifier">mask</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+692:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000160" class="method-detail">
+        <a name="M000160"></a>
+
+        <div class="method-heading">
+          <a href="#M000160" class="method-signature">
+          <span class="method-name">block!</span><span class="method-args">(handle, offset, length, mask, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000159">block</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000160-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000160-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 697</span>
+697:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">block!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-identifier">mask</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+698:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">block</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-identifier">mask</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+699:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000123" class="method-detail">
+        <a name="M000123"></a>
+
+        <div class="method-heading">
+          <a href="#M000123" class="method-signature">
+          <span class="method-name">close(handle) &rarr; request<br />
+close(handle) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Closes an <a href="Session.html#M000121">open</a> handle, whether obtained
+via <a href="Session.html#M000121">open</a>, or <a
+href="Session.html#M000137">opendir</a>. Returns immediately with a <a
+href="Request.html">Request</a> object. If a <a
+href="Session.html#M000159">block</a> is given, it will be invoked when the
+server responds.
+</p>
+<pre>
+  sftp.open(&quot;/path/to/file&quot;) do |response|
+    raise &quot;fail!&quot; unless response.ok?
+    sftp.close(response[:handle])
+  end
+  sftp.loop
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000123-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000123-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 206</span>
+206:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+207:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:close</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+208:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000124" class="method-detail">
+        <a name="M000124"></a>
+
+        <div class="method-heading">
+          <a href="#M000124" class="method-signature">
+          <span class="method-name">close!</span><span class="method-args">(handle, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000123">close</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it returns the <a
+href="Response.html">Response</a> object for this request.
+</p>
+<pre>
+  sftp.close!(handle)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000124-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000124-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 215</span>
+215:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+216:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">close</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+217:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000163" class="method-detail">
+        <a name="M000163"></a>
+
+        <div class="method-heading">
+          <a href="#M000163" class="method-signature">
+          <span class="method-name">close_channel</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Closes the <a href="../SFTP.html">SFTP</a> connection, but not the <a
+href="../SSH.html">SSH</a> connection. Blocks until the session has
+terminated. Once the session has terminated, further operations on this
+object will result in errors. You can reopen the <a
+href="../SFTP.html">SFTP</a> session via the <a
+href="Session.html#M000167">connect</a> method.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000163-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000163-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 726</span>
+726:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close_channel</span>
+727:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">open?</span>
+728:         <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">close</span>
+729:         <span class="ruby-identifier">loop</span> { <span class="ruby-operator">!</span><span class="ruby-identifier">closed?</span> }
+730:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000165" class="method-detail">
+        <a name="M000165"></a>
+
+        <div class="method-heading">
+          <a href="#M000165" class="method-signature">
+          <span class="method-name">closed?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the connection has been closed.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000165-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000165-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 738</span>
+738:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">closed?</span>
+739:         <span class="ruby-identifier">state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:closed</span>
+740:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000167" class="method-detail">
+        <a name="M000167"></a>
+
+        <div class="method-heading">
+          <a href="#M000167" class="method-signature">
+          <span class="method-name">connect</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Attempts to establish an <a href="../SFTP.html">SFTP</a> connection over
+the <a href="../SSH.html">SSH</a> session given when this object was
+instantiated. If the object is already <a
+href="Session.html#M000121">open</a>, this will simply execute the given <a
+href="Session.html#M000159">block</a> (if any), passing the <a
+href="../SFTP.html">SFTP</a> session itself as argument. If the session is
+currently being opened, this will add the given <a
+href="Session.html#M000159">block</a> to the list of callbacks, to be
+executed when the session is fully <a href="Session.html#M000121">open</a>.
+</p>
+<p>
+This method does not <a href="Session.html#M000159">block</a>, and will
+return immediately. If you pass a <a href="Session.html#M000159">block</a>
+to it, that <a href="Session.html#M000159">block</a> will be invoked when
+the connection has been fully established. Thus, you can do something like
+this:
+</p>
+<pre>
+  sftp.connect do
+    puts &quot;open!&quot;
+  end
+</pre>
+<p>
+If you just want to <a href="Session.html#M000159">block</a> until the
+connection is ready, see the <a href="Session.html#M000167">connect</a>!
+method.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000167-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000167-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 765</span>
+765:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">connect</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+766:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">state</span>
+767:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:open</span>
+768:           <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword kw">self</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+769:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:closed</span>
+770:           <span class="ruby-ivar">@state</span> = <span class="ruby-identifier">:opening</span>
+771:           <span class="ruby-ivar">@channel</span> = <span class="ruby-identifier">session</span>.<span class="ruby-identifier">open_channel</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">method</span>(<span class="ruby-identifier">:when_channel_confirmed</span>))
+772:           <span class="ruby-ivar">@packet_length</span> = <span class="ruby-keyword kw">nil</span>
+773:           <span class="ruby-ivar">@protocol</span> = <span class="ruby-keyword kw">nil</span>
+774:           <span class="ruby-ivar">@on_ready</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">block</span>)
+775:         <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># opening</span>
+776:           <span class="ruby-ivar">@on_ready</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+777:         <span class="ruby-keyword kw">end</span>
+778: 
+779:         <span class="ruby-keyword kw">self</span>
+780:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000168" class="method-detail">
+        <a name="M000168"></a>
+
+        <div class="method-heading">
+          <a href="#M000168" class="method-signature">
+          <span class="method-name">connect!</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Same as the <a href="Session.html#M000167">connect</a> method, but blocks
+until the <a href="../SFTP.html">SFTP</a> connection has been fully
+initialized.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000168-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000168-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 784</span>
+784:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">connect!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+785:         <span class="ruby-identifier">connect</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+786:         <span class="ruby-identifier">loop</span> { <span class="ruby-identifier">opening?</span> }
+787:         <span class="ruby-keyword kw">self</span>
+788:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000120" class="method-detail">
+        <a name="M000120"></a>
+
+        <div class="method-heading">
+          <a href="#M000120" class="method-signature">
+          <span class="method-name">dir</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a <a href="Operations/Dir.html">Net::SFTP::Operations::Dir</a>
+instance, which can be used to conveniently iterate over and search
+directories on the remote server.
+</p>
+<pre>
+ sftp.dir.glob(&quot;/base/path&quot;, &quot;*/**/*.rb&quot;) do |entry|
+   p entry.name
+ end
+</pre>
+<p>
+See <a href="Operations/Dir.html">Net::SFTP::Operations::Dir</a> for a more
+detailed discussion of how to use this.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000120-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000120-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 152</span>
+152:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dir</span>
+153:         <span class="ruby-ivar">@dir</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Operations</span><span class="ruby-operator">::</span><span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>)
+154:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000117" class="method-detail">
+        <a name="M000117"></a>
+
+        <div class="method-heading">
+          <a href="#M000117" class="method-signature">
+          <span class="method-name">download</span><span class="method-args">(remote, local, options={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Initiates a <a href="Session.html#M000117">download</a> from
+<tt>remote</tt> to <tt>local</tt>, asynchronously. This method will return
+a <a href="Session.html#M000114">new</a> <a
+href="Operations/Download.html">Net::SFTP::Operations::Download</a>
+instance, and requires that the event <a
+href="Session.html#M000169">loop</a> be run in order for the <a
+href="Session.html#M000117">download</a> to progress. See <a
+href="Operations/Download.html">Net::SFTP::Operations::Download</a> for a
+full discussion of hos this method can be used.
+</p>
+<pre>
+  download = sftp.download(&quot;/remote/path&quot;, &quot;/local/path&quot;)
+  download.wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000117-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000117-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 114</span>
+114:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">download</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+115:         <span class="ruby-constant">Operations</span><span class="ruby-operator">::</span><span class="ruby-constant">Download</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+116:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000118" class="method-detail">
+        <a name="M000118"></a>
+
+        <div class="method-heading">
+          <a href="#M000118" class="method-signature">
+          <span class="method-name">download!</span><span class="method-args">(remote, local=nil, options={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000117">download</a>, but blocks until
+the <a href="Session.html#M000117">download</a> is complete. If
+<tt>local</tt> is omitted, downloads the <a
+href="Session.html#M000119">file</a> to an in-memory buffer and returns the
+result as a string; otherwise, returns the <a
+href="Operations/Download.html">Net::SFTP::Operations::Download</a>
+instance.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000118-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000118-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 122</span>
+122:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">download!</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">local</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+123:         <span class="ruby-identifier">destination</span> = <span class="ruby-identifier">local</span> <span class="ruby-operator">||</span> <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>
+124:         <span class="ruby-identifier">result</span> = <span class="ruby-identifier">download</span>(<span class="ruby-identifier">remote</span>, <span class="ruby-identifier">destination</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>).<span class="ruby-identifier">wait</span>
+125:         <span class="ruby-identifier">local</span> <span class="ruby-value">? </span><span class="ruby-identifier">result</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">destination</span>.<span class="ruby-identifier">string</span>
+126:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000119" class="method-detail">
+        <a name="M000119"></a>
+
+        <div class="method-heading">
+          <a href="#M000119" class="method-signature">
+          <span class="method-name">file</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an <a
+href="Operations/FileFactory.html">Net::SFTP::Operations::FileFactory</a>
+instance, which can be used to mimic synchronous, IO-like <a
+href="Session.html#M000119">file</a> operations on a remote <a
+href="Session.html#M000119">file</a> via <a href="../SFTP.html">SFTP</a>.
+</p>
+<pre>
+  sftp.file.open(&quot;/path/to/file&quot;) do |file|
+    while line = file.gets
+      puts line
+    end
+  end
+</pre>
+<p>
+See <a
+href="Operations/FileFactory.html">Net::SFTP::Operations::FileFactory</a>
+and <a href="Operations/File.html">Net::SFTP::Operations::File</a> for more
+details.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000119-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000119-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 139</span>
+139:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">file</span>
+140:         <span class="ruby-ivar">@file</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Operations</span><span class="ruby-operator">::</span><span class="ruby-constant">FileFactory</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>)
+141:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000135" class="method-detail">
+        <a name="M000135"></a>
+
+        <div class="method-heading">
+          <a href="#M000135" class="method-signature">
+          <span class="method-name">fsetstat</span><span class="method-args">(handle, attrs, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="Session.html#M000135">fsetstat</a> method is identical to the
+<a href="Session.html#M000133">setstat</a> method, with the exception that
+it takes a <tt>handle</tt> as the first parameter, such as would be
+obtained via the <a href="Session.html#M000121">open</a> or <a
+href="Session.html#M000137">opendir</a> methods. (See the <a
+href="Session.html#M000133">setstat</a> method for full documentation.)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000135-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000135-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 377</span>
+377:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fsetstat</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+378:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:fsetstat</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+379:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000136" class="method-detail">
+        <a name="M000136"></a>
+
+        <div class="method-heading">
+          <a href="#M000136" class="method-signature">
+          <span class="method-name">fsetstat!</span><span class="method-args">(handle, attrs, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to the <a href="Session.html#M000135">fsetstat</a> method, but
+blocks until the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.fsetstat!(handle, :permissions =&gt; 0644)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000136-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000136-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 386</span>
+386:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fsetstat!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+387:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">fsetstat</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+388:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000131" class="method-detail">
+        <a name="M000131"></a>
+
+        <div class="method-heading">
+          <a href="#M000131" class="method-signature">
+          <span class="method-name">fstat</span><span class="method-args">(handle, flags=nil, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="Session.html#M000131">fstat</a> method is identical to the <a
+href="Session.html#M000149">stat</a> and <a
+href="Session.html#M000129">lstat</a> methods, with the exception that it
+takes a <tt>handle</tt> as the first parameter, such as would be obtained
+via the <a href="Session.html#M000121">open</a> or <a
+href="Session.html#M000137">opendir</a> methods. (See the <a
+href="Session.html#M000129">lstat</a> method for full documentation).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000131-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000131-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 326</span>
+326:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fstat</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+327:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:fstat</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+328:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000132" class="method-detail">
+        <a name="M000132"></a>
+
+        <div class="method-heading">
+          <a href="#M000132" class="method-signature">
+          <span class="method-name">fstat!</span><span class="method-args">(handle, flags=nil, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to the <a href="Session.html#M000131">fstat</a> method, but
+blocks until the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the attribute object describing the
+path.
+</p>
+<pre>
+  puts sftp.fstat!(handle).permissions
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000132-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000132-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 335</span>
+335:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fstat!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+336:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">fstat</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:attrs</span>)
+337:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000157" class="method-detail">
+        <a name="M000157"></a>
+
+        <div class="method-heading">
+          <a href="#M000157" class="method-signature">
+          <span class="method-name">link(new_link_path, existing_path, symlink=true) &rarr; request<br />
+link(new_link_path, existing_path, symlink=true) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Attempts to create a <a href="Session.html#M000157">link</a>, either hard
+or symbolic. This operation is only available in <a
+href="../SFTP.html">SFTP</a> protocol versions 6 and higher. If the <tt><a
+href="Session.html#M000155">symlink</a></tt> paramter is true, a symbolic
+<a href="Session.html#M000157">link</a> will be created, otherwise a hard
+<a href="Session.html#M000157">link</a> will be created. The <a
+href="Session.html#M000157">link</a> will be named <tt>new_link_path</tt>,
+and will point to the path <tt>existing_path</tt>.
+</p>
+<pre>
+  sftp.link(&quot;/path/to/symlink&quot;, &quot;/path/to/file&quot;, true).wait
+</pre>
+<p>
+Note that <a href="Session.html#M000157">link</a> is only available for <a
+href="../SFTP.html">SFTP</a> protocol 6 and higher. You can use <a
+href="Session.html#M000155">symlink</a> for protocols 3 and higher.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000157-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000157-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 653</span>
+653:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">link</span>(<span class="ruby-identifier">new_link_path</span>, <span class="ruby-identifier">existing_path</span>, <span class="ruby-identifier">symlink</span>=<span class="ruby-keyword kw">true</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+654:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:link</span>, <span class="ruby-identifier">new_link_path</span>, <span class="ruby-identifier">existing_path</span>, <span class="ruby-identifier">symlink</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+655:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000158" class="method-detail">
+        <a name="M000158"></a>
+
+        <div class="method-heading">
+          <a href="#M000158" class="method-signature">
+          <span class="method-name">link!</span><span class="method-args">(new_link_path, existing_path, symlink=true, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000157">link</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.link!(&quot;/path/to/symlink&quot;, &quot;/path/to/file&quot;, true)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000158-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000158-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 662</span>
+662:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">link!</span>(<span class="ruby-identifier">new_link_path</span>, <span class="ruby-identifier">existing_path</span>, <span class="ruby-identifier">symlink</span>=<span class="ruby-keyword kw">true</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+663:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">link</span>(<span class="ruby-identifier">new_link_path</span>, <span class="ruby-identifier">existing_path</span>, <span class="ruby-identifier">symlink</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+664:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000169" class="method-detail">
+        <a name="M000169"></a>
+
+        <div class="method-heading">
+          <a href="#M000169" class="method-signature">
+          <span class="method-name">loop</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Runs the <a href="../SSH.html">SSH</a> event <a
+href="Session.html#M000169">loop</a> while the given <a
+href="Session.html#M000159">block</a> returns true. This lets you set up a
+state machine and then &quot;fire it off&quot;. If you do not specify a <a
+href="Session.html#M000159">block</a>, the event <a
+href="Session.html#M000169">loop</a> will run for as long as there are any
+pending <a href="../SFTP.html">SFTP</a> requests. This makes it easy to do
+thing like this:
+</p>
+<pre>
+  sftp.remove(&quot;/path/to/file&quot;)
+  sftp.loop
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000169-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000169-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 799</span>
+799:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">loop</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+800:         <span class="ruby-identifier">block</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span> { <span class="ruby-identifier">pending_requests</span>.<span class="ruby-identifier">any?</span> }
+801:         <span class="ruby-identifier">session</span>.<span class="ruby-identifier">loop</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+802:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000129" class="method-detail">
+        <a name="M000129"></a>
+
+        <div class="method-heading">
+          <a href="#M000129" class="method-signature">
+          <span class="method-name">lstat(path, flags=nil) &rarr; request<br />
+lstat(path, flags=nil) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This method is identical to the <a href="Session.html#M000149">stat</a>
+method, with the exception that it will not follow symbolic links (thus
+allowing you to <a href="Session.html#M000149">stat</a> the <a
+href="Session.html#M000157">link</a> itself, rather than what it refers
+to). The <tt>flags</tt> parameter is not used in <a
+href="../SFTP.html">SFTP</a> protocol versions prior to 4, and will be
+ignored in those versions of the protocol that do not use it. For those
+that do, however, you may provide hints as to which <a
+href="Session.html#M000119">file</a> proprties you wish to query (e.g., if
+all you want is permissions, you could pass the
+Net::SFTP::Protocol::V04::Attributes::F_PERMISSIONS flag as the value for
+the <tt>flags</tt> parameter).
+</p>
+<p>
+The method returns immediately with a <a href="Request.html">Request</a>
+object. If a <a href="Session.html#M000159">block</a> is given, it will be
+invoked when the server responds. The :attrs property of the response will
+contain an Attributes instance appropriate for the the protocol version
+(see <a href="Protocol/V01/Attributes.html">Protocol::V01::Attributes</a>,
+<a href="Protocol/V04/Attributes.html">Protocol::V04::Attributes</a>, and
+<a href="Protocol/V06/Attributes.html">Protocol::V06::Attributes</a>).
+</p>
+<pre>
+  request = sftp.lstat(&quot;/path/to/file&quot;) do |response|
+    raise &quot;fail!&quot; unless response.ok?
+    puts &quot;permissions: %04o&quot; % response[:attrs].permissions
+  end
+  request.wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000129-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000129-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 309</span>
+309:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lstat</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+310:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:lstat</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+311:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000130" class="method-detail">
+        <a name="M000130"></a>
+
+        <div class="method-heading">
+          <a href="#M000130" class="method-signature">
+          <span class="method-name">lstat!</span><span class="method-args">(path, flags=nil, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to the <a href="Session.html#M000129">lstat</a> method, but
+blocks until the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the attribute object describing the
+path.
+</p>
+<pre>
+  puts sftp.lstat!(&quot;/path/to/file&quot;).permissions
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000130-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000130-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 318</span>
+318:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lstat!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+319:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">lstat</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:attrs</span>)
+320:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000143" class="method-detail">
+        <a name="M000143"></a>
+
+        <div class="method-heading">
+          <a href="#M000143" class="method-signature">
+          <span class="method-name">mkdir(path, attrs={}) &rarr; request<br />
+mkdir(path, attrs={}) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates the named directory on the remote server. If an attribute hash is
+given, it must map to the set of attributes supported by the version of the
+<a href="../SFTP.html">SFTP</a> protocol in use. (See <a
+href="Protocol/V01/Attributes.html">Protocol::V01::Attributes</a>, <a
+href="Protocol/V04/Attributes.html">Protocol::V04::Attributes</a>, and <a
+href="Protocol/V06/Attributes.html">Protocol::V06::Attributes</a>.)
+</p>
+<pre>
+  sftp.mkdir(&quot;/path/to/directory&quot;, :permissions =&gt; 0550).wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000143-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000143-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 487</span>
+487:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+488:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:mkdir</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+489:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000144" class="method-detail">
+        <a name="M000144"></a>
+
+        <div class="method-heading">
+          <a href="#M000144" class="method-signature">
+          <span class="method-name">mkdir!</span><span class="method-args">(path, attrs={}, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000143">mkdir</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.mkdir!(&quot;/path/to/directory&quot;, :permissions =&gt; 0550)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000144-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000144-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 496</span>
+496:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mkdir!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+497:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+498:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000121" class="method-detail">
+        <a name="M000121"></a>
+
+        <div class="method-heading">
+          <a href="#M000121" class="method-signature">
+          <span class="method-name">open(path, flags="r", options={}) &rarr; request<br />
+open(path, flags="r", options={}) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Opens a <a href="Session.html#M000119">file</a> on the remote server. The
+<tt>flags</tt> parameter determines how the flag is <a
+href="Session.html#M000121">open</a>, and accepts the same format as
+IO#open (e.g., either a string like &quot;r&quot; or &quot;w&quot;, or a
+combination of the IO constants). The <tt>options</tt> parameter is a hash
+of attributes to be associated with the <a
+href="Session.html#M000119">file</a>, and varies greatly depending on the
+<a href="../SFTP.html">SFTP</a> protocol version in use, but some (like
+:permissions) are always available.
+</p>
+<p>
+Returns immediately with a <a href="Request.html">Request</a> object. If a
+<a href="Session.html#M000159">block</a> is given, it will be invoked when
+the server responds, with a <a href="Response.html">Response</a> object as
+the only parameter. The :handle property of the response is the handle of
+the opened <a href="Session.html#M000119">file</a>, and may be passed to
+other methods (like <a href="Session.html#M000123">close</a>, <a
+href="Session.html#M000125">read</a>, <a
+href="Session.html#M000127">write</a>, and so forth).
+</p>
+<pre>
+  sftp.open(&quot;/path/to/file&quot;) do |response|
+    raise &quot;fail!&quot; unless response.ok?
+    sftp.close(response[:handle])
+  end
+  sftp.loop
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000121-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000121-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 180</span>
+180:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-value str">&quot;r&quot;</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+181:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:open</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+182:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000122" class="method-detail">
+        <a name="M000122"></a>
+
+        <div class="method-heading">
+          <a href="#M000122" class="method-signature">
+          <span class="method-name">open!</span><span class="method-args">(path, flags=&quot;r&quot;, options={}, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000121">open</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the handle of the newly opened <a
+href="Session.html#M000119">file</a>.
+</p>
+<pre>
+  handle = sftp.open!(&quot;/path/to/file&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000122-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000122-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 189</span>
+189:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-value str">&quot;r&quot;</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+190:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:handle</span>)
+191:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000164" class="method-detail">
+        <a name="M000164"></a>
+
+        <div class="method-heading">
+          <a href="#M000164" class="method-signature">
+          <span class="method-name">open?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the connection has been initialized.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000164-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000164-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 733</span>
+733:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open?</span>
+734:         <span class="ruby-identifier">state</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:open</span>
+735:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000137" class="method-detail">
+        <a name="M000137"></a>
+
+        <div class="method-heading">
+          <a href="#M000137" class="method-signature">
+          <span class="method-name">opendir(path) &rarr; request<br />
+opendir(path) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Attempts to <a href="Session.html#M000121">open</a> a directory on the
+remote host for reading. Once the handle is obtained, directory entries may
+be retrieved using the <a href="Session.html#M000139">readdir</a> method.
+The method returns immediately with a <a href="Request.html">Request</a>
+object. If a <a href="Session.html#M000159">block</a> is given, it will be
+invoked when the server responds.
+</p>
+<pre>
+  sftp.opendir(&quot;/path/to/directory&quot;) do |response|
+    raise &quot;fail!&quot; unless response.ok?
+    sftp.close(response[:handle])
+  end
+  sftp.loop
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000137-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000137-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 404</span>
+404:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">opendir</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+405:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:opendir</span>, <span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+406:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000138" class="method-detail">
+        <a name="M000138"></a>
+
+        <div class="method-heading">
+          <a href="#M000138" class="method-signature">
+          <span class="method-name">opendir!</span><span class="method-args">(path, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000137">opendir</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return a handle to the given path.
+</p>
+<pre>
+  handle = sftp.opendir!(&quot;/path/to/directory&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000138-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000138-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 413</span>
+413:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">opendir!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+414:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">opendir</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:handle</span>)
+415:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000166" class="method-detail">
+        <a name="M000166"></a>
+
+        <div class="method-heading">
+          <a href="#M000166" class="method-signature">
+          <span class="method-name">opening?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the connection is in the process of being initialized
+(e.g., it is not closed, but is not yet fully <a
+href="Session.html#M000121">open</a>).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000166-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000166-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 744</span>
+744:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">opening?</span>
+745:         <span class="ruby-operator">!</span>(<span class="ruby-identifier">open?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">closed?</span>)
+746:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000125" class="method-detail">
+        <a name="M000125"></a>
+
+        <div class="method-heading">
+          <a href="#M000125" class="method-signature">
+          <span class="method-name">read(handle, offset, length) &rarr; request<br />
+read(handle, offset, length) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Requests that <tt>length</tt> bytes, starting at <tt>offset</tt> bytes from
+the beginning of the <a href="Session.html#M000119">file</a>, be <a
+href="Session.html#M000125">read</a> from the <a
+href="Session.html#M000119">file</a> identified by <tt>handle</tt>. (The
+<tt>handle</tt> should be a value obtained via the <a
+href="Session.html#M000121">open</a> method.) Returns immediately with a <a
+href="Request.html">Request</a> object. If a <a
+href="Session.html#M000159">block</a> is given, it will be invoked when the
+server responds.
+</p>
+<p>
+The :data property of the response will contain the requested data,
+assuming the call was successful.
+</p>
+<pre>
+  request = sftp.read(handle, 0, 1024) do |response|
+    if response.eof?
+      puts &quot;end of file reached before reading any data&quot;
+    elsif !response.ok?
+      puts &quot;error (#{response})&quot;
+    else
+      print(response[:data])
+    end
+  end
+  request.wait
+</pre>
+<p>
+To <a href="Session.html#M000125">read</a> an entire <a
+href="Session.html#M000119">file</a> will usually require multiple calls to
+<a href="Session.html#M000125">read</a>, unless you know in advance how
+large the <a href="Session.html#M000119">file</a> is.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000125-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000125-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 245</span>
+245:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+246:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:read</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+247:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000126" class="method-detail">
+        <a name="M000126"></a>
+
+        <div class="method-heading">
+          <a href="#M000126" class="method-signature">
+          <span class="method-name">read!</span><span class="method-args">(handle, offset, length, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000125">read</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. If the end of the <a href="Session.html#M000119">file</a> was
+reached, <tt>nil</tt> will be returned. Otherwise, it returns the data that
+was <a href="Session.html#M000125">read</a>, as a String.
+</p>
+<pre>
+  data = sftp.read!(handle, 0, 1024)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000126-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000126-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 255</span>
+255:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+256:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">read</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:data</span>)
+257:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000139" class="method-detail">
+        <a name="M000139"></a>
+
+        <div class="method-heading">
+          <a href="#M000139" class="method-signature">
+          <span class="method-name">readdir(handle) &rarr; request<br />
+raeddir(handle) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads a set of entries from the given directory handle (which must have
+been obtained via <a href="Session.html#M000137">opendir</a>). If the
+response is EOF, then there are no more entries in the directory.
+Otherwise, the entries will be in the :names property of the response:
+</p>
+<pre>
+  loop do
+    request = sftp.readdir(handle).wait
+    break if request.response.eof?
+    raise &quot;fail!&quot; unless request.response.ok?
+    request.response[:names].each do |entry|
+       puts entry.name
+    end
+  end
+</pre>
+<p>
+See also <a href="Protocol/V01/Name.html">Protocol::V01::Name</a> and <a
+href="Protocol/V04/Name.html">Protocol::V04::Name</a> for the specific
+properties of each individual entry (which vary based on the <a
+href="../SFTP.html">SFTP</a> protocol version in use).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000139-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000139-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 438</span>
+438:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">readdir</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+439:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:readdir</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+440:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000140" class="method-detail">
+        <a name="M000140"></a>
+
+        <div class="method-heading">
+          <a href="#M000140" class="method-signature">
+          <span class="method-name">readdir!</span><span class="method-args">(handle, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000139">readdir</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return nil if there were no more names to
+<a href="Session.html#M000125">read</a>, or an array of name entries.
+</p>
+<pre>
+  while (entries = sftp.readdir!(handle)) do
+    entries.each { |entry| puts(entry.name) }
+  end
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000140-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000140-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 450</span>
+450:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">readdir!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+451:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">readdir</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:names</span>)
+452:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000153" class="method-detail">
+        <a name="M000153"></a>
+
+        <div class="method-heading">
+          <a href="#M000153" class="method-signature">
+          <span class="method-name">readlink(path) &rarr; request<br />
+readlink(path) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Queries the server for the target of the specified symbolic <a
+href="Session.html#M000157">link</a>. This operation is only available in
+protocol versions 3 and higher. The response to this request will include a
+names property, a one-element array naming the target of the <a
+href="Session.html#M000155">symlink</a>.
+</p>
+<pre>
+  request = sftp.readlink(&quot;/path/to/symlink&quot;).wait
+  puts request.response[:names].first.name
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000153-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000153-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 603</span>
+603:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">readlink</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+604:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:readlink</span>, <span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+605:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000154" class="method-detail">
+        <a name="M000154"></a>
+
+        <div class="method-heading">
+          <a href="#M000154" class="method-signature">
+          <span class="method-name">readlink!</span><span class="method-args">(path, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000153">readlink</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the Name object for the path that
+the <a href="Session.html#M000155">symlink</a> targets.
+</p>
+<pre>
+  item = sftp.readlink!(&quot;/path/to/symlink&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000154-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000154-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 612</span>
+612:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">readlink!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+613:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">readlink</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:names</span>).<span class="ruby-identifier">first</span>
+614:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000147" class="method-detail">
+        <a name="M000147"></a>
+
+        <div class="method-heading">
+          <a href="#M000147" class="method-signature">
+          <span class="method-name">realpath(path) &rarr; request<br />
+realpath(path) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Tries to canonicalize the given path, turning any given path into an
+absolute path. This is primarily useful for converting a path with
+&quot;..&quot; or &quot;.&quot; segments into an identical path without
+those segments. The answer will be in the response&#8216;s :names
+attribute, as a one-element array.
+</p>
+<pre>
+  request = sftp.realpath(&quot;/path/../to/../directory&quot;).wait
+  puts request[:names].first.name
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000147-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000147-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 533</span>
+533:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">realpath</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+534:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:realpath</span>, <span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+535:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000148" class="method-detail">
+        <a name="M000148"></a>
+
+        <div class="method-heading">
+          <a href="#M000148" class="method-signature">
+          <span class="method-name">realpath!</span><span class="method-args">(path, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000147">realpath</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return a name object identifying the path.
+</p>
+<pre>
+  puts(sftp.realpath!(&quot;/path/../to/../directory&quot;))
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000148-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000148-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 542</span>
+542:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">realpath!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+543:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">realpath</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:names</span>).<span class="ruby-identifier">first</span>
+544:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000141" class="method-detail">
+        <a name="M000141"></a>
+
+        <div class="method-heading">
+          <a href="#M000141" class="method-signature">
+          <span class="method-name">remove(filename) &rarr; request<br />
+remove(filename) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Attempts to <a href="Session.html#M000141">remove</a> the given <a
+href="Session.html#M000119">file</a> from the remote <a
+href="Session.html#M000119">file</a> system. Returns immediately with a <a
+href="Request.html">Request</a> object. If a <a
+href="Session.html#M000159">block</a> is given, the <a
+href="Session.html#M000159">block</a> will be invoked when the server
+responds, and will be passed a <a href="Response.html">Response</a> object.
+</p>
+<pre>
+  sftp.remove(&quot;/path/to/file&quot;).wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000141-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000141-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 464</span>
+464:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+465:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:remove</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+466:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000142" class="method-detail">
+        <a name="M000142"></a>
+
+        <div class="method-heading">
+          <a href="#M000142" class="method-signature">
+          <span class="method-name">remove!</span><span class="method-args">(filename, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000141">remove</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.remove!(&quot;/path/to/file&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000142-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000142-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 473</span>
+473:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove!</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+474:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">remove</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+475:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000151" class="method-detail">
+        <a name="M000151"></a>
+
+        <div class="method-heading">
+          <a href="#M000151" class="method-signature">
+          <span class="method-name">rename(name, new_name, flags=nil) &rarr; request<br />
+rename(name, new_name, flags=nil) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Renames the given <a href="Session.html#M000119">file</a>. This operation
+is only available in <a href="../SFTP.html">SFTP</a> protocol versions two
+and higher. The <tt>flags</tt> parameter is ignored in versions prior to 5.
+In versions 5 and higher, the <tt>flags</tt> parameter can be used to
+specify how the <a href="Session.html#M000151">rename</a> should be
+performed (atomically, etc.).
+</p>
+<p>
+The following flags are defined in protocol version 5:
+</p>
+<ul>
+<li>0x0001 - overwrite an existing <a href="Session.html#M000119">file</a> if
+the <a href="Session.html#M000114">new</a> name specifies a <a
+href="Session.html#M000119">file</a> that already exists.
+
+</li>
+<li>0x0002 - perform the rewrite atomically.
+
+</li>
+<li>0x0004 - allow the server to perform the <a
+href="Session.html#M000151">rename</a> as it prefers.
+
+</li>
+</ul>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000151-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000151-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 579</span>
+579:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rename</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">new_name</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+580:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:rename</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">new_name</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+581:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000152" class="method-detail">
+        <a name="M000152"></a>
+
+        <div class="method-heading">
+          <a href="#M000152" class="method-signature">
+          <span class="method-name">rename!</span><span class="method-args">(name, new_name, flags=nil, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000151">rename</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.rename!(&quot;/path/to/old&quot;, &quot;/path/to/new&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000152-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000152-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 588</span>
+588:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rename!</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">new_name</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+589:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">rename</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">new_name</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+590:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000145" class="method-detail">
+        <a name="M000145"></a>
+
+        <div class="method-heading">
+          <a href="#M000145" class="method-signature">
+          <span class="method-name">rmdir(path) &rarr; request<br />
+rmdir(path) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Removes the named directory on the remote server. The directory must be
+empty before it can be removed.
+</p>
+<pre>
+  sftp.rmdir(&quot;/path/to/directory&quot;).wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000145-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000145-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 508</span>
+508:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rmdir</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+509:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:rmdir</span>, <span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+510:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000146" class="method-detail">
+        <a name="M000146"></a>
+
+        <div class="method-heading">
+          <a href="#M000146" class="method-signature">
+          <span class="method-name">rmdir!</span><span class="method-args">(path, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000145">rmdir</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.rmdir!(&quot;/path/to/directory&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000146-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000146-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 517</span>
+517:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rmdir!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+518:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">rmdir</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+519:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000170" class="method-detail">
+        <a name="M000170"></a>
+
+        <div class="method-heading">
+          <a href="#M000170" class="method-signature">
+          <span class="method-name">send_packet</span><span class="method-args">(type, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Formats, constructs, and sends an <a href="../SFTP.html">SFTP</a> packet of
+the given type and with the given data. This does not <a
+href="Session.html#M000159">block</a>, but merely enqueues the packet for
+sending and returns.
+</p>
+<p>
+You should probably use the operation methods, rather than building and
+sending the packet directly. (See <a href="Session.html#M000121">open</a>,
+<a href="Session.html#M000123">close</a>, etc.)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000170-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000170-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 810</span>
+810:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_packet</span>(<span class="ruby-identifier">type</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+811:         <span class="ruby-identifier">data</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Buffer</span>.<span class="ruby-identifier">from</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+812:         <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Buffer</span>.<span class="ruby-identifier">from</span>(<span class="ruby-identifier">:long</span>, <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-identifier">:byte</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">:raw</span>, <span class="ruby-identifier">data</span>)
+813:         <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">send_data</span>(<span class="ruby-identifier">msg</span>.<span class="ruby-identifier">to_s</span>)
+814:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000133" class="method-detail">
+        <a name="M000133"></a>
+
+        <div class="method-heading">
+          <a href="#M000133" class="method-signature">
+          <span class="method-name">setstat(path, attrs) &rarr; request<br />
+setstat(path, attrs) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This method may be used to set <a href="Session.html#M000119">file</a>
+metadata (such as permissions, or user/group information) on a remote <a
+href="Session.html#M000119">file</a>. The exact metadata that may be
+tweaked is dependent on the <a href="../SFTP.html">SFTP</a> protocol
+version in use, but in general you may set at least the permissions, user,
+and group. (See <a
+href="Protocol/V01/Attributes.html">Protocol::V01::Attributes</a>, <a
+href="Protocol/V04/Attributes.html">Protocol::V04::Attributes</a>, and <a
+href="Protocol/V06/Attributes.html">Protocol::V06::Attributes</a> for the
+full lists of attributes that may be set for the different protocols.)
+</p>
+<p>
+The <tt>attrs</tt> parameter is a hash, where the keys are symbols
+identifying the attributes to set.
+</p>
+<p>
+The method returns immediately with a <a href="Request.html">Request</a>
+object. If a <a href="Session.html#M000159">block</a> is given, it will be
+invoked when the server responds.
+</p>
+<pre>
+  request = sftp.setstat(&quot;/path/to/file&quot;, :permissions =&gt; 0644)
+  request.wait
+  puts &quot;success: #{request.response.ok?}&quot;
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000133-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000133-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 360</span>
+360:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setstat</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+361:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:setstat</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+362:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000134" class="method-detail">
+        <a name="M000134"></a>
+
+        <div class="method-heading">
+          <a href="#M000134" class="method-signature">
+          <span class="method-name">setstat!</span><span class="method-args">(path, attrs, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to the <a href="Session.html#M000133">setstat</a> method, but
+blocks until the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.setstat!(&quot;/path/to/file&quot;, :permissions =&gt; 0644)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000134-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000134-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 369</span>
+369:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setstat!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+370:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">setstat</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+371:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000149" class="method-detail">
+        <a name="M000149"></a>
+
+        <div class="method-heading">
+          <a href="#M000149" class="method-signature">
+          <span class="method-name">stat</span><span class="method-args">(path, flags=nil, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to the <a href="Session.html#M000129">lstat</a> method, except
+that it follows symlinks (e.g., if you give it the path to a <a
+href="Session.html#M000155">symlink</a>, it will <a
+href="Session.html#M000149">stat</a> the target of the <a
+href="Session.html#M000155">symlink</a> rather than the <a
+href="Session.html#M000155">symlink</a> itself). See the <a
+href="Session.html#M000129">lstat</a> method for full documentation.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000149-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000149-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 550</span>
+550:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stat</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+551:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:stat</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+552:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000150" class="method-detail">
+        <a name="M000150"></a>
+
+        <div class="method-heading">
+          <a href="#M000150" class="method-signature">
+          <span class="method-name">stat!</span><span class="method-args">(path, flags=nil, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000149">stat</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return an attribute object for the named
+path.
+</p>
+<pre>
+  attrs = sftp.stat!(&quot;/path/to/file&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000150-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000150-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 559</span>
+559:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stat!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+560:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">stat</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>), <span class="ruby-identifier">:attrs</span>)
+561:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000155" class="method-detail">
+        <a name="M000155"></a>
+
+        <div class="method-heading">
+          <a href="#M000155" class="method-signature">
+          <span class="method-name">symlink(path, target) &rarr; request<br />
+symlink(path, target) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Attempts to create a <a href="Session.html#M000155">symlink</a> to
+<tt>path</tt> at <tt>target</tt>. This operation is only available in
+protocol versions 3, 4, and 5, but the <a href="../SFTP.html">Net::SFTP</a>
+library mimics the <a href="Session.html#M000155">symlink</a> behavior in
+protocol version 6 using the <a href="Session.html#M000157">link</a>
+method, so it is safe to use this method in protocol version 6.
+</p>
+<pre>
+  sftp.symlink(&quot;/path/to/file&quot;, &quot;/path/to/symlink&quot;).wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000155-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000155-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 626</span>
+626:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">symlink</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">target</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+627:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:symlink</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">target</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+628:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000156" class="method-detail">
+        <a name="M000156"></a>
+
+        <div class="method-heading">
+          <a href="#M000156" class="method-signature">
+          <span class="method-name">symlink!</span><span class="method-args">(path, target, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000155">symlink</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+<pre>
+  sftp.symlink!(&quot;/path/to/file&quot;, &quot;/path/to/symlink&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000156-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000156-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 635</span>
+635:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">symlink!</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">target</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+636:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">symlink</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">target</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+637:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000161" class="method-detail">
+        <a name="M000161"></a>
+
+        <div class="method-heading">
+          <a href="#M000161" class="method-signature">
+          <span class="method-name">unblock(handle, offset, length) &rarr; request<br />
+unblock(handle, offset, length) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Removes a previously created byte-range lock. This operation is only
+available in protocol versions 6 and higher. The <tt>offset</tt> and
+<tt>length</tt> parameters must exactly match those that were given to <a
+href="Session.html#M000159">block</a> when the lock was acquired.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000161-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000161-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 709</span>
+709:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unblock</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+710:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:unblock</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+711:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000162" class="method-detail">
+        <a name="M000162"></a>
+
+        <div class="method-heading">
+          <a href="#M000162" class="method-signature">
+          <span class="method-name">unblock!</span><span class="method-args">(handle, offset, length, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000161">unblock</a>, but blocks until
+the server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful. Otherwise, it will return the <a
+href="Response.html">Response</a> object for the request.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000162-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000162-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 716</span>
+716:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unblock!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+717:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">unblock</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">length</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+718:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000115" class="method-detail">
+        <a name="M000115"></a>
+
+        <div class="method-heading">
+          <a href="#M000115" class="method-signature">
+          <span class="method-name">upload</span><span class="method-args">(local, remote, options={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Initiates an <a href="Session.html#M000115">upload</a> from <tt>local</tt>
+to <tt>remote</tt>, asynchronously. This method will return a <a
+href="Session.html#M000114">new</a> <a
+href="Operations/Upload.html">Net::SFTP::Operations::Upload</a> instance,
+and requires the event <a href="Session.html#M000169">loop</a> to be run in
+order for the <a href="Session.html#M000115">upload</a> to progress. See <a
+href="Operations/Upload.html">Net::SFTP::Operations::Upload</a> for a full
+discussion of how this method can be used.
+</p>
+<pre>
+  uploader = sftp.upload(&quot;/local/path&quot;, &quot;/remote/path&quot;)
+  uploader.wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000115-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000115-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 97</span>
+97:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">upload</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+98:         <span class="ruby-constant">Operations</span><span class="ruby-operator">::</span><span class="ruby-constant">Upload</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+99:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000116" class="method-detail">
+        <a name="M000116"></a>
+
+        <div class="method-heading">
+          <a href="#M000116" class="method-signature">
+          <span class="method-name">upload!</span><span class="method-args">(local, remote, options={}, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000115">upload</a>, but blocks until
+the <a href="Session.html#M000115">upload</a> is complete.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000116-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000116-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 102</span>
+102:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">upload!</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+103:         <span class="ruby-identifier">upload</span>(<span class="ruby-identifier">local</span>, <span class="ruby-identifier">remote</span>, <span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>).<span class="ruby-identifier">wait</span>
+104:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000127" class="method-detail">
+        <a name="M000127"></a>
+
+        <div class="method-heading">
+          <a href="#M000127" class="method-signature">
+          <span class="method-name">write(handle, offset, data) &rarr; request<br />
+write(handle, offset, data) { |response| ... } &rarr; request<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Requests that <tt>data</tt> be written to the <a
+href="Session.html#M000119">file</a> identified by <tt>handle</tt>,
+starting at <tt>offset</tt> bytes from the start of the <a
+href="Session.html#M000119">file</a>. The <a
+href="Session.html#M000119">file</a> must have been opened for writing via
+<a href="Session.html#M000121">open</a>. Returns immediately with a <a
+href="Request.html">Request</a> object. If a <a
+href="Session.html#M000159">block</a> is given, it will be invoked when the
+server responds.
+</p>
+<pre>
+  request = sftp.write(handle, 0, &quot;hello, world!\n&quot;)
+  request.wait
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000127-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000127-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 271</span>
+271:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">data</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+272:         <span class="ruby-identifier">request</span> <span class="ruby-identifier">:write</span>, <span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">data</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>
+273:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000128" class="method-detail">
+        <a name="M000128"></a>
+
+        <div class="method-heading">
+          <a href="#M000128" class="method-signature">
+          <span class="method-name">write!</span><span class="method-args">(handle, offset, data, &amp;callback)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Identical to <a href="Session.html#M000127">write</a>, but blocks until the
+server responds. It will raise a <a
+href="StatusException.html">StatusException</a> if the request was
+unsuccessful, or the end of the <a href="Session.html#M000119">file</a> was
+reached. Otherwise, it returns the <a href="Response.html">Response</a>
+object for this request.
+</p>
+<pre>
+  sftp.write!(handle, 0, &quot;hello, world!\n&quot;)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000128-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000128-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/sftp/session.rb, line 280</span>
+280:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">write!</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">data</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>)
+281:         <span class="ruby-identifier">wait_for</span>(<span class="ruby-identifier">write</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">data</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">callback</span>))
+282:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

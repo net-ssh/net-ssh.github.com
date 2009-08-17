@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Module: Net</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Module</span><br />Net</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../files/lib/net/sftp_rb.html">lib/net/sftp.rb</a>
+<a href="../files/lib/net/sftp/errors_rb.html">lib/net/sftp/errors.rb</a>
+<a href="../files/lib/net/sftp/session_rb.html">lib/net/sftp/session.rb</a>
+<a href="../files/lib/net/sftp/version_rb.html">lib/net/sftp/version.rb</a>
+<a href="../files/lib/net/sftp/operations/abstract_rb.html">lib/net/sftp/operations/abstract.rb</a>
+<a href="../files/lib/net/sftp/operations/close_rb.html">lib/net/sftp/operations/close.rb</a>
+<a href="../files/lib/net/sftp/operations/errors_rb.html">lib/net/sftp/operations/errors.rb</a>
+<a href="../files/lib/net/sftp/operations/fsetstat_rb.html">lib/net/sftp/operations/fsetstat.rb</a>
+<a href="../files/lib/net/sftp/operations/fstat_rb.html">lib/net/sftp/operations/fstat.rb</a>
+<a href="../files/lib/net/sftp/operations/lstat_rb.html">lib/net/sftp/operations/lstat.rb</a>
+<a href="../files/lib/net/sftp/operations/mkdir_rb.html">lib/net/sftp/operations/mkdir.rb</a>
+<a href="../files/lib/net/sftp/operations/open_rb.html">lib/net/sftp/operations/open.rb</a>
+<a href="../files/lib/net/sftp/operations/opendir_rb.html">lib/net/sftp/operations/opendir.rb</a>
+<a href="../files/lib/net/sftp/operations/read_rb.html">lib/net/sftp/operations/read.rb</a>
+<a href="../files/lib/net/sftp/operations/readdir_rb.html">lib/net/sftp/operations/readdir.rb</a>
+<a href="../files/lib/net/sftp/operations/realpath_rb.html">lib/net/sftp/operations/realpath.rb</a>
+<a href="../files/lib/net/sftp/operations/remove_rb.html">lib/net/sftp/operations/remove.rb</a>
+<a href="../files/lib/net/sftp/operations/rename_rb.html">lib/net/sftp/operations/rename.rb</a>
+<a href="../files/lib/net/sftp/operations/rmdir_rb.html">lib/net/sftp/operations/rmdir.rb</a>
+<a href="../files/lib/net/sftp/operations/services_rb.html">lib/net/sftp/operations/services.rb</a>
+<a href="../files/lib/net/sftp/operations/setstat_rb.html">lib/net/sftp/operations/setstat.rb</a>
+<a href="../files/lib/net/sftp/operations/stat_rb.html">lib/net/sftp/operations/stat.rb</a>
+<a href="../files/lib/net/sftp/operations/write_rb.html">lib/net/sftp/operations/write.rb</a>
+<a href="../files/lib/net/sftp/protocol/constants_rb.html">lib/net/sftp/protocol/constants.rb</a>
+<a href="../files/lib/net/sftp/protocol/driver_rb.html">lib/net/sftp/protocol/driver.rb</a>
+<a href="../files/lib/net/sftp/protocol/packet-assistant_rb.html">lib/net/sftp/protocol/packet-assistant.rb</a>
+<a href="../files/lib/net/sftp/protocol/services_rb.html">lib/net/sftp/protocol/services.rb</a>
+<a href="../files/lib/net/sftp/protocol/01/attributes_rb.html">lib/net/sftp/protocol/01/attributes.rb</a>
+<a href="../files/lib/net/sftp/protocol/01/impl_rb.html">lib/net/sftp/protocol/01/impl.rb</a>
+<a href="../files/lib/net/sftp/protocol/01/packet-assistant_rb.html">lib/net/sftp/protocol/01/packet-assistant.rb</a>
+<a href="../files/lib/net/sftp/protocol/01/services_rb.html">lib/net/sftp/protocol/01/services.rb</a>
+<a href="../files/lib/net/sftp/protocol/02/impl_rb.html">lib/net/sftp/protocol/02/impl.rb</a>
+<a href="../files/lib/net/sftp/protocol/02/packet-assistant_rb.html">lib/net/sftp/protocol/02/packet-assistant.rb</a>
+<a href="../files/lib/net/sftp/protocol/02/services_rb.html">lib/net/sftp/protocol/02/services.rb</a>
+<a href="../files/lib/net/sftp/protocol/03/impl_rb.html">lib/net/sftp/protocol/03/impl.rb</a>
+<a href="../files/lib/net/sftp/protocol/03/packet-assistant_rb.html">lib/net/sftp/protocol/03/packet-assistant.rb</a>
+<a href="../files/lib/net/sftp/protocol/03/services_rb.html">lib/net/sftp/protocol/03/services.rb</a>
+<a href="../files/lib/net/sftp/protocol/04/attributes_rb.html">lib/net/sftp/protocol/04/attributes.rb</a>
+<a href="../files/lib/net/sftp/protocol/04/impl_rb.html">lib/net/sftp/protocol/04/impl.rb</a>
+<a href="../files/lib/net/sftp/protocol/04/packet-assistant_rb.html">lib/net/sftp/protocol/04/packet-assistant.rb</a>
+<a href="../files/lib/net/sftp/protocol/04/services_rb.html">lib/net/sftp/protocol/04/services.rb</a>
+<a href="../files/lib/net/sftp/protocol/05/impl_rb.html">lib/net/sftp/protocol/05/impl.rb</a>
+<a href="../files/lib/net/sftp/protocol/05/packet-assistant_rb.html">lib/net/sftp/protocol/05/packet-assistant.rb</a>
+<a href="../files/lib/net/sftp/protocol/05/services_rb.html">lib/net/sftp/protocol/05/services.rb</a>
+        </td>
+      </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+
+
+
+
+
+
+  <div class="sectiontitle">Classes and Modules</div>
+  Module <a href="Net/SFTP.html" class="link">Net::SFTP</a><br />
+
+
+
+
+</div>
+
+  </div>
+
+    </body>
+</html>

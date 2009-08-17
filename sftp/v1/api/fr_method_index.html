@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style>
+<!--
+  body {
+    background-color: #EEE;
+    font-family: "Bitstream Vera Sans", Verdana, Arial, Helvetica, sans-serif; 
+    color: #000;
+    margin: 0px;
+  }
+  .banner {
+    background: #005;
+    color: #FFF;
+    padding: 0.2em;
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+  }
+  .entries {
+    margin: 0.25em 1em 0 1em;
+    font-size: x-small;
+  }
+  a {
+    color: #00F;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  a:hover {
+    color: #77F;
+    text-decoration: underline;
+  }
+-->
+</style>
+<base target="docwin">
+</head>
+<body>
+<div class="banner">Methods</div>
+<div class="entries">
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000072">buffers (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000053">buffers (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000071">buffers (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000054">buffers (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000041">callback (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000095">channel (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000083">close (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000097">close (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000096">close_channel (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000100">connect (Net::SFTP::Session)</a><br>
+<a href="classes/URI/SFTP.html#M000001">direct_open (URI::SFTP)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000046">dispatch (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000108">do_attrs (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000051">do_attrs (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000023">do_attrs (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000086">do_confirm (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000089">do_data (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000049">do_data (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000104">do_data (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Operations/Read.html#M000009">do_data (Net::SFTP::Operations::Read)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000021">do_data (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000048">do_handle (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000020">do_handle (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000106">do_handle (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000107">do_name (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Operations/Realpath.html#M000025">do_name (Net::SFTP::Operations::Realpath)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000050">do_name (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Impl.html#M000069">do_name (Net::SFTP::Protocol::V_04::Impl)</a><br>
+<a href="classes/Net/SFTP/Operations/Readdir.html#M000015">do_name (Net::SFTP::Operations::Readdir)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000022">do_name (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000047">do_status (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_03/Impl.html#M000063">do_status (Net::SFTP::Protocol::V_03::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000105">do_status (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Operations/Readdir.html#M000016">do_status (Net::SFTP::Operations::Readdir)</a><br>
+<a href="classes/Net/SFTP/Operations/Write.html#M000035">do_status (Net::SFTP::Operations::Write)</a><br>
+<a href="classes/Net/SFTP/Operations/Read.html#M000010">do_status (Net::SFTP::Operations::Read)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000019">do_status (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000087">do_success (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000088">do_version (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000055">empty (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000073">empty (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000018">execute (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000074">from_buffer (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000056">from_buffer (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000075">from_hash (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000057">from_hash (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Impl.html#M000067">fstat (Net::SFTP::Protocol::V_04::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000045">fstat (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000102">get_file (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000052">init (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000070">init (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000099">loop (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000044">lstat (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Impl.html#M000066">lstat (Net::SFTP::Protocol::V_04::Impl)</a><br>
+<a href="classes/Net/SFTP/Operations/StatusException.html#M000013">message (Net::SFTP::Operations::StatusException)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000090">method_missing (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000109">method_missing (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000076">new (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000058">new (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000093">new (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/PacketAssistant.html#M000081">new (Net::SFTP::Protocol::PacketAssistant)</a><br>
+<a href="classes/Net/SFTP/Operations/StatusException.html#M000012">new (Net::SFTP::Operations::StatusException)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000082">new (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000039">new (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/URI/SFTP.html#M000003">new (URI::SFTP)</a><br>
+<a href="classes/Net/SFTP/Operations/Abstract.html#M000017">new (Net::SFTP::Operations::Abstract)</a><br>
+<a href="classes/URI/SFTP.html#M000002">new2 (URI::SFTP)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000084">next_request_id (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000085">on_open (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_05/Impl.html#M000079">open (Net::SFTP::Protocol::V_05::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000042">open (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000101">open_handle (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000040">operation (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/PacketAssistant.html#M000080">packet (Net::SFTP::Protocol::PacketAssistant)</a><br>
+<a href="classes/Net/SFTP/Operations/Fsetstat.html#M000028">perform (Net::SFTP::Operations::Fsetstat)</a><br>
+<a href="classes/Net/SFTP/Operations/Mkdir.html#M000027">perform (Net::SFTP::Operations::Mkdir)</a><br>
+<a href="classes/Net/SFTP/Operations/Rmdir.html#M000007">perform (Net::SFTP::Operations::Rmdir)</a><br>
+<a href="classes/Net/SFTP/Operations/Read.html#M000008">perform (Net::SFTP::Operations::Read)</a><br>
+<a href="classes/Net/SFTP/Operations/Close.html#M000029">perform (Net::SFTP::Operations::Close)</a><br>
+<a href="classes/Net/SFTP/Operations/Opendir.html#M000030">perform (Net::SFTP::Operations::Opendir)</a><br>
+<a href="classes/Net/SFTP/Operations/Rename.html#M000031">perform (Net::SFTP::Operations::Rename)</a><br>
+<a href="classes/Net/SFTP/Operations/Lstat.html#M000011">perform (Net::SFTP::Operations::Lstat)</a><br>
+<a href="classes/Net/SFTP/Operations/Open.html#M000026">perform (Net::SFTP::Operations::Open)</a><br>
+<a href="classes/Net/SFTP/Operations/Stat.html#M000036">perform (Net::SFTP::Operations::Stat)</a><br>
+<a href="classes/Net/SFTP/Operations/Remove.html#M000032">perform (Net::SFTP::Operations::Remove)</a><br>
+<a href="classes/Net/SFTP/Operations/Realpath.html#M000024">perform (Net::SFTP::Operations::Realpath)</a><br>
+<a href="classes/Net/SFTP/Operations/Write.html#M000034">perform (Net::SFTP::Operations::Write)</a><br>
+<a href="classes/Net/SFTP/Operations/Fstat.html#M000033">perform (Net::SFTP::Operations::Fstat)</a><br>
+<a href="classes/Net/SFTP/Operations/Setstat.html#M000006">perform (Net::SFTP::Operations::Setstat)</a><br>
+<a href="classes/Net/SFTP/Operations/Readdir.html#M000014">perform (Net::SFTP::Operations::Readdir)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000103">put_file (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000098">register (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol.html#M000037">register_services (Net::SFTP::Protocol)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04.html#M000064">register_services (Net::SFTP::Protocol::V_04)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_03.html#M000062">register_services (Net::SFTP::Protocol::V_03)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01.html#M000038">register_services (Net::SFTP::Protocol::V_01)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_05.html#M000078">register_services (Net::SFTP::Protocol::V_05)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_02.html#M000060">register_services (Net::SFTP::Protocol::V_02)</a><br>
+<a href="classes/Net/SFTP/Operations.html#M000005">register_services (Net::SFTP::Operations)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Impl.html#M000068">rename (Net::SFTP::Protocol::V_04::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_02/Impl.html#M000061">rename (Net::SFTP::Protocol::V_02::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000110">respond_to? (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000091">respond_to? (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP/Protocol/Driver.html#M000092">send_data (Net::SFTP::Protocol::Driver)</a><br>
+<a href="classes/Net/SFTP.html#M000004">start (Net::SFTP)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Impl.html#M000065">stat (Net::SFTP::Protocol::V_04::Impl)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Impl.html#M000043">stat (Net::SFTP::Protocol::V_01::Impl)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000094">state (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Session.html#M000111">support? (Net::SFTP::Session)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_04/Attributes.html#M000077">to_s (Net::SFTP::Protocol::V_04::Attributes)</a><br>
+<a href="classes/Net/SFTP/Protocol/V_01/Attributes.html#M000059">to_s (Net::SFTP::Protocol::V_01::Attributes)</a><br>
+</div>
+</body></html>

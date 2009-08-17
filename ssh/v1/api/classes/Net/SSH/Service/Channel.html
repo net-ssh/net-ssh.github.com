@@ -1,0 +1,1106 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::Channel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::Channel</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/channel_rb.html">lib/net/ssh/service/channel.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+A channel is a single pseudo-connection, multiplexed onto the containing
+session connection. It allows data to be passed back and forth for a
+specific purpose (such as execution of remote commands), effectively in
+parallel with other channels, all on the same connection.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000201">[]</a></li>
+  <li><a href="#M000202">[]=</a></li>
+  <li><a href="#M000184">append_data</a></li>
+  <li><a href="#M000185">append_extended_data</a></li>
+  <li><a href="#M000182">close</a></li>
+  <li><a href="#M000181">confirm_open</a></li>
+  <li><a href="#M000169">create</a></li>
+  <li><a href="#M000186">eof</a></li>
+  <li><a href="#M000193">exec</a></li>
+  <li><a href="#M000192">failure</a></li>
+  <li><a href="#M000179">invalidate!</a></li>
+  <li><a href="#M000170">new</a></li>
+  <li><a href="#M000178">on_close</a></li>
+  <li><a href="#M000172">on_data</a></li>
+  <li><a href="#M000174">on_eof</a></li>
+  <li><a href="#M000173">on_extended_data</a></li>
+  <li><a href="#M000177">on_failure</a></li>
+  <li><a href="#M000175">on_request</a></li>
+  <li><a href="#M000176">on_success</a></li>
+  <li><a href="#M000171">on_window_adjust</a></li>
+  <li><a href="#M000199">property</a></li>
+  <li><a href="#M000190">request</a></li>
+  <li><a href="#M000189">request_pty</a></li>
+  <li><a href="#M000197">send_data</a></li>
+  <li><a href="#M000187">send_eof</a></li>
+  <li><a href="#M000198">send_extended_data</a></li>
+  <li><a href="#M000196">send_request</a></li>
+  <li><a href="#M000195">send_request_string</a></li>
+  <li><a href="#M000188">send_signal</a></li>
+  <li><a href="#M000200">set_property</a></li>
+  <li><a href="#M000194">subsystem</a></li>
+  <li><a href="#M000191">success</a></li>
+  <li><a href="#M000180">valid?</a></li>
+  <li><a href="#M000183">window_adjust</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>channel_type</td>
+    <td class='attr-desc'>
+the type of the channel
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>connection</td>
+    <td class='attr-desc'>
+the connection that this channel is attached to.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>data</td>
+    <td class='attr-desc'>
+the data accumulated by the channel
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>exit_status</td>
+    <td class='attr-desc'>
+the exit status of the process that was executed over this channel
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>extended_data</td>
+    <td class='attr-desc'>
+the extended data accumulated by the channel.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>local_id</td>
+    <td class='attr-desc'>
+the local id (number) of the channel
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>maximum_packet_size</td>
+    <td class='attr-desc'>
+the maximum size of any packet this channel can send
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>reason</td>
+    <td class='attr-desc'>
+when an error occurs, this describes the reason
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>reason_code</td>
+    <td class='attr-desc'>
+when an error occurs, this describes the reason
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>remote_id</td>
+    <td class='attr-desc'>
+the remote id (number) of the channel
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>window_size</td>
+    <td class='attr-desc'>
+the window size of this channel
+
+</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li>MessageConstants</li>
+</ul>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000169"></a><b>create</b>( connection, type, sender, window_size, packet_size )
+  </div>
+  <div class="description">
+  <p>
+Create a new channel object without notifying the server.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000169-source')" id="l_M000169-source">show source</a> ]</p>
+  <div id="M000169-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 90</span>
+ 90:         <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create</span>( <span class="ruby-identifier">connection</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">sender</span>, <span class="ruby-identifier">window_size</span>, <span class="ruby-identifier">packet_size</span> )
+ 91:           <span class="ruby-identifier">channel</span> = <span class="ruby-identifier">allocate</span>
+ 92: 
+ 93:           <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">instance_eval</span> <span class="ruby-keyword kw">do</span>
+ 94:             <span class="ruby-ivar">@@next_channel_mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>
+ 95:               <span class="ruby-ivar">@local_id</span> = <span class="ruby-ivar">@@next_channel_id</span>
+ 96:               <span class="ruby-ivar">@@next_channel_id</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+ 97:             <span class="ruby-keyword kw">end</span>
+ 98: 
+ 99:             <span class="ruby-ivar">@connection</span> = <span class="ruby-identifier">connection</span>
+100:             <span class="ruby-ivar">@channel_type</span> = <span class="ruby-identifier">type</span>
+101: 
+102:             <span class="ruby-ivar">@remote_id</span> = <span class="ruby-identifier">sender</span>
+103:             <span class="ruby-ivar">@window_size</span> = <span class="ruby-identifier">window_size</span>
+104:             <span class="ruby-ivar">@maximum_packet_size</span> = <span class="ruby-identifier">packet_size</span>
+105:           <span class="ruby-keyword kw">end</span>
+106: 
+107:           <span class="ruby-identifier">channel</span>
+108:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000170"></a><b>new</b>( connection, channel_type, extra_data=nil, &amp;on_confirm )
+  </div>
+  <div class="description">
+  <p>
+Create a new channel on the given connection, with the given channel-type.
+This will return immediately; the caller should call <a
+href="Connection.html#M000246">Connection#process_connection</a> on the
+given connection in order to cause the channel to be processed. When the
+channel has been confirmed by the server, the attached block will be
+executed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000170-source')" id="l_M000170-source">show source</a> ]</p>
+  <div id="M000170-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 114</span>
+114:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">connection</span>, <span class="ruby-identifier">channel_type</span>, <span class="ruby-identifier">extra_data</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">on_confirm</span> )
+115:           <span class="ruby-ivar">@connection</span> = <span class="ruby-identifier">connection</span>
+116:           <span class="ruby-ivar">@channel_type</span> = <span class="ruby-identifier">channel_type</span>
+117: 
+118:           <span class="ruby-ivar">@@next_channel_mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>
+119:             <span class="ruby-ivar">@local_id</span> = <span class="ruby-ivar">@@next_channel_id</span>
+120:             <span class="ruby-ivar">@@next_channel_id</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+121:           <span class="ruby-keyword kw">end</span>
+122: 
+123:           <span class="ruby-ivar">@on_confirm</span> = <span class="ruby-identifier">on_confirm</span>
+124: 
+125:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+126:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_OPEN</span>
+127:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-ivar">@channel_type</span>
+128:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@local_id</span>
+129:           <span class="ruby-comment cmt">#msg.write_long 0x20000, 0x8000  #&lt;- OpenSSH defaults</span>
+130:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-value">0x7</span><span class="ruby-constant">FFFFFFF</span>, <span class="ruby-value">0x7</span><span class="ruby-constant">FFFFFFF</span>
+131:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">extra_data</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">extra_data</span>
+132:           <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+133:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000201"></a><b>[]</b>( name )
+  </div>
+  <div class="description">
+  <p>
+Alias for <a href="Channel.html#M000199">property</a>
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000202"></a><b>[]=</b>( name, value )
+  </div>
+  <div class="description">
+  <p>
+Alias for <a href="Channel.html#M000200">set_property</a>
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000184"></a><b>append_data</b>( data )
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server sends a data packet. This in turn calls the
+&quot;<a href="Channel.html#M000172">on_data</a>&quot; callback.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000184-source')" id="l_M000184-source">show source</a> ]</p>
+  <div id="M000184-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 233</span>
+233:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">append_data</span>( <span class="ruby-identifier">data</span> )
+234:           ( <span class="ruby-ivar">@data</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">&quot;&quot;</span> ) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span>
+235:           <span class="ruby-ivar">@on_data</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">data</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_data</span>
+236:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000185"></a><b>append_extended_data</b>( type, data )
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server sends an extended data packet. This in turn calls
+the &quot;<a href="Channel.html#M000173">on_extended_data</a>&quot;
+callback.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000185-source')" id="l_M000185-source">show source</a> ]</p>
+  <div id="M000185-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 240</span>
+240:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">append_extended_data</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span> )
+241:           <span class="ruby-ivar">@extended_data</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>( <span class="ruby-value str">&quot;&quot;</span> )
+242:           <span class="ruby-ivar">@extended_data</span>[ <span class="ruby-identifier">type</span> ] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span>
+243:           <span class="ruby-ivar">@on_extended_data</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_extended_data</span>
+244:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000182"></a><b>close</b>( client_initiated=true )
+  </div>
+  <div class="description">
+  <p>
+Closes the channel. If the given parameter is false, then no response is
+expected (since the server initiated the close). Otherwise, this will wait
+until the server responds to the close request.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000182-source')" id="l_M000182-source">show source</a> ]</p>
+  <div id="M000182-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 209</span>
+209:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>( <span class="ruby-identifier">client_initiated</span>=<span class="ruby-keyword kw">true</span> )
+210:           <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@already_closed</span>
+211:             <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+212:             <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_CLOSE</span>
+213:             <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@remote_id</span>
+214:             <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+215:             <span class="ruby-ivar">@already_closed</span> = <span class="ruby-keyword kw">true</span>
+216:           <span class="ruby-keyword kw">end</span>
+217: 
+218:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">client_initiated</span>
+219:             <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">remove_channel</span>( <span class="ruby-keyword kw">self</span> )
+220:             <span class="ruby-ivar">@on_close</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_close</span>
+221:           <span class="ruby-keyword kw">end</span>
+222:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000181"></a><b>confirm_open</b>( remote_id, window_size, packet_size )
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server confirms the opening of the channel. This, in turn,
+invokes the &quot;on_confirm&quot; callback given when the channel was
+created.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000181-source')" id="l_M000181-source">show source</a> ]</p>
+  <div id="M000181-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 199</span>
+199:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">confirm_open</span>( <span class="ruby-identifier">remote_id</span>, <span class="ruby-identifier">window_size</span>, <span class="ruby-identifier">packet_size</span> )
+200:           <span class="ruby-ivar">@remote_id</span> = <span class="ruby-identifier">remote_id</span>
+201:           <span class="ruby-ivar">@window_size</span> = <span class="ruby-identifier">window_size</span>
+202:           <span class="ruby-ivar">@packet_size</span> = <span class="ruby-identifier">packet_size</span>
+203:           <span class="ruby-ivar">@on_confirm</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_confirm</span>
+204:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000186"></a><b>eof</b>()
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server sends an EOF packet. This in turn calls the
+&quot;<a href="Channel.html#M000174">on_eof</a>&quot; callback.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000186-source')" id="l_M000186-source">show source</a> ]</p>
+  <div id="M000186-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 248</span>
+248:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">eof</span>
+249:           <span class="ruby-ivar">@on_eof</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_eof</span>
+250:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000193"></a><b>exec</b>( command, want_reply=false )
+  </div>
+  <div class="description">
+  <p>
+Execute the given remote command over the channel. This should be invoked
+in the &quot;on_confirm&quot; callback of a channel. The output of the
+command will be accumulated into the <tt>data</tt> property of the channel
+when the channel is processed. This method will return immediately.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000193-source')" id="l_M000193-source">show source</a> ]</p>
+  <div id="M000193-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 348</span>
+348:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exec</span>( <span class="ruby-identifier">command</span>, <span class="ruby-identifier">want_reply</span>=<span class="ruby-keyword kw">false</span> )
+349:           <span class="ruby-ivar">@data</span> = <span class="ruby-value str">&quot;&quot;</span>
+350:           <span class="ruby-ivar">@extended_data</span> = <span class="ruby-keyword kw">nil</span>
+351:           <span class="ruby-identifier">send_request_string</span> <span class="ruby-value str">&quot;exec&quot;</span>, <span class="ruby-identifier">command</span>, <span class="ruby-identifier">want_reply</span>
+352:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000192"></a><b>failure</b>()
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server sends notification of a failed operation. This in
+turn invokes the &quot;<a href="Channel.html#M000177">on_failure</a>&quot;
+callback, if set.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000192-source')" id="l_M000192-source">show source</a> ]</p>
+  <div id="M000192-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 340</span>
+340:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">failure</span>
+341:           <span class="ruby-ivar">@on_failure</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_failure</span>
+342:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000179"></a><b>invalidate!</b>( reason_code, description, language )
+  </div>
+  <div class="description">
+  <p>
+Invalidates the given channel, settng the given reason-code, description,
+and natural language for the description. The channel is hereafter invalid
+and should not be used for processing data.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000179-source')" id="l_M000179-source">show source</a> ]</p>
+  <div id="M000179-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 183</span>
+183:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">invalidate!</span>( <span class="ruby-identifier">reason_code</span>, <span class="ruby-identifier">description</span>, <span class="ruby-identifier">language</span> )
+184:           <span class="ruby-ivar">@local_id</span> = <span class="ruby-keyword kw">nil</span>
+185:           <span class="ruby-ivar">@connection</span> = <span class="ruby-keyword kw">nil</span>
+186: 
+187:           <span class="ruby-ivar">@reason_code</span> = <span class="ruby-identifier">reason_code</span>
+188:           <span class="ruby-ivar">@reason</span> = <span class="ruby-identifier">description</span>
+189:           <span class="ruby-ivar">@reason_language</span> = <span class="ruby-identifier">language</span>
+190:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000178"></a><b>on_close</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to be invoked when the channel is closed.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000178-source')" id="l_M000178-source">show source</a> ]</p>
+  <div id="M000178-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 176</span>
+176:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_close</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+177:           <span class="ruby-ivar">@on_close</span> = <span class="ruby-identifier">block</span>
+178:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000172"></a><b>on_data</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to be invoked when the server sends a data packet over the
+channel.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000172-source')" id="l_M000172-source">show source</a> ]</p>
+  <div id="M000172-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 143</span>
+143:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_data</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+144:           <span class="ruby-ivar">@on_data</span> = <span class="ruby-identifier">block</span>
+145:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000174"></a><b>on_eof</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to be invoked when the server sends an EOF packet.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000174-source')" id="l_M000174-source">show source</a> ]</p>
+  <div id="M000174-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 154</span>
+154:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_eof</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+155:           <span class="ruby-ivar">@on_eof</span> = <span class="ruby-identifier">block</span>
+156:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000173"></a><b>on_extended_data</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to be invoked when the server sends an extended data
+packet over the channel.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000173-source')" id="l_M000173-source">show source</a> ]</p>
+  <div id="M000173-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 149</span>
+149:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_extended_data</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+150:           <span class="ruby-ivar">@on_extended_data</span> = <span class="ruby-identifier">block</span>
+151:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000177"></a><b>on_failure</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to invoked when the server sends notification of a failed
+operation.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000177-source')" id="l_M000177-source">show source</a> ]</p>
+  <div id="M000177-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 171</span>
+171:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_failure</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+172:           <span class="ruby-ivar">@on_failure</span> = <span class="ruby-identifier">block</span>
+173:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000175"></a><b>on_request</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to be invoked when the server sends a request packet.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000175-source')" id="l_M000175-source">show source</a> ]</p>
+  <div id="M000175-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 159</span>
+159:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_request</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+160:           <span class="ruby-ivar">@on_request</span> = <span class="ruby-identifier">block</span>
+161:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000176"></a><b>on_success</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to invoked when the server sends confirmation of a
+successful operation.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000176-source')" id="l_M000176-source">show source</a> ]</p>
+  <div id="M000176-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 165</span>
+165:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_success</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+166:           <span class="ruby-ivar">@on_success</span> = <span class="ruby-identifier">block</span>
+167:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000171"></a><b>on_window_adjust</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Set the callback to be invoked when the server requests that the window
+size be adjusted.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000171-source')" id="l_M000171-source">show source</a> ]</p>
+  <div id="M000171-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 137</span>
+137:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_window_adjust</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+138:           <span class="ruby-ivar">@on_window_adjust</span> = <span class="ruby-identifier">block</span>
+139:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000199"></a><b>property</b>( name )
+  </div>
+  <div class="description">
+  <p>
+Retrieved a named property of the channel.
+</p>
+  </div>
+<div class="aka">
+  This method is also aliased as
+  <a href="Channel.html#M000201">[]</a>
+</div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000199-source')" id="l_M000199-source">show source</a> ]</p>
+  <div id="M000199-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 402</span>
+402:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">property</span>( <span class="ruby-identifier">name</span> )
+403:           ( <span class="ruby-ivar">@properties</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> )[ <span class="ruby-identifier">name</span> ]
+404:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000190"></a><b>request</b>( type, want_reply, data )
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server sends a request packet. This in turn calls the
+&quot;<a href="Channel.html#M000175">on_request</a>&quot; callback. Certain
+types of request are also handled explicitly by this method:
+&quot;xon-xoff&quot;, &quot;exit-status&quot;, and &quot;exit-signal&quot;.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000190-source')" id="l_M000190-source">show source</a> ]</p>
+  <div id="M000190-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 312</span>
+312:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">request</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">want_reply</span>, <span class="ruby-identifier">data</span> )
+313:           <span class="ruby-ivar">@on_request</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">want_reply</span>, <span class="ruby-identifier">data</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_request</span>
+314:           <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+315:             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;xon-xoff&quot;</span>
+316:               <span class="ruby-comment cmt"># TODO: should this just be ignored?</span>
+317: 
+318:             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;exit-status&quot;</span>
+319:               <span class="ruby-ivar">@exit_status</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_long</span>
+320: 
+321:             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;exit-signal&quot;</span>
+322:               <span class="ruby-ivar">@exit_signal</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_string</span>
+323:               <span class="ruby-ivar">@core_dumped</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_bool</span>
+324:               <span class="ruby-ivar">@error_message</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_string</span>
+325:               <span class="ruby-ivar">@error_language</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_string</span>
+326: 
+327:             <span class="ruby-keyword kw">else</span>
+328:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;unknown request type '#{type}' (#{data.inspect})&quot;</span>
+329:           <span class="ruby-keyword kw">end</span>
+330:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000189"></a><b>request_pty</b>( opts = {} )
+  </div>
+  <div class="description">
+  <p>
+Request that a pty be opened for this channel. Valid options are :term,
+:chars_wide, :chars_high, :pixels_wide, :pixels_high, :modes, and
+:want_reply. :modes is a Hash, where the keys are constants from <a
+href="Term.html">Net::SSH::Service::Term</a>, and values are integers
+describing the corresponding key.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000189-source')" id="l_M000189-source">show source</a> ]</p>
+  <div id="M000189-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 280</span>
+280:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">request_pty</span>( <span class="ruby-identifier">opts</span> = {} )
+281:           <span class="ruby-identifier">invalid_opts</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">-</span> <span class="ruby-constant">VALID_PTY_OPTIONS</span>.<span class="ruby-identifier">keys</span>
+282:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">invalid_opts</span>.<span class="ruby-identifier">empty?</span>
+283:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;invalid option(s) to request_pty: #{invalid_opts.inspect}&quot;</span>
+284:           <span class="ruby-keyword kw">end</span>
+285: 
+286:           <span class="ruby-constant">VALID_PTY_OPTIONS</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">opt</span><span class="ruby-operator">|</span>
+287:             <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">opt</span> ] <span class="ruby-operator">||=</span> <span class="ruby-constant">VALID_PTY_OPTIONS</span>[ <span class="ruby-identifier">opt</span> ]
+288:           <span class="ruby-keyword kw">end</span>
+289: 
+290:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+291:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">:term</span> ]
+292:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">:chars_wide</span> ]
+293:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">:chars_high</span> ]
+294:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">:pixels_wide</span> ]
+295:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">:pixels_high</span> ]
+296: 
+297:           <span class="ruby-identifier">modes</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+298:           <span class="ruby-identifier">opts</span>[ <span class="ruby-identifier">:modes</span> ].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mode</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+299:             <span class="ruby-identifier">modes</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-identifier">mode</span>
+300:             <span class="ruby-identifier">modes</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">data</span>
+301:           <span class="ruby-keyword kw">end</span>
+302:           <span class="ruby-identifier">modes</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">Term</span><span class="ruby-operator">::</span><span class="ruby-constant">TTY_OP_END</span>
+303: 
+304:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">modes</span>.<span class="ruby-identifier">to_s</span>
+305: 
+306:           <span class="ruby-identifier">send_request</span> <span class="ruby-value str">&quot;pty-req&quot;</span>, <span class="ruby-identifier">msg</span>, <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:want_reply</span>]
+307:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000197"></a><b>send_data</b>( data )
+  </div>
+  <div class="description">
+  <p>
+Send a data packet to the server, over the channel.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000197-source')" id="l_M000197-source">show source</a> ]</p>
+  <div id="M000197-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 381</span>
+381:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_data</span>( <span class="ruby-identifier">data</span> )
+382:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+383:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_DATA</span>
+384:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@remote_id</span>
+385:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+386:           <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+387:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000187"></a><b>send_eof</b>()
+  </div>
+  <div class="description">
+  <p>
+Send an EOF across the channel. No data should be sent from the client to
+the server over this channel after this, although packets may still be
+received from the server.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000187-source')" id="l_M000187-source">show source</a> ]</p>
+  <div id="M000187-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 255</span>
+255:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_eof</span>
+256:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+257:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_EOF</span>
+258:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@remote_id</span>
+259:           <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+260:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000198"></a><b>send_extended_data</b>( type, data )
+  </div>
+  <div class="description">
+  <p>
+Send an extended data packet to the server, over the channel. Extended data
+always has a numeric type associated with it. The only predefined type is
+1, whic corresponds to <tt>stderr</tt> data.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000198-source')" id="l_M000198-source">show source</a> ]</p>
+  <div id="M000198-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 392</span>
+392:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_extended_data</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span> )
+393:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+394:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_EXTENDED_DATA</span>
+395:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@remote_id</span>
+396:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">type</span>
+397:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+398:           <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+399:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000196"></a><b>send_request</b>( request_name, data, want_reply=false )
+  </div>
+  <div class="description">
+  <p>
+Send a generic channel request with the given name. The data item will be
+written directly into the request (after converting it to a string, as
+necessary).
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000196-source')" id="l_M000196-source">show source</a> ]</p>
+  <div id="M000196-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 370</span>
+370:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_request</span>( <span class="ruby-identifier">request_name</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">want_reply</span>=<span class="ruby-keyword kw">false</span> )
+371:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+372:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_REQUEST</span>
+373:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-ivar">@remote_id</span>
+374:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">request_name</span>
+375:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_bool</span> <span class="ruby-identifier">want_reply</span>
+376:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+377:           <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+378:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000195"></a><b>send_request_string</b>( request_name, data, want_reply=false )
+  </div>
+  <div class="description">
+  <p>
+Send a channel request with the given name. It will have one data item,
+which will be interpreted as a string.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000195-source')" id="l_M000195-source">show source</a> ]</p>
+  <div id="M000195-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 361</span>
+361:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_request_string</span>( <span class="ruby-identifier">request_name</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">want_reply</span>=<span class="ruby-keyword kw">false</span> )
+362:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+363:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+364:           <span class="ruby-identifier">send_request</span> <span class="ruby-identifier">request_name</span>, <span class="ruby-identifier">msg</span>, <span class="ruby-identifier">want_reply</span>
+365:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000188"></a><b>send_signal</b>( sig, want_reply=false )
+  </div>
+  <div class="description">
+  <p>
+Send the given signal to process on the other side of the channel. The
+parameter should be one of the Channel::SIGxxx constants.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000188-source')" id="l_M000188-source">show source</a> ]</p>
+  <div id="M000188-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 264</span>
+264:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_signal</span>( <span class="ruby-identifier">sig</span>, <span class="ruby-identifier">want_reply</span>=<span class="ruby-keyword kw">false</span> )
+265:           <span class="ruby-identifier">send_request_string</span> <span class="ruby-value str">&quot;signal&quot;</span>, <span class="ruby-identifier">sig</span>, <span class="ruby-identifier">want_reply</span>
+266:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000200"></a><b>set_property</b>( name, value )
+  </div>
+  <div class="description">
+  <p>
+Set a named property on the channel.
+</p>
+  </div>
+<div class="aka">
+  This method is also aliased as
+  <a href="Channel.html#M000202">[]=</a>
+</div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000200-source')" id="l_M000200-source">show source</a> ]</p>
+  <div id="M000200-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 407</span>
+407:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_property</span>( <span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span> )
+408:           ( <span class="ruby-ivar">@properties</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> )[ <span class="ruby-identifier">name</span> ] = <span class="ruby-identifier">value</span>
+409:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000194"></a><b>subsystem</b>( subsystem, want_reply=true )
+  </div>
+  <div class="description">
+  <p>
+Request the given subsystem. This method will return immediately.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000194-source')" id="l_M000194-source">show source</a> ]</p>
+  <div id="M000194-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 355</span>
+355:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">subsystem</span>( <span class="ruby-identifier">subsystem</span>, <span class="ruby-identifier">want_reply</span>=<span class="ruby-keyword kw">true</span> )
+356:           <span class="ruby-identifier">send_request_string</span> <span class="ruby-value str">&quot;subsystem&quot;</span>, <span class="ruby-identifier">subsystem</span>, <span class="ruby-identifier">want_reply</span>
+357:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000191"></a><b>success</b>()
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server sends confirmation of a successful operation. This
+in turn invokes the &quot;<a
+href="Channel.html#M000176">on_success</a>&quot; callback, if set.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000191-source')" id="l_M000191-source">show source</a> ]</p>
+  <div id="M000191-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 334</span>
+334:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">success</span>
+335:           <span class="ruby-ivar">@on_success</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_success</span>
+336:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000180"></a><b>valid?</b>()
+  </div>
+  <div class="description">
+  <p>
+Queries whether the channel is valid or not.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000180-source')" id="l_M000180-source">show source</a> ]</p>
+  <div id="M000180-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 193</span>
+193:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">valid?</span>
+194:           <span class="ruby-ivar">@local_id</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+195:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000183"></a><b>window_adjust</b>( bytes_to_add )
+  </div>
+  <div class="description">
+  <p>
+Invoked when the server asks to adjust the window size. This in turn calls
+the &quot;<a href="Channel.html#M000171">on_window_adjust</a>&quot;
+callback.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000183-source')" id="l_M000183-source">show source</a> ]</p>
+  <div id="M000183-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/channel.rb, line 226</span>
+226:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">window_adjust</span>( <span class="ruby-identifier">bytes_to_add</span> )
+227:           <span class="ruby-ivar">@window_size</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">bytes_to_add</span>
+228:           <span class="ruby-ivar">@on_window_adjust</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">bytes_to_add</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@on_window_adjust</span>
+229:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

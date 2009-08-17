@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Transport::KexFactory</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Transport::KexFactory</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/transport/kex_rb.html">lib/net/ssh/transport/kex.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+A singleton factory for providing services (objects) that implement various
+key-exchange (kex) algorithms. Currently, only
+&quot;diffie-hellman-group1-sha1&quot; is supported.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000020">get</a></li>
+  </ul>
+
+
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li>Singleton</li>
+</ul>
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000020"></a><b>get</b>( name )
+  </div>
+  <div class="description">
+  <p>
+Return a kex service (object) that implements the given kex algorithm.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000020-source')" id="l_M000020-source">show source</a> ]</p>
+  <div id="M000020-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/transport/kex.rb, line 34</span>
+34:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get</span>( <span class="ruby-identifier">name</span> )
+35:           <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">name</span>
+36:             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'diffie-hellman-group1-sha1'</span>
+37:               <span class="ruby-identifier">require</span> <span class="ruby-value str">'net/ssh/transport/kex/dh'</span>
+38:               <span class="ruby-keyword kw">return</span> <span class="ruby-constant">Kex</span><span class="ruby-operator">::</span><span class="ruby-constant">DiffieHellmanGroup1SHA1</span>.<span class="ruby-identifier">new</span>
+39:             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'diffie-hellman-group-exchange-sha1'</span>
+40:               <span class="ruby-identifier">require</span> <span class="ruby-value str">'net/ssh/transport/kex/dh-gex'</span>
+41:               <span class="ruby-keyword kw">return</span> <span class="ruby-constant">Kex</span><span class="ruby-operator">::</span><span class="ruby-constant">DiffieHellmanGroupExchangeSHA1</span>.<span class="ruby-identifier">new</span>
+42:             <span class="ruby-keyword kw">else</span>
+43:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-node">&quot;unsupported kex algorithm: #{name}&quot;</span>
+44:           <span class="ruby-keyword kw">end</span>
+45:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,444 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::UserAuth</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::UserAuth</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/userauth_rb.html">lib/net/ssh/service/userauth.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+A wrapper around the transport layer that represents the functionality of
+user authentication. This handles both password-based and public-key-based
+authentication.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000255">build_hostbased_request</a></li>
+  <li><a href="#M000247">new</a></li>
+  <li><a href="#M000251">on_banner</a></li>
+  <li><a href="#M000253">process</a></li>
+  <li><a href="#M000250">set_auth_methods</a></li>
+  <li><a href="#M000249">set_host_key_files</a></li>
+  <li><a href="#M000248">set_key_files</a></li>
+  <li><a href="#M000254">try_publickey_auth_with</a></li>
+  <li><a href="#M000252">wait_for_message</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>key_manager</td>
+    <td class='attr-desc'>
+The <a href="UserKeyManager.html">UserKeyManager</a> instance used by the
+auth service.
+
+</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li><a href="MessageConstants.html">Net::SSH::Service::MessageConstants</a></li>
+  <li><a href="../Transport/MessageConstants.html">Net::SSH::Transport::MessageConstants</a></li>
+</ul>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000247"></a><b>new</b>( session )
+  </div>
+  <div class="description">
+  <p>
+Create a new user-auth service on top of the given session.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000247-source')" id="l_M000247-source">show source</a> ]</p>
+  <div id="M000247-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 45</span>
+45:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">session</span> )
+46:           <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+47:           <span class="ruby-ivar">@on_banner</span> = <span class="ruby-identifier">proc</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">msg</span>,<span class="ruby-identifier">lang</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">msg</span> }
+48: 
+49:           <span class="ruby-ivar">@key_manager</span> = <span class="ruby-constant">UserKeyManager</span>.<span class="ruby-identifier">new</span>
+50: 
+51:           <span class="ruby-ivar">@auth_methods</span> = [ <span class="ruby-value str">&quot;publickey&quot;</span>,
+52:                             <span class="ruby-value str">&quot;keyboard-interactive&quot;</span>,
+53:                             <span class="ruby-value str">&quot;password&quot;</span>,
+54:                             <span class="ruby-value str">&quot;hostbased&quot;</span> ]
+55:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000255"></a><b>build_hostbased_request</b>( identity, next_service, username, hostname, client_username )
+  </div>
+  <div class="description">
+  <p>
+Build the &quot;core&quot; hostbased request string.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000255-source')" id="l_M000255-source">show source</a> ]</p>
+  <div id="M000255-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 331</span>
+331:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">build_hostbased_request</span>( <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">client_username</span> )
+332:           <span class="ruby-identifier">buf</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+333:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">USERAUTH_REQUEST</span>
+334:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">username</span>
+335:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">next_service</span>
+336:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-value str">&quot;hostbased&quot;</span>
+337: 
+338:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">identity</span>.<span class="ruby-identifier">ssh_type</span>
+339:           <span class="ruby-identifier">blob</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+340:           <span class="ruby-identifier">blob</span>.<span class="ruby-identifier">write_key</span> <span class="ruby-identifier">identity</span>
+341:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">blob</span>.<span class="ruby-identifier">to_s</span>
+342: 
+343:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">hostname</span>
+344:           <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">client_username</span>
+345:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">to_s</span>
+346:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000251"></a><b>on_banner</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Specify the callback to use when the server sends a banner message at login
+time.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000251-source')" id="l_M000251-source">show source</a> ]</p>
+  <div id="M000251-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 82</span>
+82:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_banner</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+83:           <span class="ruby-ivar">@on_banner</span> = <span class="ruby-identifier">block</span>
+84:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000253"></a><b>process</b>( next_service, username, password=nil )
+  </div>
+  <div class="description">
+  <p>
+Processes the authentication of the given username. The
+&#8216;next_service&#8217; parameter should be set to the <a
+href="../../SSH.html">SSH</a> service that will be requested once the
+authentication succeeds (usually &#8216;ssh-connection&#8217;). If the
+password is <tt>nil</tt>, password-based authentication will not be
+attempted.
+</p>
+<p>
+This will return <tt>true</tt> if the user is accepted by the server, and
+<tt>false</tt> otherwise.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000253-source')" id="l_M000253-source">show source</a> ]</p>
+  <div id="M000253-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 132</span>
+132:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process</span>( <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>=<span class="ruby-keyword kw">nil</span> )
+133:           <span class="ruby-identifier">msg</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+134:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">SERVICE_REQUEST</span>
+135:           <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-value str">&quot;ssh-userauth&quot;</span>
+136:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">msg</span>
+137: 
+138:           <span class="ruby-identifier">message</span> = <span class="ruby-identifier">wait_for_message</span>
+139:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">message_type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">SERVICE_ACCEPT</span>
+140:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>,
+141:                   <span class="ruby-node">&quot;[BUG] expected SERVICE_ACCEPT, got #{message.inspect}&quot;</span>
+142:           <span class="ruby-keyword kw">end</span>
+143: 
+144:           <span class="ruby-ivar">@auth_methods</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">auth_method</span><span class="ruby-operator">|</span>
+145:             <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">auth_method</span>
+146:               <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;publickey&quot;</span>
+147:                 <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">try_publickey_auth</span>( <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">username</span> )
+148: 
+149:               <span class="ruby-comment cmt"># FIXME: are keyboard-interactive and password really</span>
+150:               <span class="ruby-comment cmt"># identical? Should they be implemented differently?</span>
+151:               <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;keyboard-interactive&quot;</span>, <span class="ruby-value str">&quot;password&quot;</span>
+152:                 <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">password</span> <span class="ruby-operator">&amp;&amp;</span>
+153:                    <span class="ruby-identifier">try_password_auth</span>( <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span> )
+154:                 <span class="ruby-comment cmt"># begin</span>
+155:                   <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+156:                 <span class="ruby-keyword kw">end</span>
+157: 
+158:               <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;hostbased&quot;</span>
+159:                 <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">try_hostbased_auth</span>( <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">username</span> )
+160:                   <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+161:                 <span class="ruby-keyword kw">end</span>
+162: 
+163:               <span class="ruby-keyword kw">else</span>
+164:                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>,
+165:                       <span class="ruby-node">&quot;`#{auth_method}' authentication is not implemented&quot;</span>
+166:             <span class="ruby-keyword kw">end</span>
+167:           <span class="ruby-keyword kw">end</span>
+168: 
+169:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+170:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000250"></a><b>set_auth_methods</b>( methods )
+  </div>
+  <div class="description">
+  <p>
+Changes the set of authorization methods to try to the given array. Methods
+are tried in the order in which they are listed in the array.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000250-source')" id="l_M000250-source">show source</a> ]</p>
+  <div id="M000250-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 76</span>
+76:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_auth_methods</span>( <span class="ruby-identifier">methods</span> )
+77:           <span class="ruby-ivar">@auth_methods</span> = <span class="ruby-identifier">methods</span>.<span class="ruby-identifier">dup</span>
+78:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000249"></a><b>set_host_key_files</b>( files )
+  </div>
+  <div class="description">
+  <p>
+Causes the set of on-disk host key files to be used to be set to the given
+array. Any host key files that were specified previously are lost.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000249-source')" id="l_M000249-source">show source</a> ]</p>
+  <div id="M000249-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 68</span>
+68:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_host_key_files</span>( <span class="ruby-identifier">files</span> )
+69:           <span class="ruby-ivar">@key_manager</span>.<span class="ruby-identifier">clear_host!</span>
+70:           <span class="ruby-identifier">files</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@key_manager</span>.<span class="ruby-identifier">add_host_key</span> <span class="ruby-identifier">file</span> }
+71:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000248"></a><b>set_key_files</b>( files )
+  </div>
+  <div class="description">
+  <p>
+Causes the set of on-disk key files to be used to be set to the given
+array. Any key files that were specified previously are lost.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000248-source')" id="l_M000248-source">show source</a> ]</p>
+  <div id="M000248-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 60</span>
+60:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_key_files</span>( <span class="ruby-identifier">files</span> )
+61:           <span class="ruby-ivar">@key_manager</span>.<span class="ruby-identifier">clear!</span>
+62:           <span class="ruby-identifier">files</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@key_manager</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span> }
+63:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000254"></a><b>try_publickey_auth_with</b>( identity, next_service, username )
+  </div>
+  <div class="description">
+  <p>
+Attempts to perform public-key authentication for the given username, with
+the given identity (public key). Returns <tt>true</tt> if successful, or
+<tt>false</tt> otherwise.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000254-source')" id="l_M000254-source">show source</a> ]</p>
+  <div id="M000254-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 244</span>
+244:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">try_publickey_auth_with</span>( <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">username</span> )
+245:           <span class="ruby-identifier">send_publickey_request</span> <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">next_service</span>
+246: 
+247:           <span class="ruby-identifier">message</span> = <span class="ruby-identifier">wait_for_message</span>
+248: 
+249:           <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">message_type</span>
+250:             <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_PK_OK</span>
+251:               <span class="ruby-identifier">sig_data</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+252:               <span class="ruby-identifier">sig_data</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">session_id</span>
+253:               <span class="ruby-identifier">build_publickey_request</span>( <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">next_service</span>, <span class="ruby-keyword kw">true</span>, <span class="ruby-identifier">sig_data</span> )
+254: 
+255:               <span class="ruby-identifier">sig_blob</span> = <span class="ruby-ivar">@key_manager</span>.<span class="ruby-identifier">sign</span>( <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">sig_data</span> )
+256: 
+257:               <span class="ruby-identifier">send_publickey_request</span> <span class="ruby-identifier">identity</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">next_service</span>, <span class="ruby-identifier">sig_blob</span>.<span class="ruby-identifier">to_s</span>
+258:               <span class="ruby-identifier">message</span> = <span class="ruby-identifier">wait_for_message</span>
+259: 
+260:               <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">message_type</span>
+261:                 <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_SUCCESS</span>
+262:                   <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+263:                 <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_FAILURE</span>
+264:                   <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+265:                 <span class="ruby-keyword kw">else</span>
+266:                   <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;unexpected server response to USERAUTH_REQUEST: #{message.inspect}&quot;</span>
+267:               <span class="ruby-keyword kw">end</span>
+268: 
+269:             <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_FAILURE</span>
+270:               <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+271:             <span class="ruby-keyword kw">else</span>
+272:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;unexpected reply to USERAUTH_REQUEST: #{message.inspect}&quot;</span>
+273:           <span class="ruby-keyword kw">end</span>
+274:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000252"></a><b>wait_for_message</b>()
+  </div>
+  <div class="description">
+  <p>
+Wraps the <a
+href="../Transport/Session.html#M000032">Net::SSH::Transport::Session#wait_for_message</a>
+method, doing special checking for authentication-related messages.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000252-source')" id="l_M000252-source">show source</a> ]</p>
+  <div id="M000252-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/userauth.rb, line 88</span>
+ 88:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">wait_for_message</span>
+ 89:           <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+ 90:             <span class="ruby-identifier">type</span>, <span class="ruby-identifier">buffer</span> = <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">wait_for_message</span>
+ 91: 
+ 92:             <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+ 93:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_BANNER</span>
+ 94:                 <span class="ruby-identifier">message</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span>
+ 95:                 <span class="ruby-identifier">language</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span>
+ 96:                 <span class="ruby-ivar">@on_banner</span>.<span class="ruby-identifier">call</span>( <span class="ruby-identifier">message</span>, <span class="ruby-identifier">language</span> )
+ 97: 
+ 98:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_FAILURE</span>
+ 99:                 <span class="ruby-identifier">authentications</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span>
+100:                 <span class="ruby-identifier">partial_success</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_bool</span>
+101:                 <span class="ruby-keyword kw">return</span> <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>( <span class="ruby-value str">&quot;message_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type</span>,
+102:                                        <span class="ruby-value str">&quot;authentications&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">authentications</span>,
+103:                                        <span class="ruby-value str">&quot;partial_success&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">partial_success</span> )
+104: 
+105:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_SUCCESS</span>
+106:                 <span class="ruby-keyword kw">return</span> <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>( <span class="ruby-value str">&quot;message_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type</span> )
+107: 
+108:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">USERAUTH_PK_OK</span>
+109:                 <span class="ruby-keyword kw">return</span> <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>( <span class="ruby-value str">&quot;message_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type</span>,
+110:                                        <span class="ruby-value str">&quot;key_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span>,
+111:                                        <span class="ruby-value str">&quot;key_blob&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span> )
+112: 
+113:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">SERVICE_ACCEPT</span>
+114:                 <span class="ruby-keyword kw">return</span> <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>( <span class="ruby-value str">&quot;message_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type</span>,
+115:                                        <span class="ruby-value str">&quot;service_name&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">read_string</span> )
+116:               
+117:               <span class="ruby-keyword kw">else</span>
+118:                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>,
+119:                       <span class="ruby-node">&quot;unexpected message type '#{type}' (#{buffer.to_s})&quot;</span>
+120:             <span class="ruby-keyword kw">end</span>
+121:           <span class="ruby-keyword kw">end</span>
+122:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

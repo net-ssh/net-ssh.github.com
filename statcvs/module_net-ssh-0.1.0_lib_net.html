@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Module net-ssh-0.1.0/lib/net/</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.3">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Module net-ssh-0.1.0/lib/net/</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2004-06-20</span> to
+  <span class="date">2004-08-14</span></p>
+
+<h2>Modules</h2>
+
+<p><a href="module.html">[root]</a>/<a href="module_net-ssh-0.1.0.html">net-ssh-0.1.0</a>/<a href="module_net-ssh-0.1.0_lib.html">lib</a>/<strong>net</strong>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh.html">ssh</a> 
+(3 files, 289 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh_proxy.html">proxy</a> 
+(4 files, 416 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh_service.html">service</a> 
+(9 files, 2342 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh_sftp.html">sftp</a> 
+(5 files, 1475 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh_transport.html">transport</a> 
+(7 files, 1195 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh_transport_kex.html">kex</a> 
+(2 files, 304 lines)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="folder.png" width="15" height="13" alt=""> 
+<a href="module_net-ssh-0.1.0_lib_net_ssh_util.html">util</a> 
+(1 files, 313 lines)<br>
+
+</p>
+
+<h2>Lines of Code</h2>
+
+<p><img src="loc_module_net-ssh-0.1.0_lib_net.png" width="640" height="480" alt=""><br>
+<strong>Total Lines Of Code: </strong>
+252 (<span class="date">2005-01-07 15:12</span>)</p>
+
+<h2>Authors</h2>
+
+  <table rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left">
+    <colgroup align="right">
+    <colgroup align="right">
+    <colgroup align="right">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <th><a href="user_minam.html" class="author">minam</a></th>
+        <td>16 (100.0%)</td>
+        <td>340 (100.0%)</td>
+        <td>21.2</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h2>Most Recent Commits</h2>
+
+<dl class="commitlist">
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-08-14 15:36</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Support for hostbased authenticaton.
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+7&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-29 13:27</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Gabriele Renzi's suggestion of an open-uri interface for SFTP. This<BR>
+required some new methods be added to the SFTP interfaces (attributes,<BR>
+and size). Also modified the SFTP 'get' interfaces to support the specification<BR>
+of a 'chunk size' and a progress callback.
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+3&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-28 18:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added Daniel Hobe's suggestion of user-specified authentication methods. Also<BR>
+bumped the version to 0.0.5.
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+10&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-28 11:39</span>
+  </dt>
+  <dd>
+    <p class="comment">
+The UserKeyManager now encapsulates access to a user's private keys. Private<BR>
+keys are now loaded "on-demand", instead of up-front; this should prevent<BR>
+being prompted for passphrases for keys that will never actually be used.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+1&nbsp;-20)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-27 18:45</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added better logging as a TODO. Added Daniel's suggestion for a 'host'<BR>
+property on the SSH session. Also added a 'port' property.
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-27 15:19</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added ssh-agent support, and added a #version property to both Net::SSH<BR>
+and Net::SSH::Transport::Session.
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-26 23:29</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Daniel Hobe's suggestion that the options argument to add_options be dup'd<BR>
+so that deleting the :keys option doesn't have any side effects.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-26 17:08</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Made "session" the default type for new channels.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 14:29</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Thanks again to Daniel Hobe for potentially fixing the problem with name/value<BR>
+pairs in the private key headers. The load_private_key method should work fine<BR>
+now for all valid keys. It will even prompt for passphrases! (Thanks, Daniel!)
+    </p>
+    <p class="commitdetails"><strong>17</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+17&nbsp;-10)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-25 00:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+First pass at creating SSH-specific exception classes, as recommended by<BR>
+Daniel Hobe.
+    </p>
+    <p class="commitdetails"><strong>9</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+9&nbsp;-8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-24 23:26</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Variation on Daniel Hobe's suggestion for named parameters to the Net::SSH.start<BR>
+method. This allows both positional and named parameters.
+    </p>
+    <p class="commitdetails"><strong>29</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+29&nbsp;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-20 18:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added rescue clause when loading keys so that the program doesn't die if<BR>
+it can't load a key.
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+6&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-11 15:09</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Clients may now specify their preferred algorithms.
+    </p>
+    <p class="commitdetails"><strong>23</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+23&nbsp;-28)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-07 18:20</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial implementation of port forwarding (local-to-remote). remote-to-local<BR>
+remains to be done.
+    </p>
+    <p class="commitdetails"><strong>18</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+18&nbsp;-8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-07-01 16:05</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Began the tedious task of commenting the code. Also (finally) support the<BR>
+ssh-dss server key type, although this depends on changes to Ruby's OpenSSL<BR>
+module that have (at the time of this commit) not yet been formally accepted.
+    </p>
+    <p class="commitdetails"><strong>48</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="change">(+48)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_minam.html" class="author">minam</a>
+    <span class="date">2004-06-20 13:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Initial revision
+    </p>
+    <p class="commitdetails"><strong>153</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>net-ssh-0.1.0/lib/net</strong>:
+        ssh.rb&nbsp;<span class="new">(new&nbsp;153)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.3</p>
+</div>
+</body>
+</html>

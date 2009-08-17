@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: URI::SFTP</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />URI::SFTP</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../files/lib/uri/open-sftp_rb.html">lib/uri/open-sftp.rb</a>
+<a href="../../files/lib/uri/sftp_rb.html">lib/uri/sftp.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000001">direct_open</a></li>
+  <li><a href="#M000003">new</a></li>
+  <li><a href="#M000002">new2</a></li>
+  </ul>
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li>OpenURI::OpenRead</li>
+</ul>
+
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">DEFAULT_PORT</td>
+    <td>=</td>
+    <td class="attr-value">22</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">COMPONENT</td>
+    <td>=</td>
+    <td class="attr-value">[       :scheme,       :userinfo,       :host, :port, :path,       :query</td>
+  </tr>
+  </table>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>options</td>
+    <td class='attr-desc'></td>
+  </tr>
+  </table>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000003"></a><b>new</b>( *args )
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000003_source')" id="l_M000003_source">show source</a> ]</p>
+  <div id="M000003_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/uri/sftp.rb, line 25</span>
+25:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> )
+26:       <span class="ruby-keyword kw">super</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span> )
+27: 
+28:       <span class="ruby-ivar">@options</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+29:       ( <span class="ruby-identifier">query</span> <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;&quot;</span> ).<span class="ruby-identifier">split</span>( <span class="ruby-regexp re">/&amp;/</span> ).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
+30:         <span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>( <span class="ruby-regexp re">/=/</span> )
+31:         <span class="ruby-identifier">opt_name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">intern</span>
+32:         <span class="ruby-identifier">values</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>( <span class="ruby-regexp re">/,/</span> ).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_i</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">v</span> <span class="ruby-value">? </span><span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">v</span> }
+33:         <span class="ruby-identifier">values</span> = <span class="ruby-identifier">values</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+34:         <span class="ruby-identifier">options</span>[ <span class="ruby-identifier">opt_name</span> ] = <span class="ruby-identifier">values</span>
+35:       <span class="ruby-keyword kw">end</span>
+36:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000002"></a><b>new2</b>( user, password, host, port, path, query )
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000002_source')" id="l_M000002_source">show source</a> ]</p>
+  <div id="M000002_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/uri/sftp.rb, line 17</span>
+17:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">new2</span>( <span class="ruby-identifier">user</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">host</span>, <span class="ruby-identifier">port</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">query</span> )
+18:       <span class="ruby-identifier">new</span>( <span class="ruby-value str">'sftp'</span>,
+19:            [ <span class="ruby-identifier">user</span>, <span class="ruby-identifier">password</span> ],
+20:            <span class="ruby-identifier">host</span>, <span class="ruby-identifier">port</span>,
+21:            <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">path</span>,
+22:            <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">query</span> )
+23:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000001"></a><b>direct_open</b>( buf, open_options )
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000001_source')" id="l_M000001_source">show source</a> ]</p>
+  <div id="M000001_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/uri/open-sftp.rb, line 29</span>
+29:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">direct_open</span>( <span class="ruby-identifier">buf</span>, <span class="ruby-identifier">open_options</span> )
+30:       <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SFTP</span>.<span class="ruby-identifier">start</span>( <span class="ruby-identifier">host</span>, <span class="ruby-identifier">port</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">options</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sftp</span><span class="ruby-operator">|</span>
+31:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">open_options</span>[<span class="ruby-identifier">:content_length_proc</span>]
+32:           <span class="ruby-identifier">open_options</span>[<span class="ruby-identifier">:content_length_proc</span>].<span class="ruby-identifier">call</span>( <span class="ruby-identifier">sftp</span>.<span class="ruby-identifier">lstat</span>( <span class="ruby-identifier">path</span> ).<span class="ruby-identifier">size</span> )
+33:         <span class="ruby-keyword kw">end</span>
+34: 
+35:         <span class="ruby-identifier">body</span> = <span class="ruby-keyword kw">nil</span>
+36:         <span class="ruby-identifier">sftp</span>.<span class="ruby-identifier">open_handle</span>( <span class="ruby-identifier">path</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">handle</span><span class="ruby-operator">|</span>
+37:           <span class="ruby-identifier">body</span> = <span class="ruby-identifier">sftp</span>.<span class="ruby-identifier">read</span>( <span class="ruby-identifier">handle</span>,
+38:                     <span class="ruby-identifier">:chunk_size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">open_options</span>[<span class="ruby-identifier">:chunk_size</span>],
+39:                     <span class="ruby-identifier">:progress_callback</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">open_options</span>[<span class="ruby-identifier">:progress_proc</span>] )
+40:         <span class="ruby-keyword kw">end</span>
+41: 
+42:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">body</span>.<span class="ruby-identifier">nil?</span>
+43:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">SFTP</span><span class="ruby-operator">::</span><span class="ruby-constant">SFTPError</span>, <span class="ruby-identifier">sftp</span>.<span class="ruby-identifier">status</span>[<span class="ruby-identifier">:message</span>]
+44:         <span class="ruby-keyword kw">end</span>
+45: 
+46:         <span class="ruby-identifier">buf</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">body</span>
+47:         <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">io</span>.<span class="ruby-identifier">rewind</span>
+48:       <span class="ruby-keyword kw">end</span>
+49:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

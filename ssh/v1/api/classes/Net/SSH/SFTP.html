@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <title>Module: Net::SSH::SFTP</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Module</span><br />Net::SSH::SFTP</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../files/lib/net/ssh/sftp/attrs_rb.html">lib/net/ssh/sftp/attrs.rb</a>
+<a href="../../../files/lib/net/ssh/sftp/constants_rb.html">lib/net/ssh/sftp/constants.rb</a>
+<a href="../../../files/lib/net/ssh/sftp/session_rb.html">lib/net/ssh/sftp/session.rb</a>
+<a href="../../../files/lib/net/ssh/sftp/simple_rb.html">lib/net/ssh/sftp/simple.rb</a>
+<a href="../../../files/lib/net/ssh/sftp/errors_rb.html">lib/net/ssh/sftp/errors.rb</a>
+<a href="../../../files/lib/net/ssh/sftp_rb.html">lib/net/ssh/sftp.rb</a>
+        </td>
+      </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000064">session</a></li>
+  <li><a href="#M000063">simple</a></li>
+  </ul>
+
+
+  <div class="sectiontitle">Classes and Modules</div>
+  Module <a href="SFTP/Constants.html" class="link">Net::SSH::SFTP::Constants</a><br />
+&nbsp;&nbsp;::Module <a href="SFTP/Constants/V3.html" class="link">Net::SSH::SFTP::Constants::V3</a><br />
+&nbsp;&nbsp;::Module <a href="SFTP/Constants/V4.html" class="link">Net::SSH::SFTP::Constants::V4</a><br />
+&nbsp;&nbsp;::&nbsp;&nbsp;::Module <a href="SFTP/Constants/V4/ACE.html" class="link">Net::SSH::SFTP::Constants::V4::ACE</a><br />
+Module <a href="SFTP/SFTPFileBufferer.html" class="link">Net::SSH::SFTP::SFTPFileBufferer</a><br />
+Class <a href="SFTP/FileAttributes.html" class="link">Net::SSH::SFTP::FileAttributes</a><br />
+Class <a href="SFTP/SFTPError.html" class="link">Net::SSH::SFTP::SFTPError</a><br />
+Class <a href="SFTP/SFTPFile.html" class="link">Net::SSH::SFTP::SFTPFile</a><br />
+Class <a href="SFTP/Session.html" class="link">Net::SSH::SFTP::Session</a><br />
+Class <a href="SFTP/Simple.html" class="link">Net::SSH::SFTP::Simple</a><br />
+
+
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000064"></a><b>session</b>( session, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Open a &quot;full&quot; <a href="SFTP.html">SFTP</a> session. This is
+identical to calling <a
+href="SFTP/Session.html#M000096">Net::SSH::SFTP::Session.new</a>( session,
+&amp;block ). (See <a
+href="SFTP/Session.html">Net::SSH::SFTP::Session</a>).
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000064-source')" id="l_M000064-source">show source</a> ]</p>
+  <div id="M000064-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp.rb, line 36</span>
+36:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">session</span>( <span class="ruby-identifier">session</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+37:         <span class="ruby-constant">Session</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">session</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+38:       <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000063"></a><b>simple</b>( *args, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Open a &quot;simple&quot; <a href="SFTP.html">SFTP</a> session. This is
+identical to calling <a
+href="SFTP/Simple.html#M000109">Net::SSH::SFTP::Simple.new</a>( *args,
+&amp;block ). (See <a href="SFTP/Simple.html">Net::SSH::SFTP::Simple</a>).
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000063-source')" id="l_M000063-source">show source</a> ]</p>
+  <div id="M000063-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/sftp.rb, line 29</span>
+29:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">simple</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+30:         <span class="ruby-constant">Simple</span>.<span class="ruby-identifier">new</span>( <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+31:       <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+body {
+  background: #FFF;
+  font-family: sans-serif;
+  color: #000;
+  margin: 0px;
+}
+
+a {
+  color: #00F;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.product-manual {
+  text-align: center;
+  font-size: x-large;
+  font-variant: small-caps;
+  font-weight: bold;
+  color: #005;
+}
+
+.copyright {
+  text-align: center;
+  font-size: small;
+  font-style: italic;
+  color: #005;
+  margin-top: 1in;
+}
+
+#banner {
+  background: #005;
+  color: #FFF;
+  border-bottom: 1px solid #000;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1em;
+  margin-bottom: 1em;
+}
+
+#banner .title {
+  font-size: x-large;
+}
+
+#banner .title:first-letter {
+  font-size: 250%;
+  font-weight: normal;
+  float: left;
+  margin-top: -7px;
+  margin-bottom: -7px;
+}
+
+#banner .product {
+  font-weight: bold;
+  color: #FF7;
+  letter-spacing: 0.5em;
+}
+
+#banner .tagline {
+  font-style: italic;
+  font-size: large;
+  letter-spacing: 0.1em;
+  color: #FFF;
+}
+
+#banner .info {
+  color: white;
+  font-size: small;
+  padding-right: 1em;
+}
+
+#content {
+  margin-left: 0cm;
+  margin-right: 1cm;
+}
+
+#navigation {
+  font-size: x-small;
+  border-right: 2px groove black;
+  border-top: 2px groove black;
+  margin-right: 1em;
+  width: 200px;
+  height: 100%;
+  background: #FFD;
+}
+
+#navigation ul, #navigation ol {
+  margin-left: 1.2em;
+  padding-left: 1.2em;
+}
+
+#navigation .license {
+  font-size: x-small;
+  text-align: center;
+  border-top: 1px dashed #005;
+  margin-top: 2em;
+  padding: 1em;
+}
+
+.section {
+  margin-bottom: 1em;
+}
+
+.section p {
+  text-align: justify;
+}
+
+#content pre {
+  background: #FFE;
+  border: 1px dotted #AAA;
+  padding: 1em;
+}
+
+#content h1 {
+  background: #005;
+  color: #FFF;
+  font-size: x-large;
+  font-weight: bold;
+  font-variant: small-caps;
+  padding: 0.5em;
+  border: 1px solid #000;
+  margin-top: 0px;
+  margin-bottom: 1em;
+}
+
+#content h2 {
+  background: #005;
+  color: #FFF;
+  font-size: large;
+  font-weight: bold;
+  font-variant: small-caps;
+  padding: 0.25em;
+  padding-left: 0.5em;
+  border: 1px solid #000;
+  margin-bottom: 1em;
+}
+
+#content h3 {
+  background: #FFD;
+  color: #000;
+  font-size: normal;
+  font-weight: bold;
+  font-variant: small-caps;
+  padding: 0.25em;
+  padding-left: 0.5em;
+  border: 1px dotted #000;
+  margin-bottom: 1em;
+}
+
+#content h4 {
+  background: #FFE;
+  color: #000;
+  font-size: normal;
+  font-weight: bold;
+  font-variant: small-caps;
+  padding: 0.25em;
+  padding-left: 0.5em;
+  border: 1px dotted #777;
+  margin-bottom: 1em;
+}
+
+#navigation h1 {
+  margin: 0px;
+  padding: 1em;
+  color: #005;
+  background: transparent;
+  font-weight: bold;
+  font-size: 150%;
+  font-variant: small-caps;
+  text-align: center;
+}
+
+#navigation h2 {
+  margin: 0px;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-top: 1px dashed #005;
+  border-bottom: 1px dashed #005;
+  color: #005;
+  background: transparent;
+  font-weight: bold;
+  font-size: 125%;
+  font-variant: small-caps;
+  text-align: center;
+}
+
+table.list td {
+  border-bottom: 1px dotted #005;
+  padding-bottom: 5px;
+}

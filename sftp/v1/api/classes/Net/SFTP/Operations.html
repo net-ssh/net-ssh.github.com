@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Module: Net::SFTP::Operations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Module</span><br />Net::SFTP::Operations</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../files/lib/net/sftp/operations/abstract_rb.html">lib/net/sftp/operations/abstract.rb</a>
+<a href="../../../files/lib/net/sftp/operations/close_rb.html">lib/net/sftp/operations/close.rb</a>
+<a href="../../../files/lib/net/sftp/operations/errors_rb.html">lib/net/sftp/operations/errors.rb</a>
+<a href="../../../files/lib/net/sftp/operations/fsetstat_rb.html">lib/net/sftp/operations/fsetstat.rb</a>
+<a href="../../../files/lib/net/sftp/operations/fstat_rb.html">lib/net/sftp/operations/fstat.rb</a>
+<a href="../../../files/lib/net/sftp/operations/lstat_rb.html">lib/net/sftp/operations/lstat.rb</a>
+<a href="../../../files/lib/net/sftp/operations/mkdir_rb.html">lib/net/sftp/operations/mkdir.rb</a>
+<a href="../../../files/lib/net/sftp/operations/open_rb.html">lib/net/sftp/operations/open.rb</a>
+<a href="../../../files/lib/net/sftp/operations/opendir_rb.html">lib/net/sftp/operations/opendir.rb</a>
+<a href="../../../files/lib/net/sftp/operations/read_rb.html">lib/net/sftp/operations/read.rb</a>
+<a href="../../../files/lib/net/sftp/operations/readdir_rb.html">lib/net/sftp/operations/readdir.rb</a>
+<a href="../../../files/lib/net/sftp/operations/realpath_rb.html">lib/net/sftp/operations/realpath.rb</a>
+<a href="../../../files/lib/net/sftp/operations/remove_rb.html">lib/net/sftp/operations/remove.rb</a>
+<a href="../../../files/lib/net/sftp/operations/rename_rb.html">lib/net/sftp/operations/rename.rb</a>
+<a href="../../../files/lib/net/sftp/operations/rmdir_rb.html">lib/net/sftp/operations/rmdir.rb</a>
+<a href="../../../files/lib/net/sftp/operations/services_rb.html">lib/net/sftp/operations/services.rb</a>
+<a href="../../../files/lib/net/sftp/operations/setstat_rb.html">lib/net/sftp/operations/setstat.rb</a>
+<a href="../../../files/lib/net/sftp/operations/stat_rb.html">lib/net/sftp/operations/stat.rb</a>
+<a href="../../../files/lib/net/sftp/operations/write_rb.html">lib/net/sftp/operations/write.rb</a>
+        </td>
+      </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000005">register_services</a></li>
+  </ul>
+
+
+
+  <div class="sectiontitle">Classes and Modules</div>
+  Module <a href="Operations/Constants.html" class="link">Net::SFTP::Operations::Constants</a><br />
+Class <a href="Operations/Abstract.html" class="link">Net::SFTP::Operations::Abstract</a><br />
+Class <a href="Operations/Close.html" class="link">Net::SFTP::Operations::Close</a><br />
+Class <a href="Operations/Fsetstat.html" class="link">Net::SFTP::Operations::Fsetstat</a><br />
+Class <a href="Operations/Fstat.html" class="link">Net::SFTP::Operations::Fstat</a><br />
+Class <a href="Operations/Lstat.html" class="link">Net::SFTP::Operations::Lstat</a><br />
+Class <a href="Operations/Mkdir.html" class="link">Net::SFTP::Operations::Mkdir</a><br />
+Class <a href="Operations/Open.html" class="link">Net::SFTP::Operations::Open</a><br />
+Class <a href="Operations/Opendir.html" class="link">Net::SFTP::Operations::Opendir</a><br />
+Class <a href="Operations/Read.html" class="link">Net::SFTP::Operations::Read</a><br />
+Class <a href="Operations/Readdir.html" class="link">Net::SFTP::Operations::Readdir</a><br />
+Class <a href="Operations/Realpath.html" class="link">Net::SFTP::Operations::Realpath</a><br />
+Class <a href="Operations/Remove.html" class="link">Net::SFTP::Operations::Remove</a><br />
+Class <a href="Operations/Rename.html" class="link">Net::SFTP::Operations::Rename</a><br />
+Class <a href="Operations/Rmdir.html" class="link">Net::SFTP::Operations::Rmdir</a><br />
+Class <a href="Operations/Setstat.html" class="link">Net::SFTP::Operations::Setstat</a><br />
+Class <a href="Operations/Stat.html" class="link">Net::SFTP::Operations::Stat</a><br />
+Class <a href="Operations/StatusException.html" class="link">Net::SFTP::Operations::StatusException</a><br />
+Class <a href="Operations/Write.html" class="link">Net::SFTP::Operations::Write</a><br />
+
+
+
+
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000005"></a><b>register_services</b>( container )
+  </div>
+  <div class="description">
+  <p>
+Register all services that implement an <a href="../SFTP.html">SFTP</a>
+operation.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000005_source')" id="l_M000005_source">show source</a> ]</p>
+  <div id="M000005_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/sftp/operations/services.rb, line 20</span>
+20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">register_services</span>( <span class="ruby-identifier">container</span> )
+21:     <span class="ruby-identifier">container</span>.<span class="ruby-identifier">namespace</span> <span class="ruby-identifier">:operations</span>
+22:     <span class="ruby-identifier">container</span>.<span class="ruby-identifier">operations</span>.<span class="ruby-identifier">use</span> <span class="ruby-identifier">:model</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:prototype</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ns</span><span class="ruby-operator">|</span>
+23:       [
+24:         <span class="ruby-identifier">:open</span>,
+25:         [ <span class="ruby-identifier">:close_handle</span>, <span class="ruby-identifier">:close</span> ],
+26:         <span class="ruby-identifier">:read</span>, <span class="ruby-identifier">:write</span>, <span class="ruby-identifier">:opendir</span>, <span class="ruby-identifier">:readdir</span>, <span class="ruby-identifier">:remove</span>,
+27:         <span class="ruby-identifier">:stat</span>, <span class="ruby-identifier">:lstat</span>, <span class="ruby-identifier">:fstat</span>, <span class="ruby-identifier">:setstat</span>, <span class="ruby-identifier">:fsetstat</span>,
+28:         <span class="ruby-identifier">:mkdir</span>, <span class="ruby-identifier">:rmdir</span>, <span class="ruby-identifier">:realpath</span>, <span class="ruby-identifier">:rename</span>
+29:       ].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">op</span><span class="ruby-operator">|</span>
+30:         <span class="ruby-identifier">array</span> = <span class="ruby-identifier">op</span>.<span class="ruby-identifier">is_a?</span>( <span class="ruby-constant">Array</span> )
+31:         <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">register</span>( <span class="ruby-identifier">array</span> <span class="ruby-value">? </span><span class="ruby-identifier">op</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">op</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>,<span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+32:           <span class="ruby-identifier">require</span> <span class="ruby-node">&quot;net/sftp/operations/#{array ? op.last : op}&quot;</span>
+33:           <span class="ruby-identifier">klass_name</span> = ( <span class="ruby-identifier">array</span> <span class="ruby-value">? </span><span class="ruby-identifier">op</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">op</span> ).<span class="ruby-identifier">to_s</span>
+34:           <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">const_get</span>( <span class="ruby-identifier">klass_name</span>[<span class="ruby-value">0</span>,<span class="ruby-value">1</span>].<span class="ruby-identifier">upcase</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">klass_name</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>] )
+35:           <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:log_for</span>, <span class="ruby-identifier">p</span>], <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:session</span>], <span class="ruby-identifier">c</span>[<span class="ruby-identifier">:protocol</span>][<span class="ruby-identifier">:driver</span>]
+36:         <span class="ruby-keyword kw">end</span>
+37:       <span class="ruby-keyword kw">end</span>
+38:     <span class="ruby-keyword kw">end</span>
+39:   <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

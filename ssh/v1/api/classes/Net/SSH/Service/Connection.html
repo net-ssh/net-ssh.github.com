@@ -1,0 +1,428 @@
+<html>
+  <head>
+    <title>Class: Net::SSH::Service::Connection</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" language="JavaScript">
+      <!--
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      //-->
+    </script>
+  </head>
+
+  <body>
+<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Net::SSH::Service::Connection</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/net/ssh/service/connection_rb.html">lib/net/ssh/service/connection.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="content">
+
+  <div id="description"><p>
+This represents a single connection multiplexing multiple channels.
+</p>
+</div>
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000243">active_channels</a></li>
+  <li><a href="#M000244">add_channel_open_handler</a></li>
+  <li><a href="#M000241">global_request</a></li>
+  <li><a href="#M000239">new</a></li>
+  <li><a href="#M000240">open_channel</a></li>
+  <li><a href="#M000246">process_connection</a></li>
+  <li><a href="#M000242">remove_channel</a></li>
+  <li><a href="#M000245">remove_channel_open_handler</a></li>
+  </ul>
+
+  <div class="sectiontitle">Attributes</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class='attr-rw'>
+[R]
+    </td>
+    <td class='attr-name'>session</td>
+    <td class='attr-desc'>
+the transport-layer session object
+
+</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Included Modules</div>
+<ul>
+  <li><a href="MessageConstants.html">Net::SSH::Service::MessageConstants</a></li>
+</ul>
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000239"></a><b>new</b>( session )
+  </div>
+  <div class="description">
+  <p>
+Create a new connection object on top of the given session.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000239-source')" id="l_M000239-source">show source</a> ]</p>
+  <div id="M000239-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 38</span>
+38:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">session</span> )
+39:           <span class="ruby-ivar">@session</span> = <span class="ruby-identifier">session</span>
+40:           <span class="ruby-ivar">@server_channel_map</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+41:           <span class="ruby-ivar">@client_channel_map</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+42:           <span class="ruby-ivar">@active_request_queue</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+43:           <span class="ruby-ivar">@channel_open_handlers</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+44:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000243"></a><b>active_channels</b>()
+  </div>
+  <div class="description">
+  <p>
+Returns an array of active channels.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000243-source')" id="l_M000243-source">show source</a> ]</p>
+  <div id="M000243-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 73</span>
+73:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">active_channels</span>
+74:           <span class="ruby-ivar">@client_channel_map</span>.<span class="ruby-identifier">values</span>
+75:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000244"></a><b>add_channel_open_handler</b>( type, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Add a callback to be invoked when a channel-open request is recieved for a
+channel of the given type. The handler-id is returned.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000244-source')" id="l_M000244-source">show source</a> ]</p>
+  <div id="M000244-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 79</span>
+79:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_channel_open_handler</span>( <span class="ruby-identifier">type</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+80:           ( <span class="ruby-ivar">@channel_open_handlers</span>[ <span class="ruby-identifier">type</span> ] <span class="ruby-operator">||=</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span> ).<span class="ruby-identifier">push</span> <span class="ruby-identifier">block</span>
+81:           <span class="ruby-ivar">@channel_open_handlers</span>.<span class="ruby-identifier">length</span>
+82:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000241"></a><b>global_request</b>( type, data=nil, &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Sends a global request, asynchronously.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000241-source')" id="l_M000241-source">show source</a> ]</p>
+  <div id="M000241-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 55</span>
+55:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">global_request</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+56:           <span class="ruby-identifier">writer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+57:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">GLOBAL_REQUEST</span>
+58:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_string</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span>
+59:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_bool</span> <span class="ruby-keyword kw">true</span>
+60:           <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">data</span>
+61:           <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">writer</span>
+62: 
+63:           <span class="ruby-ivar">@active_request_queue</span>.<span class="ruby-identifier">push</span>( { <span class="ruby-identifier">:type=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">:data=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">data</span>, <span class="ruby-identifier">:callback=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">block</span> } )
+64:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000240"></a><b>open_channel</b>( type, extra_data=nil, &amp;on_confirm )
+  </div>
+  <div class="description">
+  <p>
+Opens a channel of the given type. The attached block is invoked when the
+channel is confirmed by the server.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000240-source')" id="l_M000240-source">show source</a> ]</p>
+  <div id="M000240-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 48</span>
+48:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">open_channel</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">extra_data</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">on_confirm</span> )
+49:           <span class="ruby-identifier">channel</span> = <span class="ruby-constant">Channel</span>.<span class="ruby-identifier">new</span>( <span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">extra_data</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">on_confirm</span> )
+50:           <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">local_id</span> ] = <span class="ruby-identifier">channel</span>
+51:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">channel</span>
+52:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000246"></a><b>process_connection</b>( &amp;block )
+  </div>
+  <div class="description">
+  <p>
+Processes the connection. This will block as long as there is an open
+channel on this connection. As packets are recieved, they are decoded and
+dispatched to the appropriate channel object.
+</p>
+<p>
+If the block is given, then it should return true as long as the processing
+should continue, and false when it should terminate. If it is not given,
+then processing will continue as long as there are open channels.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000246-source')" id="l_M000246-source">show source</a> ]</p>
+  <div id="M000246-source" class="dyn-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 98</span>
+ 98:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_connection</span>( <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span> )
+ 99:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">nil?</span>
+100:             <span class="ruby-identifier">block</span> = <span class="ruby-identifier">proc</span> { <span class="ruby-ivar">@client_channel_map</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> }
+101:           <span class="ruby-keyword kw">end</span>
+102:           
+103:           <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>
+104:             <span class="ruby-identifier">type</span>, <span class="ruby-identifier">response</span> = <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">wait_for_message</span>
+105: 
+106:             <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+107:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">REQUEST_SUCCESS</span>
+108:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;REQUEST_SUCCESS recieved&quot;</span>
+109:                 <span class="ruby-identifier">process_active_request</span>( <span class="ruby-identifier">response</span>, <span class="ruby-keyword kw">true</span> )
+110: 
+111:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">REQUEST_FAILURE</span>
+112:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-value str">&quot;REQUEST_FAILURE recieved&quot;</span>
+113:                 <span class="ruby-identifier">process_active_request</span>( <span class="ruby-identifier">response</span>, <span class="ruby-keyword kw">false</span> )
+114: 
+115:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_OPEN</span>
+116:                 <span class="ruby-identifier">ch_type</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_string</span>
+117:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_OPEN recieved (#{ch_type})&quot;</span>
+118:                 <span class="ruby-identifier">handled</span> = <span class="ruby-keyword kw">false</span>
+119: 
+120:                 <span class="ruby-identifier">sender_channel</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+121:                 <span class="ruby-identifier">window_size</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+122:                 <span class="ruby-identifier">packet_size</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+123: 
+124:                 <span class="ruby-identifier">channel</span> = <span class="ruby-constant">Channel</span>.<span class="ruby-identifier">create</span>( <span class="ruby-keyword kw">self</span>,
+125:                                           <span class="ruby-identifier">ch_type</span>,
+126:                                           <span class="ruby-identifier">sender_channel</span>,
+127:                                           <span class="ruby-identifier">window_size</span>,
+128:                                           <span class="ruby-identifier">packet_size</span> )
+129: 
+130:                 ( <span class="ruby-ivar">@channel_open_handlers</span>[ <span class="ruby-identifier">ch_type</span> ] <span class="ruby-operator">||</span> [] ).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">handler</span><span class="ruby-operator">|</span>
+131:                   <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">handler</span>
+132:                   <span class="ruby-identifier">handled</span> = <span class="ruby-keyword kw">true</span>
+133:                   <span class="ruby-identifier">handler</span>.<span class="ruby-identifier">call</span>( <span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">channel</span>, <span class="ruby-identifier">response</span> )
+134:                 <span class="ruby-keyword kw">end</span>
+135: 
+136:                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;cannot handle request to open a channel of type '#{ch_type}'&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">handled</span>
+137: 
+138:                 <span class="ruby-ivar">@client_channel_map</span>[<span class="ruby-identifier">channel</span>.<span class="ruby-identifier">local_id</span>] = <span class="ruby-identifier">channel</span>
+139:                 <span class="ruby-ivar">@server_channel_map</span>[<span class="ruby-identifier">channel</span>.<span class="ruby-identifier">remote_id</span>] = <span class="ruby-identifier">channel</span>
+140: 
+141:                 <span class="ruby-identifier">writer</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">WriterBuffer</span>.<span class="ruby-identifier">new</span>
+142:                 <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_byte</span> <span class="ruby-constant">CHANNEL_OPEN_CONFIRMATION</span>
+143:                 <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">remote_id</span>
+144:                 <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">local_id</span>
+145:                 <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-value">0x</span><span class="ruby-constant">FFFFFFFF</span>
+146:                 <span class="ruby-identifier">writer</span>.<span class="ruby-identifier">write_long</span> <span class="ruby-value">0x</span><span class="ruby-constant">FFFFFFFF</span>
+147:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">send_message</span> <span class="ruby-identifier">writer</span>
+148: 
+149:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_OPEN_FAILURE</span>
+150:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+151:                 <span class="ruby-identifier">reason_code</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+152:                 <span class="ruby-identifier">reason</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_string</span>
+153:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_OPEN_FAILURE recieved (#{reason})&quot;</span>
+154:                 <span class="ruby-identifier">language</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_string</span>
+155:                 <span class="ruby-identifier">channel</span> = <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ]
+156:                 <span class="ruby-ivar">@client_channel_map</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">local_id</span>
+157:                 <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">invalidate!</span> <span class="ruby-identifier">reason_code</span>, <span class="ruby-identifier">reason</span>, <span class="ruby-identifier">language</span>
+158: 
+159:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_OPEN_CONFIRMATION</span>
+160:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+161:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_OPEN_CONFIRMATION recieved (#{local_id})&quot;</span>
+162:                 <span class="ruby-identifier">remote_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+163:                 <span class="ruby-identifier">window_size</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+164:                 <span class="ruby-identifier">packet_size</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+165:                 <span class="ruby-identifier">channel</span> = <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ]
+166:                 <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">confirm_open</span>( <span class="ruby-identifier">remote_id</span>, <span class="ruby-identifier">window_size</span>, <span class="ruby-identifier">packet_size</span> )
+167:                 <span class="ruby-ivar">@server_channel_map</span>[ <span class="ruby-identifier">remote_id</span> ] = <span class="ruby-identifier">channel</span>
+168: 
+169:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_WINDOW_ADJUST</span>
+170:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+171:                 <span class="ruby-identifier">bytes_to_add</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+172:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_WINDOW_ADJUST recieved (#{local_id}:#{bytes_to_add})&quot;</span>
+173:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">window_adjust</span>( <span class="ruby-identifier">bytes_to_add</span> )
+174: 
+175:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_DATA</span>
+176:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+177:                 <span class="ruby-identifier">data</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_string</span>
+178:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_DATA recieved (#{local_id}:#{data.inspect})&quot;</span>
+179:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">append_data</span>( <span class="ruby-identifier">data</span> )
+180: 
+181:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_EXTENDED_DATA</span>
+182:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+183:                 <span class="ruby-identifier">data_type</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+184:                 <span class="ruby-identifier">data</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_string</span>
+185:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_EXTENDED_DATA recieved (#{local_id}:#{data_type}:#{data.inspect})&quot;</span>
+186:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">append_extended_data</span>( <span class="ruby-identifier">data_type</span>, <span class="ruby-identifier">data</span> )
+187: 
+188:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_EOF</span>
+189:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+190:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_EOF recieved (#{local_id})&quot;</span>
+191:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">eof</span>
+192: 
+193:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_CLOSE</span>
+194:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+195:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_CLOSE recieved (#{local_id})&quot;</span>
+196:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">close</span>( <span class="ruby-keyword kw">false</span> )
+197: 
+198:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_REQUEST</span>
+199:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+200:                 <span class="ruby-identifier">request</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_string</span>
+201:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_REQUEST recieved (#{local_id}:#{request})&quot;</span>
+202:                 <span class="ruby-identifier">want_reply</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_bool</span>
+203:                 <span class="ruby-identifier">request_data</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">remainder_as_buffer</span>
+204:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">request</span>( <span class="ruby-identifier">request</span>, <span class="ruby-identifier">want_reply</span>, <span class="ruby-identifier">request_data</span> )
+205: 
+206:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_SUCCESS</span>
+207:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+208:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_SUCCESS recieved (#{local_id})&quot;</span>
+209:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">success</span>
+210: 
+211:               <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CHANNEL_FAILURE</span>
+212:                 <span class="ruby-identifier">local_id</span> = <span class="ruby-identifier">response</span>.<span class="ruby-identifier">read_long</span>
+213:                 <span class="ruby-ivar">@session</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;CHANNEL_FAILURE recieved (#{local_id})&quot;</span>
+214:                 <span class="ruby-ivar">@client_channel_map</span>[ <span class="ruby-identifier">local_id</span> ].<span class="ruby-identifier">failure</span>
+215: 
+216:               <span class="ruby-keyword kw">else</span>
+217:                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">SSHError</span>, <span class="ruby-node">&quot;unexpected response type '#{type}' (#{response.inspect})&quot;</span>
+218: 
+219:             <span class="ruby-keyword kw">end</span>
+220:           <span class="ruby-keyword kw">end</span>
+221:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000242"></a><b>remove_channel</b>( channel )
+  </div>
+  <div class="description">
+  <p>
+Remove the given channel from the connection.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000242-source')" id="l_M000242-source">show source</a> ]</p>
+  <div id="M000242-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 67</span>
+67:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove_channel</span>( <span class="ruby-identifier">channel</span> )
+68:           <span class="ruby-ivar">@server_channel_map</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">remote_id</span>
+69:           <span class="ruby-ivar">@client_channel_map</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">local_id</span>
+70:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000245"></a><b>remove_channel_open_handler</b>( type, id )
+  </div>
+  <div class="description">
+  <p>
+Remove a callback with the given id for channel-open requests of the given
+type.
+</p>
+  </div>
+<div class="description">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000245-source')" id="l_M000245-source">show source</a> ]</p>
+  <div id="M000245-source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/net/ssh/service/connection.rb, line 85</span>
+85:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove_channel_open_handler</span>( <span class="ruby-identifier">type</span>, <span class="ruby-identifier">id</span> )
+86:           <span class="ruby-ivar">@channel_open_handlers</span>[ <span class="ruby-identifier">type</span> ][ <span class="ruby-identifier">id</span><span class="ruby-operator">-</span><span class="ruby-value">1</span> ] = <span class="ruby-keyword kw">nil</span>
+87:         <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+ <!-- method descriptions -->
+
+    </div>
+  </body>
+</html>
