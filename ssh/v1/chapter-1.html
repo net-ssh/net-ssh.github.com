@@ -49,6 +49,7 @@
                 
                   <li><a href="chapter-1.html#s6">About the Author</a></li>
                 
+                  <li><a href="chapter-1.html#s7">Maintainer</a></li>
               </ol>
             </li>
           
@@ -169,8 +170,8 @@
           <h2>Other Documentation</h2>
 
           <ul>
-            <li><a href="http://net-ssh.rubyforge.org/api/index.html">Net::SSH API</a></li>
-            <li><a href="http://rubyforge.org/tracker/?atid=1842&group_id=274&func=browse">Net::SSH FAQ</a></li>
+            <li><a href="http://net-ssh.github.com/api/index.html">Net::SSH API</a></li>
+            <li><a href="http://rubyforge.org/tracker/?atid=1842&group_id=274&func=browse">Net::SSH FAQ</a> (OUTDATED)</li>
           </ul>
 
           <h2>Tutorials</h2>
@@ -249,7 +250,7 @@
      <h3>Prerequisites:</h3>
 
 
-	<p>In order to use Net::SSH, you must be using a supported version of Ruby&#8217;s OpenSSL module. The version distributed with Ruby 1.8.1 and earlier is not sufficient, and is lacking several features that Net::SSH relies on. If you are using Ruby 1.8.1 (or earlier), you should either upgrade to 1.8.2, or download and install an updated version of the OpenSSL module. You can download a usable snapshot from the <a href="http://rubyforge.org/projects/net-ssh">Net::SSH downloads page</a>.</p>
+	<p>In order to use Net::SSH, you must be using a supported version of Ruby&#8217;s OpenSSL module. The version distributed with Ruby 1.8.1 and earlier is not sufficient, and is lacking several features that Net::SSH relies on. If you are using Ruby 1.8.1 (or earlier), you should either upgrade to 1.8.2, or download and install an updated version of the OpenSSL module. You can download a usable snapshot from the <a href="https://github.com/net-ssh/">Net::SSH downloads page</a>.</p>
 
 
 	<p>Furthermore, you must make sure that Ruby&#8217;s OpenSSL module has been compiled against <em>at least</em> version 0.9.7 of the OpenSSL library. Prior versions lacked functionality that Net::SSH depends on (notably, the &#8216;padding&#8217; property of ciphers).</p>
@@ -258,10 +259,10 @@
 	<p>Optionally, you can install the <a href="http://raa.ruby-lang.org/project/ruby-termios">ruby-termios</a>. If you do, then your passwords won&#8217;t be echoed to the screen when prompting you for the passphrases needed to load your keys (if your keys have passphrases).</p>
 
 
-	<h3>Using <a href="http://rubygems.rubyforge.org">RubyGems</a></h3>
+	<h3>Using <a href="http://rubygems.org/">RubyGems</a></h3>
 
 
-	<p>If you have <a href="http://rubygems.rubyforge.org">RubyGems</a> installed, installing Net::SSH is simple:</p>
+	<p>If you have <a href="http://rubygems.org/">RubyGems</a> installed, installing Net::SSH is simple:</p>
 
 
 	<div class='figure'>
@@ -289,7 +290,7 @@
 	<h3>Doing it the hard way</h3>
 
 
-	<p>If you don&#8217;t have <a href="http://rubygems.rubyforge.org">RubyGems</a> or <a href="http://rpa-base.rubyforge.org">rpa-base</a>, or if you just prefer to install things by hand, you can always go to the <a href="http://rubyforge.org/projects/net-ssh">Net::SSH downloads page</a> and grab the package of your choice: <code>tar.gz</code>, <code>tar.bz2</code>, or <code>zip</code>.</p>
+	<p>If you don&#8217;t have <a href="http://rubygems.org">RubyGems</a> or <a href="http://rpa-base.rubyforge.org">rpa-base</a>, or if you just prefer to install things by hand, you can always go to the <a href="https://github.com/net-ssh/">Net::SSH downloads page</a> and grab the package of your choice: <code>tar.gz</code>, <code>tar.bz2</code>, or <code>zip</code>.</p>
 
 
 	<p>Then, unpack the archive and run the <code>setup.rb</code> script:</p>
@@ -331,7 +332,7 @@ ruby setup.rb install</pre></div></div></div>
    
 
    <div class="section">
-     <p>Mailing lists, bug trackers, feature requests, and public forums are all available (courtesty of <a href="http://rubyforge.org">RubyForge</a>) at the <a href="http://rubyforge.org/projects/net-ssh">Net::SSH project page</a>.</p>
+     <p>Mailing lists, bug trackers, feature requests, and public forums are all available (courtesty of <a href="http://rubyforge.org">RubyForge</a>) at the <a href="https://github.com/net-ssh/">Net::SSH project page</a>.</p>
 
 
 	<h3>Mailing Lists</h3>
@@ -346,7 +347,7 @@ ruby setup.rb install</pre></div></div></div>
 		<tr>
 			<td style="vertical-align:top;text-align:center;"><a href="http://rubyforge.org/pipermail/net-ssh-users">net-ssh-users</a></td>
 			<td style="vertical-align:top;text-align:center;"><a href="http://rubyforge.org/mailman/listinfo/net-ssh-users">subscribe / unsubscribe</a></td>
-			<td> The Net::SSH users list is devoted to the discussion of and questions about the usage of the Net::SSH module. If you can&#8217;t quite figure out how to get a feature of Net::SSH to work, this is the list you would go to in order to ask your questions.</td>
+			<td> The Net::SSH users list is devoted to the discussion of and questions about the usage of the Net::SSH module. If you can&#8217;t quite figure out how to get a feature of Net::SSH to work, this is the list you would go to in order to ask your questions. </td>
 		</tr>
 		<tr>
 			<td style="vertical-align:top;text-align:center;"><a href="http://rubyforge.org/pipermail/net-ssh-devel">net-ssh-devel</a></td>
@@ -366,10 +367,18 @@ ruby setup.rb install</pre></div></div></div>
    
 
    <div class="section">
-     <p>Net::SSH was written by <a href="mailto:jamis@37signals.com">Jamis Buck</a>. Feel free to send him compliments, candy, money, praise, or new feature patches&#8212;he likes all those things. You can send him questions and suggestions, too, if you really want to. However, for bug reports and general feature requests, please use the trackers on the <a href="http://rubyforge.org/projects/net-ssh">Net::SSH project page</a>.</p>
+     <p>Net::SSH was written by Jamis Buck. Feel free to send him compliments, candy, money, praise, or new feature patches&#8212;he likes all those things. <span style="text-decoration: line-through;">You can send him questions and suggestions, too, if you really want to.</span> (see below.) However, for bug reports and general feature requests, please use the <a href="http://net-ssh.lighthouseapp.com/">issue tracker</a>.</p>
    </div>
 
+     <h2>
+       <a name="s7"></a>
+       1.7. Maintainer
+     </h2>
 
+  
+   <div class="section">
+     <p>Net::SSH is maintained by <a href="net-ssh@solutious.com">Delano Mandelbaum</a>. Please direct questions, patches, pull request, etc to him. </p>
+   </div>
 
 <div class="bottom"><div class="prevnext">
   
