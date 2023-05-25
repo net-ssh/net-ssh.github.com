@@ -209,7 +209,7 @@
           <h2>API Reference</h2>
 
           <ul>
-            <li><a href="http://net-ssh.github.com/api">Net::SSH API</a></li>
+            <li><a href="http://net-ssh.github.io/api">Net::SSH API</a></li>
           </ul>
 
           
@@ -246,7 +246,7 @@
 
 	<h3>Location and Construction</h3>
 
-	<p>The Net::SSH transport layer is in the <a href="http://net-ssh.github.com/api/classes/Net/SSH/Transport.html">Net::SSH::Transport</a> module, and is composed of several classes. Some of the most significant components of the transport layer are:</p>
+	<p>The Net::SSH transport layer is in the <a href="http://net-ssh.github.io/api/classes/Net/SSH/Transport.html">Net::SSH::Transport</a> module, and is composed of several classes. Some of the most significant components of the transport layer are:</p>
 
 	<table class="list">
 		<tr>
@@ -255,17 +255,17 @@
 			<th>Description </th>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Transport/Session.html">Session</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Transport/Session.html">Session</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/transport/session</code> </td>
 			<td> This represents a single session with a server. An instance of this object is the fundamental means by which all other pieces of the Net::SSH framework communicate with the remote server. </td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Transport/WriterBuffer.html">WriterBuffer</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Transport/WriterBuffer.html">WriterBuffer</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/transport/buffer</code> </td>
 			<td> This is a class that makes it easier to encode data in <span class="caps">SSH</span>-specific formats. Various other layers of the Net::SSH framework employ the WriterBuffer class to help format packets to send to the server. </td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Transport/ReaderBuffer.html">ReaderBuffer</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Transport/ReaderBuffer.html">ReaderBuffer</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/transport/buffer</code> </td>
 			<td> This is a class that makes it easier to decode data in <span class="caps">SSH</span>-specific formats. This is useful for taking apart packets received from the server. </td>
 		</tr>
@@ -277,7 +277,7 @@
 
 	<p>The connection to the server is either made using a <span class="caps">TCP</span>Socket, or if a proxy is given, the proxy is used to connect.</p>
 
-	<p>After connecting to the server, the transport session then instantiates an <a href="http://net-ssh.github.com/api/classes/Net/SSH/Transport/IncomingPacketStream.html">IncomingPacketStream</a> and an <a href="http://net-ssh.github.com/api/classes/Net/SSH/Transport/OutgoingPacketStream.html;">OutgoingPacketStream</a> these two classes are used to perform all <span class="caps">SSH</span>-mandated operations on packets as they are received or sent.</p>
+	<p>After connecting to the server, the transport session then instantiates an <a href="http://net-ssh.github.io/api/classes/Net/SSH/Transport/IncomingPacketStream.html">IncomingPacketStream</a> and an <a href="http://net-ssh.github.io/api/classes/Net/SSH/Transport/OutgoingPacketStream.html;">OutgoingPacketStream</a> these two classes are used to perform all <span class="caps">SSH</span>-mandated operations on packets as they are received or sent.</p>
 
 	<p>Once the packet streams are set up, version negoation takes place. Net::SSH reads the version of the server, and then tells the server what its own version is.</p>
 
@@ -309,7 +309,7 @@
 
 	<h3>Location and Construction</h3>
 
-	<p>The authentication layer exists in the <a href="http://net-ssh.github.com/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists (primarily) of three classes:</p>
+	<p>The authentication layer exists in the <a href="http://net-ssh.github.io/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists (primarily) of three classes:</p>
 
 	<table class="list">
 		<tr>
@@ -318,17 +318,17 @@
 			<th>Description </th>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Service/UserAuth.html">UserAuth</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Service/UserAuth.html">UserAuth</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/service/userauth</code> </td>
 			<td> The UserAuth class is the core of the authentication layer. It attempts each requested authentication method in turn, until one succeeds. To help, it uses the UserKeyManager class. </td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Service/UserKeyManager.html">UserKeyManager</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Service/UserKeyManager.html">UserKeyManager</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/service/userkeys</code> </td>
 			<td> The UserKeyManager keeps track of all knows <em>identities</em> (public keys) of the current user. It abstracts the keys away from the rest of the application, so that other classes do not have to deal directly with the private keys. It also interacts with the <span class="caps">SSH</span> agent, if one is active, via the Agent class. </td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Service/Agent.html">Agent</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Service/Agent.html">Agent</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/service/agent</code> </td>
 			<td> The Agent interfaces with the active <span class="caps">SSH</span> agent, if one is running. It provides an interface for querying all of the identities (public keys) that the agent knows of, and for performing operations with those identities. </td>
 		</tr>
@@ -358,7 +358,7 @@
 
 	<h3>Location and Construction</h3>
 
-	<p>The connection layer exists in the <a href="http://net-ssh.github.com/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists of only two classes:</p>
+	<p>The connection layer exists in the <a href="http://net-ssh.github.io/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists of only two classes:</p>
 
 	<table class="list">
 		<tr>
@@ -367,12 +367,12 @@
 			<th>Description </th>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Service/Connection.html">Connection</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Service/Connection.html">Connection</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/service/connection</code> </td>
 			<td> The Connection class manages the lifecycle of the channels. When the <code>main_loop</code> method is invoked, it is really the Connection&#8217;s <code>process_connection</code> method that does all the work. </td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Service/Channel.html">Channel</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Service/Channel.html">Channel</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/service/channel</code> </td>
 			<td> The Channel class represents a single bidirectional communication channel across a connection. It provides a rich event-driven interface for handling the various events that occur in a channel. It also provides ways for sending data across a channel. </td>
 		</tr>
@@ -398,7 +398,7 @@
    
 
    <div class="section">
-     <p>The <em>session layer</em> is not a formal layer defined in the <span class="caps">SSH</span> specification. Instead, it is an abstraction provided by Net::SSH for accessing the connection layer. This layer is defined in the <a href="http://net-ssh.github.com/api/classes/Net/SSH/Session.html">Net::SSH::Session</a> class.</p>
+     <p>The <em>session layer</em> is not a formal layer defined in the <span class="caps">SSH</span> specification. Instead, it is an abstraction provided by Net::SSH for accessing the connection layer. This layer is defined in the <a href="http://net-ssh.github.io/api/classes/Net/SSH/Session.html">Net::SSH::Session</a> class.</p>
 
 	<p>In truth, the Net::SSH::Session class is little more than a wrapper for the connection object, although it also instantiates the transport layer and invokes the authentication layer.<br />
 </p>
@@ -420,7 +420,7 @@
 
 	<h3>Location and Construction</h3>
 
-	<p>The port forwarding layer is, like all other services, defined in the <a href="http://net-ssh.github.com/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists of really only one significant class:</p>
+	<p>The port forwarding layer is, like all other services, defined in the <a href="http://net-ssh.github.io/api/classes/Net/SSH/Service.html">Net::SSH::Service</a> module, and consists of really only one significant class:</p>
 
 	<table class="list">
 		<tr>
@@ -429,7 +429,7 @@
 			<th>Description </th>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/Service/PortForwardManager.html">PortForwardManager</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/Service/PortForwardManager.html">PortForwardManager</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/service/forward</code> </td>
 			<td> The PortForwardManager manages all forwarded ports and connections. It uses a system of <em>handler objects</em> (each encapsulating a set of callbacks) to manage the operation of each forwarded connection. </td>
 		</tr>
@@ -455,7 +455,7 @@
 
 	<h3>Location and Construction</h3>
 
-	<p>The <span class="caps">SFTP</span> subsystem is defined in the <a href="http://net-ssh.github.com/api/classes/Net/SSH/SFTP.html">Net::SSH::SFTP</a> module, and consists of two primary classes:</p>
+	<p>The <span class="caps">SFTP</span> subsystem is defined in the <a href="http://net-ssh.github.io/api/classes/Net/SSH/SFTP.html">Net::SSH::SFTP</a> module, and consists of two primary classes:</p>
 
 	<table class="list">
 		<tr>
@@ -464,12 +464,12 @@
 			<th>Description </th>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/SFTP/Session.html">Session</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/SFTP/Session.html">Session</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/sftp/session</code> </td>
 			<td> The Session class represents a single <span class="caps">SFTP</span> channel on a connection. All operations are asynchronous, which is inconvenient but powerful. </td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top;"><a href="http://net-ssh.github.com/api/classes/Net/SSH/SFTP/Simple.html">Simple</a> </td>
+			<td style="vertical-align:top;"><a href="http://net-ssh.github.io/api/classes/Net/SSH/SFTP/Simple.html">Simple</a> </td>
 			<td style="vertical-align:top;"><code>net/ssh/sftp/simple</code> </td>
 			<td> The Simple class encapsulates both the Net::SSH::Session and Net::SSH::SFTP::Session. It also provides a <em>synchronous</em> interface, making it ideal for simple interactive <span class="caps">SFTP</span> sessions. </td>
 		</tr>
